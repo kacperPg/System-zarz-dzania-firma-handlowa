@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test home page</title>
+</head>
+<body>
+    <h2>Zalogowano jako <span sec:authentication="principal.username"></span> o roli: <span sec:authentication="principal.authorities"></span></h2>
+
+    <hr>
+
+    <p>
+        <a th:href="@{/testAdminEndpoint}">Test podstrony dla administratora</a>
+    </p>
+
+
+    <form action="#" th:action="@{/logout}" method="POST" class="fixed-button">
+        <input type="submit" value="Wyloguj"/>
+    </form>
+</body>
+</html>
