@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import axios from '../api/axios';
 import { Link } from "react-router-dom";
-
+import './Form.css';
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -54,7 +54,6 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // if button enabled with JS hack
         const v1 = USER_REGEX.test(user);
         const v2 = PWD_REGEX.test(pwd);
         if (!v1 || !v2) {
@@ -69,11 +68,8 @@ const Register = () => {
                     withCredentials: true
                 }
             );
-            // TODO: remove console.logs before deployment
             console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response))
             setSuccess(true);
-            //clear state and controlled inputs
             setUser('');
             setPwd('');
             setMatchPwd('');
@@ -89,8 +85,9 @@ const Register = () => {
         }
     }
 
-    return (
-        <>
+    return (     
+        <>            
+        <section id="filler"/>
             {success ? (
                 <section>
                     <h1>Success!</h1>
@@ -99,7 +96,8 @@ const Register = () => {
                     </p>
                 </section>
             ) : (
-                <section>
+
+                <section id="idForm">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Register</h1>
                     <form onSubmit={handleSubmit}>
@@ -185,7 +183,7 @@ const Register = () => {
                             Must match the first password input field.
                         </p>
 
-                        <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
+                        <button class="buttonSubmit" disabled={!validName || !validPwd || !validMatch ? true : false}>  Sign Up</button>
                     </form>
                     <p>
                         Already registered?<br />
@@ -196,7 +194,7 @@ const Register = () => {
                 </section>
             )}
         </>
-    )
+          )
 }
 
 export default Register
