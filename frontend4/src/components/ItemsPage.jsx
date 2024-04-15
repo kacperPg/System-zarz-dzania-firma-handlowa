@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { useMemo } from 'react'
-import movies from './MOVIE_DATA.json'
+import AddProduct from './AddProduct'
 import mock from './MOCK_DATA.json'
 import BasicTable from './BasicTable'
 import { NavBarBoodstrap } from './Navbar/navbarBS'
@@ -41,7 +41,10 @@ function ItemsPage() {
     <>
     <div class="wrapper">
          <NavBarBoodstrap />    
-         <section></section>
+         <section id="buttonAddProduct">
+          <AddProduct />
+
+         </section>
          <section id="idTabelaProduktow">
             <BasicTable data={data} columns={productColumn} />
             </section>

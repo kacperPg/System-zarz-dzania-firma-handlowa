@@ -10,7 +10,7 @@
     width: 100%;
     max-width: 420px;
     padding: 1rem;
-    background-color: #EBF4FF;
+    background-color: #b2faff88;
     border-radius: 0.8rem;
 }
 
@@ -51,8 +51,8 @@ button {
 .instructions {
     font-size: 0.75rem;
     border-radius: 0.5rem;
-    background: #7a7777;
-    color: #220202;
+    background: #e983838d;
+    color: #2e2e2e;
     padding: 0.25rem;
     position: relative;
     bottom: -10px;

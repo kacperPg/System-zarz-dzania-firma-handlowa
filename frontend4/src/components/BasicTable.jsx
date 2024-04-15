@@ -30,7 +30,7 @@ import {
   
     return (
       <div className='w3-container'>
-      Wyszukaj <input
+      Wyszukaj <input  id="formSearch"
           type='text'
           value={filtering}
           onChange={e => setFiltering(e.target.value)}
@@ -76,20 +76,20 @@ import {
           </tbody>
         </table>
         <div>
-          <button onClick={() => table.setPageIndex(0)}>Pierwsza Strona</button>
-          <button
+          <button id="buttonItem"onClick={() => table.setPageIndex(0)}>Pierwsza Strona</button>
+          <button id="buttonItem"
             disabled={!table.getCanPreviousPage()}
             onClick={() => table.previousPage()}
           >
             Poprzednia strona
           </button>
-          <button
+          <button id="buttonItem"
             disabled={!table.getCanNextPage()}
             onClick={() => table.nextPage()}
           >
             Następna strona
           </button>
-          <button onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
+          <button onClick={() => table.setPageIndex(table.getPageCount() - 1)} id="buttonItem">
             Ostatnia Strona
           </button>
         </div>

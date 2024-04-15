@@ -3,11 +3,18 @@ import AuthContext from "./AuthProvider";
 import { Link } from "react-router-dom";
 import './Form.css';
 import axios from '../api/axios';
-const LOGIN_URL = '/auth';
+const LOGIN_URL = '/login';
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
-
+    const [formData, setFormData] = useState({
+        username: '',
+        password: ''
+      });
+    
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
     const userRef = useRef();
     const errRef = useRef();
 
@@ -26,14 +33,15 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        const data = new FormData();
+        data.append('user', formData.username);
+        data.append('pwd', formData.password);
+    
         try {
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, pwd }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
+            const response = await axios.post(LOGIN_URL     , data, {
+                headers: {
+                  'X-CSRF-TOKEN': 'd7vWG9mPvpCdLYBOobV5y-T8Cp9hA3PTY6FLAJKUoph6UIoaEd3jfem2jqWwGrB7l5hN_dbIJ_1SM0b-WpRzNqKtwfxMMrMt'
+                }}
             );
             console.log(JSON.stringify(response?.data));
             //console.log(JSON.stringify(response));
