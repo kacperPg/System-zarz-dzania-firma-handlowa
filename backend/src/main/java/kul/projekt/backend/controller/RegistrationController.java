@@ -7,12 +7,16 @@ import kul.projekt.backend.service.UserService;
 import kul.projekt.backend.user.WebUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Controller
@@ -45,7 +49,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/processRegistrationForm")
-    public String processRegistrationForm(
+    public ResponseEntity<Map<String, String>> processRegistrationForm(
             @Valid @ModelAttribute("webUser") WebUser theWebUser,
             BindingResult theBindingResult,
             HttpSession session, Model theModel) {
@@ -54,18 +58,17 @@ public class RegistrationController {
         logger.info("Processing registration form for: " + userName);
 
         // form validation
-        if (theBindingResult.hasErrors()) {
-            return "register/registration-form";
-        }
+//        if (theBindingResult.hasErrors()) {
+//            return "register/registration-form";
+//        }
 
         // check the database if user already exists
         User existing = userService.findByUserName(userName);
+        Map<String, String> response = new HashMap<>();
         if (existing != null) {
-            theModel.addAttribute("webUser", new WebUser());
-            theModel.addAttribute("registrationError", "User name already exists.");
-
-            logger.warning("User name already exists.");
-            return "register/registration-form";
+            response.put("success", "false");
+            response.put("message", "User name already exists.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
         // create user account and store in the databse
@@ -76,6 +79,8 @@ public class RegistrationController {
         // place user in the web http session for later use
         session.setAttribute("user", theWebUser);
 
-        return "register/registration-confirmation";
+        response.put("success", "true");
+        response.put("message", "Registration successful!");
+        return ResponseEntity.ok(response);
     }
 }
