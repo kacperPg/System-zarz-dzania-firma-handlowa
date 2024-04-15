@@ -1,6 +1,7 @@
 package kul.projekt.backend.security;
 
 import kul.projekt.backend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,6 +20,13 @@ import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig {
+
+    @Autowired
+    private CustomAuthFailHandler failureHandler;
+
+    @Autowired
+    private CustomLoginSuccesHandler succesHandler;
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -60,9 +68,12 @@ public class SecurityConfig {
                                 .requestMatchers("/register/**").permitAll()
                                 .anyRequest().authenticated()
 
+
                 )
                 .formLogin(form -> form
-                        .successHandler(authenticationSuccessHandler)
+//                        .successHandler(authenticationSuccessHandler)
+                        .successHandler(succesHandler)
+                        .failureHandler(failureHandler)
                         .permitAll()
                 )
                 .logout(logout -> logout.permitAll()
