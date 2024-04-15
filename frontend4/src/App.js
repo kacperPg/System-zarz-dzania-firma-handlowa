@@ -2,7 +2,7 @@
 import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
-import Products from './components/Product';
+import ItemsPage from './components/ItemsPage';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import './App.css'
@@ -18,7 +18,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="Home" element={<Home />} />
-        <Route path="Product" element={<Products />} />
+        <Route path="Products" element={<ItemsPage />} />
       </Route>
     </Routes>
   );

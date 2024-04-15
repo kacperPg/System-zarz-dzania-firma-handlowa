@@ -20,7 +20,7 @@ export const NavBarBoodstrap=() =>{
                             Zamówienia
                         </Nav.Link>
                         <NavDropdown title="Produkty">
-                            <NavDropdown.Item as={Link} to="/home">
+                            <NavDropdown.Item as={Link} to="/Products">
                                 Produkty
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/home">
