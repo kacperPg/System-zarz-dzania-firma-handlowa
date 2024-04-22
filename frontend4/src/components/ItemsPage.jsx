@@ -1,39 +1,56 @@
-import { DateTime } from 'luxon'
-import { useMemo } from 'react'
+import {  useEffect ,useState } from 'react'
 import AddProduct from './AddProduct'
-import mock from './MOCK_DATA.json'
 import BasicTable from './BasicTable'
 import { NavBarBoodstrap } from './Navbar/navbarBS'
+import axios from '../api/axios';
 import './ItemsPage.css';
+const PRODUCT_LIST = '/api/products';
+
 function ItemsPage() {
-  const data = useMemo(() => mock, [])
+  const [products, setProducts] = useState([]);
+  let token = sessionStorage.getItem('token');
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const res = await axios.get(PRODUCT_LIST,
+          {
+            headers: {  'Authorization': 'Bearer ' +  token
+          }
+        }
+        );
+        setProducts(res.data);
+      } catch (err) {
+        if (!err?.response) {
+          alert('No Server Response');
+        }  else if (err.response?.status === 401) {
+          alert('Unauthorized');
+        } else {
+             alert('Failed');
+        }
+    }
+    };
+    getProducts();
+  }, []);
 
   /** @type import('@tanstack/react-table').ColumnDef<any> */
 
-  const productColumn = [
+  const productColumn2 = [
     {
       header: 'ID',
-      accessorKey: 'id',
-    },
-    {
-      header: 'Kod Produktu',
-      accessorKey: 'Item_Code',
+      accessorKey: 'productId',
     },
     {
       header: 'Nazwa Produktu',
-      accessorKey: 'Item_Name',
-    },
-    {
-      header: 'Typ',
-      accessorKey: 'Type',
+      accessorKey: 'productName',
     },
     {
       header: 'Cena',
-      accessorKey: 'Price',
+      accessorKey: 'price',
     },
     {
-      header: 'Data dodania',
-      accessorKey: 'Adding_date',
+      header: 'TypeID',
+      accessorKey: 'typeId',
     },
   ]
 
@@ -46,7 +63,7 @@ function ItemsPage() {
 
          </section>
          <section id="idTabelaProduktow">
-            <BasicTable data={data} columns={productColumn} />
+            <BasicTable data={products} columns={productColumn2} />
             </section>
         </div>
     </>

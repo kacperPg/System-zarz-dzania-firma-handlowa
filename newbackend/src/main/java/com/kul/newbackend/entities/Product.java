@@ -22,12 +22,6 @@ public class Product {
     private String productName;
     @Column(name = "price")
     private double price;
-    @Column(name = "quantity_available")
-    private int quantityAvailable;
     @Column(name = "type_id")
     private Long typeId;
-
-
-
-
 }

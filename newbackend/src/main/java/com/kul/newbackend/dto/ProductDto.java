@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class ProductDto {
+    private Long productId;
     private String productName;
     private double price;
-    private int quantityAvailable;
-    private Long warehouseId;
     private Long typeId;
 }

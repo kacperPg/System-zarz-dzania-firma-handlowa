@@ -23,8 +23,8 @@ public class ProductService {
     }
 
     public List<ProductDto> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        return productMapper.productListToDtoList(products);
+        List<Product> productEntities = productRepository.findAll();
+        return productMapper.productListToDtoList(productEntities);
     }
 
     public ProductDto getProductById(Long productId) {
@@ -40,7 +40,6 @@ public class ProductService {
 
         existingProduct.setProductName(updatedProduct.getProductName());
         existingProduct.setPrice(updatedProduct.getPrice());
-        existingProduct.setQuantityAvailable(updatedProduct.getQuantityAvailable());
         existingProduct.setTypeId(updatedProduct.getTypeId());
 
         Product savedProduct = productRepository.save(existingProduct);
