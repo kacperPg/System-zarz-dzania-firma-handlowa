@@ -1,0 +1,24 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+html {
+    font-family: 'Nunito', sans-serif;
+    font-size: 22px;
+    color: #1a1a1a;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #99c2f5;
+}
+.App {
+    flex-direction: column;
+}
+  .bg-myColor {
+  background-image: linear-gradient(to right,#e6e8d684,#b7d4c0 )
+  }
