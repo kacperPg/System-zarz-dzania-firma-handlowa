@@ -1,12 +1,10 @@
 import { useRef, useState, useEffect, useContext } from 'react';
-import AuthContext from "./AuthProvider";
 import { Link,useNavigate   } from "react-router-dom";
 import './Form.css';
 import axios from '../api/axios';
 const LOGIN_URL = '/login';
 
 const Login = () => {
-    const { setAuth } = useContext(AuthContext);
  
     const userRef = useRef();
     const errRef = useRef();
@@ -39,13 +37,11 @@ const Login = () => {
             console.log(JSON.stringify(response?.data));
             //console.log(JSON.stringify(response));
             const accessToken = response?.data?.token;
-            const roles = response?.data?.roles;
-            setAuth({ email, password, roles, accessToken });
+            sessionStorage.setItem('token', accessToken);
             setEmail('');
             setPassword('');
             setSuccess(true);
             navigate('/home');
-    
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

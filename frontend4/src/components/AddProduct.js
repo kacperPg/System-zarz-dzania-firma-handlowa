@@ -2,13 +2,42 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import axios from '../api/axios';
+import { Link,useNavigate   } from "react-router-dom";
+const PRODUCT_LIST = '/api/products';
 
 function AddProduct() {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [productName, setProductName] = useState('');
+  const [price, setPrice] = useState('');
+  const [typeId, setTypeId] = useState('');
+  let token = sessionStorage.getItem('token');
+  const navigate  = useNavigate();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+        const response = await axios.post(PRODUCT_LIST,
+            JSON.stringify({ productName, price,typeId }),
+            {
+              headers: {  'Content-Type': 'application/json',
+               'Authorization': 'Bearer ' +  token}
+            }
+        );
+        window.location.reload();
+    } catch (err) {
+        if (!err?.response) {
+          alert('No Server Response');
+        }  else if (err.response?.status === 401) {
+          alert('Unauthorized');
+        } else {
+             alert('Failed');
+        }
+    }
+}
   return (
     <>
        <button onClick={handleShow} id="buttonItem">
@@ -22,31 +51,24 @@ function AddProduct() {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Kod Produktu</Form.Label>
+              <Form.Label>Nazwa Produktu</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Kod Produktu"
                 autoFocus
+                onChange={(e) => setProductName(e.target.value)}
+                value={productName}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Nazwa Produktu</Form.Label>
+              <Form.Label>Rodzaj Id</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Nazwa Produktu"
-                autoFocus
+                 type="number"
+                 placeholder="1"
+                 autoFocus
+                 onChange={(e) => setTypeId(e.target.value)}
+                 value={typeId}
               />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>Rodzaj 1</option>
-      <option>Rodzaj 2</option>
-      <option>Rodzaj 3</option>
-      <option>Rodzaj 4</option>
-      <option>Rodzaj 5</option>
-    </select>
-              
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Cena Produktu</Form.Label>
@@ -54,8 +76,9 @@ function AddProduct() {
                  type="number"
                  placeholder="$$$"
                  autoFocus
+                 onChange={(e) => setPrice(e.target.value)}
+                 value={price}
               />
-              
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -63,7 +86,7 @@ function AddProduct() {
           <Button variant="secondary" onClick={handleClose}>
           Zamknij
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleSubmit}>
             Dodaj Produkt
           </Button>
         </Modal.Footer>
