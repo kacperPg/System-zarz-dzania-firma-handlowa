@@ -1,8 +1,7 @@
 package com.kul.newbackend.services;
 
-import com.kul.newbackend.dto.ProductDto;
+
 import com.kul.newbackend.dto.ProductTypeDto;
-import com.kul.newbackend.entities.Product;
 import com.kul.newbackend.entities.ProductType;
 import com.kul.newbackend.mappers.ProductTypeMapper;
 import com.kul.newbackend.repositories.ProductTypeRepository;

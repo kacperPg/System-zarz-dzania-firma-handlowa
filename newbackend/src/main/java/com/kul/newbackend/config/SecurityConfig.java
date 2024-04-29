@@ -31,6 +31,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
                         .requestMatchers("/api/products/**").authenticated()
                         .requestMatchers("api/productTypes/**").authenticated()
+                        .requestMatchers("/api/warehouses/**").authenticated()
+                        .requestMatchers("/api/warehousesStatus/**").authenticated()
                         .anyRequest().authenticated())
         ;
         return http.build();
