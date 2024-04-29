@@ -33,7 +33,7 @@ public class UserAuthProvider {
 
     public String createToken(String login) {
         Date now = new Date();
-        Date validity = new Date(now.getTime() + 3_600_000);
+        Date validity = new Date(now.getTime() + 24 * 60 * 60 * 1000);
         return JWT.create()
                 .withIssuer(login)
                 .withIssuedAt(now)
