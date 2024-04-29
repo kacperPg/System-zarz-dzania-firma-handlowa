@@ -33,6 +33,8 @@ public class SecurityConfig {
                         .requestMatchers("api/productTypes/**").authenticated()
                         .requestMatchers("/api/warehouses/**").authenticated()
                         .requestMatchers("/api/warehousesStatus/**").authenticated()
+                        .requestMatchers("/api/orders/**").authenticated()
+                        .requestMatchers("/api/orderItems/**").authenticated()
                         .anyRequest().authenticated())
         ;
         return http.build();
