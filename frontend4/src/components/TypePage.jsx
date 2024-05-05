@@ -1,19 +1,19 @@
 import {  useEffect ,useState } from 'react'
-import AddProduct from './AddProduct'
+import AddType from './AddType'
 import BasicTable from './BasicTable'
 import { NavBarBoodstrap } from './Navbar/navbarBS'
 import axios from '../api/axios';
 import './ItemsPage.css';
-const PRODUCT_LIST = '/api/products';
+const TYPE_LIST = '/api/productTypes';
 
-function ItemsPage() {
+function TypePage() {
   const [products, setProducts] = useState([]);
   let token = sessionStorage.getItem('token');
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios.get(PRODUCT_LIST,
+        const res = await axios.get(TYPE_LIST,
           {
             headers: {  'Authorization': 'Bearer ' +  token
           }
@@ -38,17 +38,9 @@ function ItemsPage() {
   const productColumn2 = [
 
     {
-      header: 'Nazwa Produktu',
-      accessorKey: 'productName',
-    },
-    {
-      header: 'Cena',
-      accessorKey: 'price',
-    },
-    {
-      header: 'TypeID',
-      accessorKey: 'typeId',
-    },
+      header: 'Nazwa Rodzaju',
+      accessorKey: 'typeName',
+    }
   ]
 
   return (
@@ -56,7 +48,7 @@ function ItemsPage() {
     <div class="wrapper">
          <NavBarBoodstrap />    
          <section id="buttonAddProduct">
-          <AddProduct />
+          <AddType />
 
          </section>
          <section id="idTabelaProduktow">
@@ -67,4 +59,4 @@ function ItemsPage() {
   )
 }
 
-export default ItemsPage
+export default TypePage
