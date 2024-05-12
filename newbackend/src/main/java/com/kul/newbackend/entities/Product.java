@@ -18,10 +18,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long productId;
-    @Column(name = "product_name")
+    @Column(name = "product_name",unique = true)
     private String productName;
     @Column(name = "price")
     private double price;
-    @Column(name = "type_id")
-    private Long typeId;
+    @Column(name = "type_name")
+    private String typeName;
 }

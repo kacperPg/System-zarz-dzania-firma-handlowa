@@ -17,7 +17,7 @@ public class Warehouse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "warehouse_id")
     private Long warehouseId;
-    @Column(name = "warehouse_name")
+    @Column(name = "warehouse_name",unique = true)
     private String warehouseName;
     @Column(name = "location")
     private String location;

@@ -17,13 +17,13 @@ public class WarehouseStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "warehouse_status_id")
     private Long warehouseStatusId;
-    @Column(name = "warehouse_id")
-    private Long warehouseId;
+    @Column(name = "warehouse_name")
+    private String warehouseName;
     @Column(name = "available_quantity")
     private int availableQuantity;
     @Column(name = "soldQuantity")
     private int soldQuantity;
-    @Column(name = "productId")
-    private Long productId;
+    @Column(name = "product_name")
+    private String productName;
 
 }

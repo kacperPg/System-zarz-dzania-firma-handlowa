@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -48,5 +49,19 @@ public class WarehouseStatusService {
 
     public void deleteWarehouseStatus(Long warehouseStatusId) {
         warehouseStatusRepository.deleteById(warehouseStatusId);
+    }
+
+    public List<WarehouseStatusDto> getWarehousesStatusByProductName(String productName) {
+        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByProductName(productName);
+        return warehouseStatusList.stream()
+                .map(warehouseStatusMapper::warehouseStatusEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<WarehouseStatusDto> getWarehousesStatusByWarehouseName(String warehouseName) {
+        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByWarehouseName(warehouseName);
+        return warehouseStatusList.stream()
+                .map(warehouseStatusMapper::warehouseStatusEntityToDto)
+                .collect(Collectors.toList());
     }
 }

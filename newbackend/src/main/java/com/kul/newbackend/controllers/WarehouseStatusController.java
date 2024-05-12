@@ -45,4 +45,19 @@ public class WarehouseStatusController {
         warehouseStatusService.deleteWarehouseStatus(warehouseStatusId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<WarehouseStatusDto>> getByProductNameOrWarehouseName(
+            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) String warehouseName){
+        if (productName != null && !productName.isEmpty()) {
+            List<WarehouseStatusDto> warehousesStatus = warehouseStatusService.getWarehousesStatusByProductName(productName);
+            return new ResponseEntity<>(warehousesStatus, HttpStatus.OK);
+        } else if (warehouseName != null && !warehouseName.isEmpty()) {
+            List<WarehouseStatusDto> warehousesStatus = warehouseStatusService.getWarehousesStatusByWarehouseName(warehouseName);
+            return new ResponseEntity<>(warehousesStatus, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

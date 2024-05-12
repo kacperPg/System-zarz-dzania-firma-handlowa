@@ -13,5 +13,6 @@ public class ProductDto {
     private Long productId;
     private String productName;
     private double price;
-    private Long typeId;
+    private String typeName;
+
 }

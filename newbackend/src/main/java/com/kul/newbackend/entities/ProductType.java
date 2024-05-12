@@ -17,6 +17,6 @@ public class ProductType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "type_id")
     private Long typeId;
-    @Column(name = "type_name")
+    @Column(name = "type_name",unique = true)
     private String typeName;
 }
