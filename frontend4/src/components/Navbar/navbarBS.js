@@ -23,7 +23,7 @@ export const NavBarBoodstrap=() =>{
                             <NavDropdown.Item as={Link} to="/Products">
                                 Produkty
                             </NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/home">
+                            <NavDropdown.Item as={Link} to="/Types">
                                 Rodzaje
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/home">
@@ -31,10 +31,10 @@ export const NavBarBoodstrap=() =>{
                             </NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Zarządzaj Magazynami">
-                            <NavDropdown.Item as={Link} to="/home">
+                            <NavDropdown.Item as={Link} to="/WarehousesStatusPage">
                                 Stan Magazynu
                             </NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/home">
+                            <NavDropdown.Item as={Link} to="/WarehousePage">
                                 Magazyny
                             </NavDropdown.Item>
                         </NavDropdown>

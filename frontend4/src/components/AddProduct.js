@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../api/axios';
 import { Link,useNavigate   } from "react-router-dom";
 const PRODUCT_LIST = '/api/products';
+const TYPE_LIST = '/api/productTypes';
 
 function AddProduct() {
   const [show, setShow] = useState(false);
@@ -15,6 +16,31 @@ function AddProduct() {
   const [typeId, setTypeId] = useState('');
   let token = sessionStorage.getItem('token');
   const navigate  = useNavigate();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const res = await axios.get(TYPE_LIST,
+          {
+            headers: {  'Authorization': 'Bearer ' +  token
+          }
+        }
+        );
+        setProducts(res.data);
+      } catch (err) {
+        if (!err?.response) {
+          alert('No Server Response');
+        }  else if (err.response?.status === 401) {
+          alert('Error');
+        } else {
+             alert('Failed');
+        }
+    }
+    };
+    getProducts();
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +64,10 @@ function AddProduct() {
         }
     }
 }
+const options = products.map(type => (
+  <option key={type.typeId} value={type.typeId}>{type.typeName}</option>
+));
+
   return (
     <>
        <button onClick={handleShow} id="buttonItem">
@@ -62,13 +92,13 @@ function AddProduct() {
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Rodzaj Id</Form.Label>
-              <Form.Control
-                 type="number"
-                 placeholder="1"
-                 autoFocus
+              <Form.Select       
+              autoFocus
                  onChange={(e) => setTypeId(e.target.value)}
-                 value={typeId}
-              />
+                 value={typeId}>
+            <option value={''}>Select Type</option> {/* Default option */}
+                {options}
+              </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Cena Produktu</Form.Label>

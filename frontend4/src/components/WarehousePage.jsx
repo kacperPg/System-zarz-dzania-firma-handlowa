@@ -1,19 +1,19 @@
 import {  useEffect ,useState } from 'react'
-import AddProduct from './AddProduct'
+import AddWareHouse from './AddWareHouse'
 import BasicTable from './BasicTable'
 import { NavBarBoodstrap } from './Navbar/navbarBS'
 import axios from '../api/axios';
 import './ItemsPage.css';
-const PRODUCT_LIST = '/api/products';
+const WAREHOUSE_LIST = '/api/warehouses';
 
-function ItemsPage() {
+function WarehousePage() {
   const [products, setProducts] = useState([]);
   let token = sessionStorage.getItem('token');
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios.get(PRODUCT_LIST,
+        const res = await axios.get(WAREHOUSE_LIST,
           {
             headers: {  'Authorization': 'Bearer ' +  token
           }
@@ -38,17 +38,13 @@ function ItemsPage() {
   const productColumn2 = [
 
     {
-      header: 'Nazwa Produktu',
-      accessorKey: 'productName',
+      header: 'Nazwa Magazynu',
+      accessorKey: 'warehouseName',
     },
     {
-      header: 'Cena',
-      accessorKey: 'price',
-    },
-    {
-      header: 'TypeID',
-      accessorKey: 'typeId',
-    },
+      header: 'Lokalizacja',
+      accessorKey: 'location',
+    }
   ]
 
   return (
@@ -56,7 +52,7 @@ function ItemsPage() {
     <div class="wrapper">
          <NavBarBoodstrap />    
          <section id="buttonAddProduct">
-          <AddProduct />
+          <AddWareHouse />
 
          </section>
          <section id="idTabelaProduktow">
@@ -67,4 +63,4 @@ function ItemsPage() {
   )
 }
 
-export default ItemsPage
+export default WarehousePage
