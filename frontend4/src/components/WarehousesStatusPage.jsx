@@ -1,19 +1,19 @@
 import {  useEffect ,useState } from 'react'
-import AddProduct from './AddProduct'
+import AddWarehousesStatus from './AddWarehousesStatus'
 import BasicTable from './BasicTable'
 import { NavBarBoodstrap } from './Navbar/navbarBS'
 import axios from '../api/axios';
 import './ItemsPage.css';
-const PRODUCT_LIST = '/api/products';
+const WAREHOUSESTATUS_LIST = '/api/warehousesStatus';
 
-function ItemsPage() {
+function WarehousesStatusPage() {
   const [products, setProducts] = useState([]);
   let token = sessionStorage.getItem('token');
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios.get(PRODUCT_LIST,
+        const res = await axios.get(WAREHOUSESTATUS_LIST,
           {
             headers: {  'Authorization': 'Bearer ' +  token
           }
@@ -38,17 +38,22 @@ function ItemsPage() {
   const productColumn2 = [
 
     {
-      header: 'Nazwa Produktu',
-      accessorKey: 'productName',
+      header: 'Nazwa Magazynu',
+      accessorKey: 'warehouseId',
     },
     {
-      header: 'Cena',
-      accessorKey: 'price',
+      header: 'Dostępna ilość',
+      accessorKey: 'availableQuantity',
     },
     {
-      header: 'TypeID',
-      accessorKey: 'typeId',
+      header: 'Sprzedana ilość',
+      accessorKey: 'soldQuantity',
     },
+    {
+      header: 'Produkt',
+      accessorKey: 'productId',
+    }
+  
   ]
 
   return (
@@ -56,7 +61,7 @@ function ItemsPage() {
     <div class="wrapper">
          <NavBarBoodstrap />    
          <section id="buttonAddProduct">
-          <AddProduct />
+          <AddWarehousesStatus />
 
          </section>
          <section id="idTabelaProduktow">
@@ -67,4 +72,4 @@ function ItemsPage() {
   )
 }
 
-export default ItemsPage
+export default WarehousesStatusPage

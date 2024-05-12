@@ -10,18 +10,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-@Table(name = "products")
-
+@Table(name = "order_items")
 @Entity
-public class Product {
+public class OrderItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_item_id")
+    private Long orderItemId;
+    @Column(name = "order_id")
+    private Long orderId;
+    @Column(name = "quantity")
+    private int quantity;
+    @Column(name = "price")
+    private Double price;
     @Column(name = "product_id")
     private Long productId;
-    @Column(name = "product_name",unique = true)
-    private String productName;
-    @Column(name = "price")
-    private double price;
-    @Column(name = "type_name")
-    private String typeName;
 }

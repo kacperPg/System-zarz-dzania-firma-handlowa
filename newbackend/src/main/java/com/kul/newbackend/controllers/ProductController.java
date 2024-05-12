@@ -47,4 +47,10 @@ public class ProductController {
         productService.deleteProduct(productId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/byType/{typeName}")
+    public ResponseEntity<List<ProductDto>> getProductsByType(@PathVariable String typeName){
+        List<ProductDto> products = productService.getProductsByType(typeName);
+        return new ResponseEntity<>(products,HttpStatus.OK);
+    }
 }

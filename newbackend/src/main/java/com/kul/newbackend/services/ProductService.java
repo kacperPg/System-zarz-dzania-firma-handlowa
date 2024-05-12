@@ -4,6 +4,7 @@ import com.kul.newbackend.dto.ProductDto;
 import com.kul.newbackend.entities.Product;
 import com.kul.newbackend.mappers.ProductMapper;
 import com.kul.newbackend.repositories.ProductRepository;
+import com.kul.newbackend.repositories.ProductTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.NoSuchElementException;
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final ProductTypeRepository productTypeRepository;
 
     public ProductDto addProduct(ProductDto productDto) {
         Product product = productMapper.productDtoToEntity(productDto);
@@ -40,10 +42,18 @@ public class ProductService {
 
         existingProduct.setProductName(updatedProduct.getProductName());
         existingProduct.setPrice(updatedProduct.getPrice());
-        existingProduct.setTypeId(updatedProduct.getTypeId());
+        existingProduct.setTypeName(updatedProduct.getTypeName());
 
         Product savedProduct = productRepository.save(existingProduct);
         return productMapper.productEntityToDto(savedProduct);
+    }
+
+    public List<ProductDto> getProductsByType(String typeName){
+        List<Product> products = productRepository.findByTypeName(typeName);
+        if (products.isEmpty()) {
+            throw new NoSuchElementException("No products found with the type name: " + typeName);
+        }
+        return productMapper.productListToDtoList(products);
     }
 
     public void deleteProduct(Long productId) {

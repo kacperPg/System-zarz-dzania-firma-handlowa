@@ -3,6 +3,9 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
 import ItemsPage from './components/ItemsPage';
+import TypePage from './components/TypePage';
+import WarehousePage from './components/WarehousePage';
+import WarehousesStatusPage from './components/WarehousesStatusPage';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import './App.css'
@@ -19,6 +22,9 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="Home" element={<Home />} />
         <Route path="Products" element={<ItemsPage />} />
+        <Route path="Types" element={<TypePage />} />
+        <Route path="WarehousePage" element={<WarehousePage />} />
+        <Route path="WarehousesStatusPage" element={<WarehousesStatusPage />} />
       </Route>
     </Routes>
   );

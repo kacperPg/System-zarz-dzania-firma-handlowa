@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class ProductDto {
-    private Long productId;
+public class WarehouseStatusDto {
+    private Long warehouseStatusId;
+    private String warehouseName;
+    private int availableQuantity;
+    private int soldQuantity;
     private String productName;
-    private double price;
-    private String typeName;
 
 }
