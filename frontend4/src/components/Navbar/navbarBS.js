@@ -6,7 +6,7 @@ import "./navbarBS.css"
 export const NavBarBoodstrap=() =>{
     return (
         <>
-   <Navbar bg="myColor" expand="lg" >
+            <Navbar bg="myColor" expand="lg" >
                 <Navbar.Brand>
                     <h1 style={{ color: "grey"  }}>Zarząd POL</h1>
                 </Navbar.Brand>
@@ -55,6 +55,6 @@ export const NavBarBoodstrap=() =>{
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-        </>
+  </>
       );
 }

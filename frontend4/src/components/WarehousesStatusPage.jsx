@@ -39,7 +39,7 @@ function WarehousesStatusPage() {
 
     {
       header: 'Nazwa Magazynu',
-      accessorKey: 'warehouseId',
+      accessorKey: 'warehouseName',
     },
     {
       header: 'Dostępna ilość',
@@ -51,7 +51,7 @@ function WarehousesStatusPage() {
     },
     {
       header: 'Produkt',
-      accessorKey: 'productId',
+      accessorKey: 'productName',
     }
   
   ]
@@ -65,7 +65,7 @@ function WarehousesStatusPage() {
 
          </section>
          <section id="idTabelaProduktow">
-            <BasicTable data={products} columns={productColumn2} />
+            <BasicTable data={products} columns={productColumn2} URL={WAREHOUSESTATUS_LIST} IdType={'warehouseStatusId'} />
             </section>
         </div>
     </>
