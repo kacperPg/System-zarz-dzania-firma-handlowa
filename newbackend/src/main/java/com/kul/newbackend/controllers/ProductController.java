@@ -3,13 +3,16 @@ package com.kul.newbackend.controllers;
 import com.kul.newbackend.dto.ProductDto;
 
 
+import com.kul.newbackend.entities.PriceRange;
 import com.kul.newbackend.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,6 +30,15 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductDto>> getAllProducts() {
         List<ProductDto> products = productService.getAllProducts();
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProductDto>> GetAllProductsInPriceRange(@RequestBody PriceRange priceRange) {
+        List<ProductDto> products = productService.getAllProducts().stream()
+                .filter(s -> s.getPrice() > priceRange.getMinPrice())
+                .filter(s -> s.getPrice() > priceRange.getMaxPrice())
+                .collect(Collectors.toList());
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

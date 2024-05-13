@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,6 +27,15 @@ public class WarehouseController {
         List<WarehouseDto> warehouses = warehouseService.getAllWarehouses();
         return new ResponseEntity<>(warehouses, HttpStatus.OK);
     }
+
+    @GetMapping("getWarehouseByLocation/{warehouseLocation}")
+    public ResponseEntity<List<WarehouseDto>>  getWarehouseByLocation(@PathVariable String warehouseLocation) {
+        List<WarehouseDto> warehouses = warehouseService.getAllWarehouses().stream()
+                .filter(s -> s.getLocation().equals(warehouseLocation))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(warehouses, HttpStatus.OK);
+    }
+
 
     @GetMapping("/{warehouseId}")
     public ResponseEntity<WarehouseDto> getWarehouseById(@PathVariable Long warehouseId) {

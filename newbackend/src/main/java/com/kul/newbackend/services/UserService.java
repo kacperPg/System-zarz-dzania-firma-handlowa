@@ -3,7 +3,9 @@ package com.kul.newbackend.services;
 import com.kul.newbackend.dto.CredentialsDto;
 import com.kul.newbackend.dto.SignUpDto;
 import com.kul.newbackend.dto.UserDto;
+import com.kul.newbackend.dto.WarehouseDto;
 import com.kul.newbackend.entities.User;
+import com.kul.newbackend.entities.Warehouse;
 import com.kul.newbackend.exceptions.AppException;
 import com.kul.newbackend.mappers.UserMapper;
 import com.kul.newbackend.repositories.UserRepository;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -56,4 +59,10 @@ public class UserService {
 
         return userMapper.toUserDto(savedUser);
     }
+
+    public List<UserDto> findAll(){
+        List<User> users = userRepository.findAll();
+        return userMapper.usersToListDto(users);
+    }
+
 }
