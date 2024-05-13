@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../api/axios';
-import { Link,useNavigate   } from "react-router-dom";
 const PRODUCT_LIST = '/api/products';
 const TYPE_LIST = '/api/productTypes';
 
@@ -13,9 +12,8 @@ function AddProduct() {
   const handleShow = () => setShow(true);
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
-  const [typeId, setTypeId] = useState('');
+  const [typeName, setTypeId] = useState('');
   let token = sessionStorage.getItem('token');
-  const navigate  = useNavigate();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -47,7 +45,7 @@ function AddProduct() {
 
     try {
         const response = await axios.post(PRODUCT_LIST,
-            JSON.stringify({ productName, price,typeId }),
+            JSON.stringify({ productName, price,typeName }),
             {
               headers: {  'Content-Type': 'application/json',
                'Authorization': 'Bearer ' +  token}
@@ -65,7 +63,7 @@ function AddProduct() {
     }
 }
 const options = products.map(type => (
-  <option key={type.typeId} value={type.typeId}>{type.typeName}</option>
+  <option key={type.typeName} value={type.typeName}>{type.typeName}</option>
 ));
 
   return (
@@ -95,7 +93,7 @@ const options = products.map(type => (
               <Form.Select       
               autoFocus
                  onChange={(e) => setTypeId(e.target.value)}
-                 value={typeId}>
+                 value={typeName}>
             <option value={''}>Select Type</option> {/* Default option */}
                 {options}
               </Form.Select>

@@ -2151,6 +2151,25 @@
   dependencies:
     "tslib" "^2.4.0"
 
+"@tanstack/react-table@^8.17.0":
+  "integrity" "sha512-LSJxTDzlKGs8EN7/UHB1l3yLR9HUIxoHFkTbTjHaUUGL4kgYZFYhsQsdDJSIykG86qpIA/6gSWmtwNfy5Iprhw=="
+  "resolved" "https://registry.npmjs.org/@tanstack/react-table/-/react-table-8.17.0.tgz"
+  "version" "8.17.0"
+  dependencies:
+    "@tanstack/table-core" "8.16.0"
+
+"@tanstack/solid-table@^8.17.0":
+  "integrity" "sha512-xKX+a3LufZqJrqBKoGu5WOkeeM8uTlf0kLXUE7OwLczixN1kWb1awsjsFtSqeccCZ5Elmi1KpU4Eg6ZN/uObww=="
+  "resolved" "https://registry.npmjs.org/@tanstack/solid-table/-/solid-table-8.17.0.tgz"
+  "version" "8.17.0"
+  dependencies:
+    "@tanstack/table-core" "8.16.0"
+
+"@tanstack/table-core@8.16.0":
+  "integrity" "sha512-dCG8vQGk4js5v88/k83tTedWOwjGnIyONrKpHpfmSJB8jwFHl8GSu1sBBxbtACVAPtAQgwNxl0rw1d3RqRM1Tg=="
+  "resolved" "https://registry.npmjs.org/@tanstack/table-core/-/table-core-8.16.0.tgz"
+  "version" "8.16.0"
+
 "@testing-library/dom@^8.5.0":
   "integrity" "sha512-/DiOQ5xBxgdYRC8LNk7U+RWat0S3qRLeIw3ZIkMQ9kkVlRmwD/Eg8k8CqIpD6GW7u20JIUOfMKbxtiLutpjQ4g=="
   "resolved" "https://registry.npmjs.org/@testing-library/dom/-/dom-8.20.1.tgz"
@@ -4073,7 +4092,7 @@
   dependencies:
     "cssom" "~0.3.6"
 
-"csstype@^3.0.2", "csstype@^3.1.3":
+"csstype@^3.0.2", "csstype@^3.1.0", "csstype@^3.1.3":
   "integrity" "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="
   "resolved" "https://registry.npmjs.org/csstype/-/csstype-3.1.3.tgz"
   "version" "3.1.3"
@@ -9038,6 +9057,16 @@
   dependencies:
     "randombytes" "^2.1.0"
 
+"seroval-plugins@^1.0.3":
+  "integrity" "sha512-8+pDC1vOedPXjKG7oz8o+iiHrtF2WswaMQJ7CKFpccvSYfrzmvKY9zOJWCg+881722wIHfwkdnRmiiDm9ym+zQ=="
+  "resolved" "https://registry.npmjs.org/seroval-plugins/-/seroval-plugins-1.0.5.tgz"
+  "version" "1.0.5"
+
+"seroval@^1.0", "seroval@^1.0.4":
+  "integrity" "sha512-TM+Z11tHHvQVQKeNlOUonOWnsNM+2IBwZ4vwoi4j3zKzIpc5IDw8WPwCfcc8F17wy6cBcJGbZbFOR0UCuTZHQA=="
+  "resolved" "https://registry.npmjs.org/seroval/-/seroval-1.0.5.tgz"
+  "version" "1.0.5"
+
 "serve-index@^1.9.1":
   "integrity" "sha512-pXHfKNP4qujrtteMrSBb0rc8HJ9Ms/GrXwcUtUtD5s4ewDJI8bT3Cz2zTVRMKtri49pLx2e0Ya8ziP5Ya2pZZw=="
   "resolved" "https://registry.npmjs.org/serve-index/-/serve-index-1.9.1.tgz"
@@ -9153,6 +9182,15 @@
     "faye-websocket" "^0.11.3"
     "uuid" "^8.3.2"
     "websocket-driver" "^0.7.4"
+
+"solid-js@>=1.3":
+  "integrity" "sha512-E0FkUgv9sG/gEBWkHr/2XkBluHb1fkrHywUgA6o6XolPDCJ4g1HaLmQufcBBhiF36ee40q+HpG/vCZu7fLpI3Q=="
+  "resolved" "https://registry.npmjs.org/solid-js/-/solid-js-1.8.17.tgz"
+  "version" "1.8.17"
+  dependencies:
+    "csstype" "^3.1.0"
+    "seroval" "^1.0.4"
+    "seroval-plugins" "^1.0.3"
 
 "source-list-map@^2.0.0", "source-list-map@^2.0.1":
   "integrity" "sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw=="

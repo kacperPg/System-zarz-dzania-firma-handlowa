@@ -56,7 +56,7 @@ function WarehousePage() {
 
          </section>
          <section id="idTabelaProduktow">
-            <BasicTable data={products} columns={productColumn2} />
+            <BasicTable data={products} columns={productColumn2} URL={WAREHOUSE_LIST} IdType={'warehouseId'} />
             </section>
         </div>
     </>

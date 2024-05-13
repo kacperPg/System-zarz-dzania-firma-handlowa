@@ -36,7 +36,6 @@ function ItemsPage() {
   /** @type import('@tanstack/react-table').ColumnDef<any> */
 
   const productColumn2 = [
-
     {
       header: 'Nazwa Produktu',
       accessorKey: 'productName',
@@ -46,8 +45,8 @@ function ItemsPage() {
       accessorKey: 'price',
     },
     {
-      header: 'TypeID',
-      accessorKey: 'typeId',
+      header: 'Type Name',
+      accessorKey: 'typeName',
     },
   ]
 
@@ -60,7 +59,7 @@ function ItemsPage() {
 
          </section>
          <section id="idTabelaProduktow">
-            <BasicTable data={products} columns={productColumn2} />
+            <BasicTable data={products} columns={productColumn2} URL={PRODUCT_LIST} IdType={"productId"}/>
             </section>
         </div>
     </>

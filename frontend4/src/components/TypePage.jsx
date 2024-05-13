@@ -36,7 +36,6 @@ function TypePage() {
   /** @type import('@tanstack/react-table').ColumnDef<any> */
 
   const productColumn2 = [
-
     {
       header: 'Nazwa Rodzaju',
       accessorKey: 'typeName',
@@ -52,7 +51,7 @@ function TypePage() {
 
          </section>
          <section id="idTabelaProduktow">
-            <BasicTable data={products} columns={productColumn2} />
+            <BasicTable data={products} columns={productColumn2} URL={TYPE_LIST} IdType={'typeId'} />
             </section>
         </div>
     </>
