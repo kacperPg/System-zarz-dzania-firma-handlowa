@@ -1,9 +1,7 @@
 package com.kul.newbackend.services;
 
-import com.kul.newbackend.dto.CredentialsDto;
-import com.kul.newbackend.dto.SignUpDto;
-import com.kul.newbackend.dto.UserDto;
-import com.kul.newbackend.dto.WarehouseDto;
+import com.kul.newbackend.dto.*;
+import com.kul.newbackend.entities.Product;
 import com.kul.newbackend.entities.User;
 import com.kul.newbackend.entities.Warehouse;
 import com.kul.newbackend.exceptions.AppException;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -65,4 +64,25 @@ public class UserService {
         return userMapper.usersToListDto(users);
     }
 
+    public UserDto updateUser(Long userId, UserDto userDto) {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
+
+        if (userDto.getName() != null) {
+            existingUser.setName(userDto.getName());
+        }
+        if (userDto.getLastName() != null) {
+            existingUser.setLastName(userDto.getLastName());
+        }
+        if (userDto.getEmail() != null) {
+            existingUser.setEmail(userDto.getEmail());
+        }
+
+        User savedUser = userRepository.save(existingUser);
+        return userMapper.toUserDto(savedUser);
+    }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
 }

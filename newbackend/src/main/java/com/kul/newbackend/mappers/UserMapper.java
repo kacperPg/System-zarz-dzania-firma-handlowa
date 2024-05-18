@@ -16,5 +16,7 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     User signUpToUser(SignUpDto userDto);
 
+    @Mapping(target = "id")
+    User userDtoToEntity(UserDto userDto);
     List<UserDto> usersToListDto(List<User> users);
 }

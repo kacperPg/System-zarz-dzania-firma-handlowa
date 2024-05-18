@@ -33,14 +33,14 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductDto>> GetAllProductsInPriceRange(@RequestBody PriceRange priceRange) {
-        List<ProductDto> products = productService.getAllProducts().stream()
-                .filter(s -> s.getPrice() > priceRange.getMinPrice())
-                .filter(s -> s.getPrice() > priceRange.getMaxPrice())
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
+//    @GetMapping
+//    public ResponseEntity<List<ProductDto>> GetAllProductsInPriceRange(@RequestBody PriceRange priceRange) {
+//        List<ProductDto> products = productService.getAllProducts().stream()
+//                .filter(s -> s.getPrice() > priceRange.getMinPrice())
+//                .filter(s -> s.getPrice() > priceRange.getMaxPrice())
+//                .collect(Collectors.toList());
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//    }
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable Long productId) {
