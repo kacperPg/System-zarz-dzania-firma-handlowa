@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
 const USER_LIST = '/api/users';
-const USER_REGEX = /^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ][A-z0-9-_]{1,23}$/;
+const USER_REGEX = /^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ][A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9-_]{1,23}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const PWD_REGEX = /^(?=.*[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -104,6 +104,8 @@ useEffect(() => {
                 onChange={(e) => setName(e.target.value)}
                 value={name}
               />
+                          1-24 liter.
+                               
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Nazwisko </Form.Label>
@@ -115,6 +117,7 @@ useEffect(() => {
                 onChange={(e) => setLastName(e.target.value)}
                 value={lastName}
               />
+              1-24 liter.
                    </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Hasło </Form.Label>
@@ -125,7 +128,10 @@ useEffect(() => {
                 aria-invalid={validName ? "false" : "true"}
                 onChange={(e) => setPwd(e.target.value)}
                 value={password}
-              />
+              />                <p>
+                            8-24 liter<br/>
+                            Musi posiadać mała/dużą literę, cyfrę oraz znak specjalny.
+                        </p>
             </Form.Group>
           </Form>
         </Modal.Body>

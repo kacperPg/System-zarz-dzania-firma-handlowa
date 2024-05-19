@@ -1,9 +1,11 @@
 package com.kul.newbackend.controllers;
 
 import com.kul.newbackend.dto.OrderDto;
+import com.kul.newbackend.dto.OrderItemsDto;
 import com.kul.newbackend.dto.ProductDto;
 import com.kul.newbackend.entities.DateSet;
 import com.kul.newbackend.entities.Order;
+import com.kul.newbackend.services.OrderItemsService;
 import com.kul.newbackend.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/orders")
 public class OrderController {
     private final OrderService orderService;
+    private final OrderItemsService orderItemsService;
 
     @PostMapping
     public ResponseEntity<OrderDto> addOrder(@RequestBody OrderDto orderDto) {
@@ -57,10 +60,12 @@ public class OrderController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-
+    //Returning order with order item
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderDto> getOrderById(@PathVariable Long orderId) {
         OrderDto order = orderService.getOrderById(orderId);
+        List<OrderItemsDto> orderItemsDtoList = orderItemsService.getOrderItemByOrderId(orderId);
+        order.setOrderItems(orderItemsDtoList);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
@@ -75,4 +80,43 @@ public class OrderController {
         orderService.deleteOrder(orderId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+//         Tak powinny być zwracane, zamówione przedmioty muszą być walidowane na podstawie tabeli stanu magazynu
+//         tak że tylko przedmioty istniejące w tej tabeli mogą być zamówione,
+//           Po zamówienie stan magazynu musi byc odpowiednio updatejtowany
+
+//             "orderId": 7,
+//            "clientNazwa": "Nazwa Klienta",
+//            "totalAmount- Tutaj suma wszystkich produktów z orderItems": 44,
+//            "orderDate": null,
+//            "FinishOrderDate- data kiedy zamówienie zostało wykonane/status zmieniony na finish, może być automatyczenie wypełniany": null,
+//            "status - powinno brać określone dane, może byc z jakiejś tabeli albo zkodowane w backendie(Open, Suspended, Finished)": "Finished",
+//            "AllItemsPrice- automatycznie wyliczona na podstawie wszystkich cen z orderItems ": 120,
+//            "orderItem": [
+//                      "Nazwa Produktu": "Nazwa Produktu2"
+//                      "Price-Cena produktu wzięta z tabeli produktów": 20,
+//                      "quantity": 3,
+//                      "Totalprice- automatycznie wyliczona na podstawie ceny z produktów i liczby zamówionych produktów ": 60,
+//                      "warehouse - nazwa warehousa w którym znjduje się produkt":"Nazwa Warehouse"
+//              }
+//              , {
+//                      "Nazwa Produktu": "Nazwa Produktu2"
+//                      "Price-Cena produktu wzięta z tabeli produktów": 20,
+//                      "quantity": 3,
+//                      "Totalprice- automatycznie wyliczona na podstawie ceny z produktów i liczby zamówionych produktów ": 60,
+//                      "warehouse - nazwa warehousa w którym znjduje się produkt":"Nazwa Warehouse"
+//              }
+//           ]
+
+//          Jak może wyglądać request POST Tworzenia zamówienia
+//            "clientNazwa": "Nazwa Klienta",
+//            "orderDate -": null,
+//            "status - powinno brać określone dane, może byc z jakiejś tabeli albo zkodowane w backendie(Open, Suspended, Finished)": "Finished",
+//            "AllItemsPrice- automatycznie wyliczona na podstawie wszystkich cen z orderItems ": 120,
+//            "orderItem": [
+//               {
+//                      "WarehouseStatusId"- na podstawoie tego możemy walidować czy da się te przedmioty zamówić (czy nie przekroczyliśmy dostępnej ilości)
+//                      , to również będziemy updejtowac jesli zamówienie zostanie stworzone ": 10,
+//                      "quantity": 3,
+//              }]
 }
