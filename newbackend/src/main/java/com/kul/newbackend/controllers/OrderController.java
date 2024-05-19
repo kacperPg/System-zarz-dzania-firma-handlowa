@@ -93,7 +93,6 @@ public class OrderController {
 //            "status - powinno brać określone dane, może byc z jakiejś tabeli albo zkodowane w backendie(Open, Suspended, Finished)": "Finished",
 //            "AllItemsPrice- automatycznie wyliczona na podstawie wszystkich cen z orderItems ": 120,
 //            "orderItem": [
-//
 //                      "Nazwa Produktu": "Nazwa Produktu2"
 //                      "Price-Cena produktu wzięta z tabeli produktów": 20,
 //                      "quantity": 3,

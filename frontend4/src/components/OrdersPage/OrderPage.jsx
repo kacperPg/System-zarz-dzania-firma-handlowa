@@ -4,14 +4,16 @@ import BasicTableOrders from '../BasicTableOrders';
 import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
+import { useAuth } from '../AuthProvider';
 
 const ORDERS = '/api/orders';
 const ORDERS_ITEMS = '/api/orderItems/orderId';
 
 function OrderPage() {
-  const { id } = useParams();  // Use the useParams hook to get the id from the URL
+  const { id } = useParams();  
   const [order, setOrder] = useState(null);
   const [ordersItems, setOrdersItems] = useState([]);
+  const { auth } = useAuth(); 
 
   let token = sessionStorage.getItem('token');
 
@@ -19,7 +21,7 @@ function OrderPage() {
     const getOrder = async () => {
       try {
         const res = await axios.get(`${ORDERS}/${id}`, {
-          headers: { 'Authorization': 'Bearer ' + token },
+          headers: { 'Authorization': `Bearer ${auth.accessToken}` },
         });
         setOrder(res.data);
         setOrdersItems(res.data.orderItems)

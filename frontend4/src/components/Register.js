@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import axios from '../api/axios';
 import { Link } from "react-router-dom";
 import './Form.css';
-const USER_REGEX = /^[A-z][A-z0-9-_]{1,23}$/;
+const USER_REGEX = /^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ][A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9-_]{1,23}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = '/register';
@@ -98,11 +98,11 @@ const Register = () => {
         <>            
         <section id="filler"/>
             {success ? (
-                <section>
+                <section id="idForm">
                     <h1>Success!</h1>
                     <p>
                     <span className="line">
-                            <Link to="/login">Sign In</Link>
+                            <Link to="/login">Zaloguj się</Link>
                         </span>
                     </p>
                 </section>
@@ -110,10 +110,10 @@ const Register = () => {
 
                 <section id="idForm">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>Register</h1>
+                    <h1>Zarejestruj się !</h1>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="username">
-                            Name:
+                            Imię:
                         </label>
                         <input
                             type="text"
@@ -129,12 +129,12 @@ const Register = () => {
                             onBlur={() => setUserFocus(false)}
                         />
                         <p id="uidnote" className={userFocus && name && !validName ? "instructions" : "offscreen"}>
-                            4 to 24 characters.<br />
-                            Must begin with a letter.<br />
-                            Letters, numbers, underscores, hyphens allowed.
+                            4 do 24 liter.<br />
+                            Musi zaczynać sie od litery.<br />
+                            Litery, Numbery, _ , - dozwolony.
                         </p>
                         <label htmlFor="lastName">
-                            LastName:
+                            Nazwisko:
                         </label>
                         <input
                             type="text"
@@ -150,9 +150,9 @@ const Register = () => {
                             onBlur={() => setlastNameFocus(false)}
                         />
                         <p id="uidnote" className={lastNameFocus && lastName && !validLastName ? "instructions" : "offscreen"}>
-                            4 to 24 characters.<br />
-                            Must begin with a letter.<br />
-                            Letters, numbers, underscores, hyphens allowed.
+                             4 do 24 liter.<br />
+                            Musi zaczynać sie od litery.<br />
+                            Litery, Numbery, _ , - dozwolony.
                         </p>
                         <label htmlFor="email">
                             Email:
@@ -171,12 +171,12 @@ const Register = () => {
                             onBlur={() => setEmailFocus(false)}
                         />
                         <p id="uidnote" className={EmailFocus && email && !validEmail ? "instructions" : "offscreen"}>
-                          Must be a valid email that doesn't exist in system.
+                            Unikalny email który nie istnieje w systemi
                         </p>
 
 
                         <label htmlFor="password">
-                            Password:
+                            Hasło:
                     
                         </label>
                         <input
@@ -191,14 +191,13 @@ const Register = () => {
                             onBlur={() => setPwdFocus(false)}
                         />
                         <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
-                            8 to 24 characters.<br />
-                            Must include uppercase and lowercase letters, a number and a special character.<br />
-                            Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                        8 do 24 liter.<br />
+                            Musi zaczynać sie od litery.<br />
+                            Musi zawierać małą i dużą litere, number oraz znak specjalny.<br />
+                            Dozwolone znaki specjalne                         <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
                         </p>
-
-
-                        <label htmlFor="confirm_pwd">
-                            Confirm Password:
+                                                <label htmlFor="confirm_pwd">
+                            Powtórz hasło:
                         </label>
                         <input
                             type="password"
@@ -212,15 +211,15 @@ const Register = () => {
                             onBlur={() => setMatchFocus(false)}
                         />
                         <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
-                            Must match the first password input field.
+                          Musi byc takie samo jak pierwsze hasło
                         </p>
 
                         <button class="buttonSubmit" disabled={!validName || !validPwd || !validMatch ? true : false}>  Sign Up</button>
                     </form>
                     <p>
-                        Already registered?<br />
+                        Już posiadasz konto?<br />
                         <span className="line">
-                            <Link to="/login">Sign In</Link>
+                            <Link to="/login">Zaloguj się</Link>
                         </span>
                     </p>
                 </section>

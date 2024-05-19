@@ -2,10 +2,14 @@ import { useRef, useState, useEffect, useContext } from 'react';
 import { Link,useNavigate   } from "react-router-dom";
 import './Form.css';
 import axios from '../api/axios';
+import useAuth from './useAuth';
+
+
 const LOGIN_URL = '/login';
 
 const Login = () => {
- 
+    const { setAuth } = useAuth();
+
     const userRef = useRef();
     const errRef = useRef();
 
@@ -13,6 +17,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
+    const [isLoggedin, setIsLoggedin] = useState(false);
     const navigate  = useNavigate();
 
     useEffect(() => {
@@ -35,9 +40,11 @@ const Login = () => {
                 }
             );
             console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response));
             const accessToken = response?.data?.token;
             sessionStorage.setItem('token', accessToken);
+            const roles = response?.data?.roles;
+            setIsLoggedin(true);
+            setAuth({ email, password, roles, accessToken,isLoggedin });            
             setEmail('');
             setPassword('');
             setSuccess(true);
@@ -62,7 +69,7 @@ const Login = () => {
             <section id="filler"/>
         <section id="idForm">
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-            <h1>Sign In</h1>
+            <h1>Zaloguj się</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email">Email:</label>
                 <input
@@ -75,7 +82,7 @@ const Login = () => {
                     required
                 />
 
-                <label htmlFor="password">Password:</label>
+                <label htmlFor="password">Hasło:</label>
                 <input
                     type="password"
                     id="password"
@@ -83,12 +90,12 @@ const Login = () => {
                     value={password}
                     required
                 />
-                <button class="buttonSubmit">Sign In</button>
+                <button class="buttonSubmit">Zaloguj się</button>
             </form>
             <p>
-                Need an Account?<br />
+               Nie masz konta?<br />
                 <span className="line">
-                    <Link to="/register">Sign Up</Link>
+                    <Link to="/register">Zarejestruj się</Link>
                 </span>
             </p>
         </section>
