@@ -50,9 +50,6 @@ public class ProductService {
 
     public List<ProductDto> getProductsByType(String typeName){
         List<Product> products = productRepository.findByTypeName(typeName);
-        if (products.isEmpty()) {
-            throw new NoSuchElementException("No products found with the type name: " + typeName);
-        }
         return productMapper.productListToDtoList(products);
     }
 

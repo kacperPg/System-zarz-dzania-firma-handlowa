@@ -45,4 +45,10 @@ public class OrderItemsController {
         orderItemsService.deleteOrderItem(orderItemId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/orderId/{orderId}")
+    public ResponseEntity<List<OrderItemsDto>> getOrderItemByOrderId(@PathVariable Long orderId) {
+        List<OrderItemsDto> orderItems = orderItemsService.getOrderItemByOrderId(orderId);
+        return new ResponseEntity<>(orderItems,HttpStatus.OK);
+    }
 }

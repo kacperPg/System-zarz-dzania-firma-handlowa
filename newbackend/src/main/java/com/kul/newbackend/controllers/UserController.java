@@ -21,9 +21,9 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/{userEmail}")
-    public ResponseEntity<UserDto> getUserDetails(@PathVariable String userEmail) {
-        UserDto userDto = userService.findByEmail(userEmail);
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDto> getUserDetails(@PathVariable Long userId) {
+        UserDto userDto = userService.findById(userId);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 

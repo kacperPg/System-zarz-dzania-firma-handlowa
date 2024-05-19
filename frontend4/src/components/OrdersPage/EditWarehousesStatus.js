@@ -1,25 +1,45 @@
-import { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import axios from '../api/axios';
-import { Link,useNavigate   } from "react-router-dom";
+import axios from '../../api/axios';
 const WAREHOUSESTATUS_LIST = '/api/warehousesStatus';
 const PRODUCT_LIST = '/api/products';
 const WAREHOUSE_LIST = '/api/warehouses';
 
-function AddWarehousesStatus() {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [warehouseName, setwarehouseId] = useState('');
+function EditWarehousesStatus({ Id, handleClose }) {
+  const [warehouseName, setwarehouseName] = useState('');
   const [availableQuantity, setavailableQuantity] = useState('');
   const [soldQuantity, setsoldQuantity] = useState('');
-  const [productName, setproductId] = useState('');
+  const [productName, setproductName] = useState('');
   let token = sessionStorage.getItem('token');
-  const navigate  = useNavigate();
   const [products, setProducts] = useState([]);
   const [warehouse, setwarehouse] = useState([]);
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(`${WAREHOUSESTATUS_LIST}/${Id}`, {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        const productData = res.data;
+        setwarehouseName(productData.warehouseName);
+        setavailableQuantity(productData.availableQuantity);
+        setsoldQuantity(productData.soldQuantity);
+        setproductName(productData.productName);
+      } catch (err) {
+        console.error('Error fetching product:', err);
+        if (!err?.response) {
+          alert('No Server Response');
+        } else if (err.response?.status === 401) {
+          alert('Error');
+        } else {
+          alert('Failed');
+        }
+      }
+    };
+    getProduct();
+  }, [Id, token]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -71,7 +91,7 @@ useEffect(() => {
     e.preventDefault();
   
     try {
-        const response = await axios.post(WAREHOUSESTATUS_LIST,
+        const response = await axios.put(`${WAREHOUSESTATUS_LIST}/${Id}`,
             JSON.stringify({ warehouseName,availableQuantity,soldQuantity ,productName}),
             {
               headers: {  'Content-Type': 'application/json',
@@ -98,14 +118,9 @@ const warehousetList = warehouse.map(type => (
 ));
 
   return (
-    <>
-       <button onClick={handleShow} id="buttonItem">
-           Dodaj Nowy stan
-          </button>
-
-      <Modal show={show} onHide={handleClose}>
+    <Modal show={true} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Dodaj stan magazynu</Modal.Title>
+          <Modal.Title>Edytuj stan magazynu</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -113,7 +128,7 @@ const warehousetList = warehouse.map(type => (
               <Form.Label>Magazyn</Form.Label>
               <Form.Select       
               autoFocus
-                 onChange={(e) => setwarehouseId(e.target.value)}
+                 onChange={(e) => setwarehouseName(e.target.value)}
                  value={warehouseName}>
                   <option value={''}>wybierz magazyn</option> {/* Default option */}
                 {warehousetList}
@@ -143,7 +158,7 @@ const warehousetList = warehouse.map(type => (
               <Form.Label>Produkt</Form.Label>
               <Form.Select       
               autoFocus
-                 onChange={(e) => setproductId(e.target.value)}
+                 onChange={(e) => setproductName(e.target.value)}
                  value={productName}>
               <option value={''}>wybierz produkt</option> {/* Default option */}
                 {produkctList}
@@ -156,12 +171,11 @@ const warehousetList = warehouse.map(type => (
           Zamknij
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Dodaj Magazyn
+            Edytuj Stan Magazyn
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
   );
 }
 
-export default AddWarehousesStatus;
+export default EditWarehousesStatus;

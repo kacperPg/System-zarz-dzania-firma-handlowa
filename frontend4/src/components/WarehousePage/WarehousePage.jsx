@@ -1,19 +1,19 @@
 import {  useEffect ,useState } from 'react'
-import AddType from './AddType'
-import BasicTable from './BasicTable'
-import { NavBarBoodstrap } from './Navbar/navbarBS'
-import axios from '../api/axios';
-import './ItemsPage.css';
-const TYPE_LIST = '/api/productTypes';
+import AddWareHouse from './AddWareHouse'
+import BasicTable from '../BasicTable'
+import { NavBarBoodstrap } from '../Navbar/navbarBS'
+import axios from '../../api/axios';
+import '../ItemsPage.css';
+const WAREHOUSE_LIST = '/api/warehouses';
 
-function TypePage() {
+function WarehousePage() {
   const [products, setProducts] = useState([]);
   let token = sessionStorage.getItem('token');
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios.get(TYPE_LIST,
+        const res = await axios.get(WAREHOUSE_LIST,
           {
             headers: {  'Authorization': 'Bearer ' +  token
           }
@@ -36,9 +36,14 @@ function TypePage() {
   /** @type import('@tanstack/react-table').ColumnDef<any> */
 
   const productColumn2 = [
+
     {
-      header: 'Nazwa Rodzaju',
-      accessorKey: 'typeName',
+      header: 'Nazwa Magazynu',
+      accessorKey: 'warehouseName',
+    },
+    {
+      header: 'Lokalizacja',
+      accessorKey: 'location',
     }
   ]
 
@@ -47,15 +52,15 @@ function TypePage() {
     <div class="wrapper">
          <NavBarBoodstrap />    
          <section id="buttonAddProduct">
-          <AddType />
+          <AddWareHouse />
 
          </section>
          <section id="idTabelaProduktow">
-            <BasicTable data={products} columns={productColumn2} URL={TYPE_LIST} IdType={'typeId'} />
+            <BasicTable data={products} columns={productColumn2} URL={WAREHOUSE_LIST} IdType={'warehouseId'} />
             </section>
         </div>
     </>
   )
 }
 
-export default TypePage
+export default WarehousePage

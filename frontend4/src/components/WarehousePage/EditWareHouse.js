@@ -1,25 +1,45 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import axios from '../api/axios';
-import { Link,useNavigate   } from "react-router-dom";
+import axios from '../../api/axios';
 const WAREHOUSE_LIST = '/api/warehouses';
 
-function AddWareHouse() {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+function EditWareHouse({ Id, handleClose }) {
   const [warehouseName, setwarehouseName] = useState('');
   const [location, setlocation] = useState('');
   let token = sessionStorage.getItem('token');
-  const navigate  = useNavigate();
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(`${WAREHOUSE_LIST}/${Id}`, {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        const WarehouseData = res.data;
+        setlocation(WarehouseData.location);
+        setwarehouseName(WarehouseData.warehouseName)
+      } catch (err) {
+        console.error('Error fetching product:', err);
+        if (!err?.response) {
+          alert('No Server Response');
+        } else if (err.response?.status === 401) {
+          alert('Error');
+        } else {
+          alert('Failed');
+        }
+      }
+    };
+    getProduct();
+  }, [Id, token]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await axios.post(WAREHOUSE_LIST,
+        const response = await axios.put(
+          `${WAREHOUSE_LIST}/${Id}`,
             JSON.stringify({ warehouseName,location}),
             {
               headers: {  'Content-Type': 'application/json',
@@ -38,21 +58,17 @@ function AddWareHouse() {
     }
 }
   return (
-    <>
-       <button onClick={handleShow} id="buttonItem">
-           Dodaj Magazyn
-          </button>
-
-      <Modal show={show} onHide={handleClose}>
+        <Modal show={true} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Dodaj Magazyn</Modal.Title>
+          <Modal.Title>Edit Magazyn</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" disabled={true} controlId="exampleForm.ControlInput1">
               <Form.Label>Nazwa Magazynu</Form.Label>
               <Form.Control
                 type="text"
+                disabled={true} 
                 placeholder="Nazwa Magaznu"
                 autoFocus
                 onChange={(e) => setwarehouseName(e.target.value)}
@@ -76,12 +92,11 @@ function AddWareHouse() {
           Zamknij
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Dodaj Magazyn
+            Edit Magazyn
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
   );
 }
 
-export default AddWareHouse;
+export default EditWareHouse;

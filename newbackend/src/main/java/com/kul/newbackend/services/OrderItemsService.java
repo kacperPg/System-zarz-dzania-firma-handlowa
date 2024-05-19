@@ -35,6 +35,10 @@ public class OrderItemsService {
         return orderItemsMapper.orderItemsEntityToDto(orderItems);
     }
 
+    public  List<OrderItemsDto> getOrderItemByOrderId(Long orderId) {
+        List<OrderItems> orderItems = orderItemsRepository.findByOrderId(orderId);
+        return orderItemsMapper.orderItemsListToDtoList(orderItems);
+    }
     public OrderItemsDto updateOrder(Long orderItemId, OrderItemsDto updatedOrderItemDto) {
         OrderItems existingOrderItem = orderItemsRepository.findById(orderItemId)
                 .orElseThrow(() -> new NoSuchElementException("Order item not found"));
