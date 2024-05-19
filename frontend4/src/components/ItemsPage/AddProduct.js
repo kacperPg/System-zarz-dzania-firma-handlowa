@@ -2,7 +2,7 @@ import { useState,useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import axios from '../api/axios';
+import axios from '../../api/axios';
 const PRODUCT_LIST = '/api/products';
 const TYPE_LIST = '/api/productTypes';
 

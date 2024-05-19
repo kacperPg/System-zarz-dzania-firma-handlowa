@@ -1,19 +1,19 @@
 import {  useEffect ,useState } from 'react'
-import AddWarehousesStatus from './AddWarehousesStatus'
-import BasicTable from './BasicTable'
-import { NavBarBoodstrap } from './Navbar/navbarBS'
-import axios from '../api/axios';
-import './ItemsPage.css';
-const WAREHOUSESTATUS_LIST = '/api/warehousesStatus';
+import AddType from './AddType'
+import BasicTable from '../BasicTable'
+import { NavBarBoodstrap } from '../Navbar/navbarBS'
+import axios from '../../api/axios';
+import '../ItemsPage.css';
+const TYPE_LIST = '/api/productTypes';
 
-function WarehousesStatusPage() {
+function TypePage() {
   const [products, setProducts] = useState([]);
   let token = sessionStorage.getItem('token');
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios.get(WAREHOUSESTATUS_LIST,
+        const res = await axios.get(TYPE_LIST,
           {
             headers: {  'Authorization': 'Bearer ' +  token
           }
@@ -36,24 +36,10 @@ function WarehousesStatusPage() {
   /** @type import('@tanstack/react-table').ColumnDef<any> */
 
   const productColumn2 = [
-
     {
-      header: 'Nazwa Magazynu',
-      accessorKey: 'warehouseName',
-    },
-    {
-      header: 'Dostępna ilość',
-      accessorKey: 'availableQuantity',
-    },
-    {
-      header: 'Sprzedana ilość',
-      accessorKey: 'soldQuantity',
-    },
-    {
-      header: 'Produkt',
-      accessorKey: 'productName',
+      header: 'Nazwa Rodzaju',
+      accessorKey: 'typeName',
     }
-  
   ]
 
   return (
@@ -61,15 +47,15 @@ function WarehousesStatusPage() {
     <div class="wrapper">
          <NavBarBoodstrap />    
          <section id="buttonAddProduct">
-          <AddWarehousesStatus />
+          <AddType />
 
          </section>
          <section id="idTabelaProduktow">
-            <BasicTable data={products} columns={productColumn2} URL={WAREHOUSESTATUS_LIST} IdType={'warehouseStatusId'} />
+            <BasicTable data={products} columns={productColumn2} URL={TYPE_LIST} IdType={'typeId'} />
             </section>
         </div>
     </>
   )
 }
 
-export default WarehousesStatusPage
+export default TypePage

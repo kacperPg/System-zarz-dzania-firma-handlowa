@@ -1,25 +1,24 @@
 import {  useEffect ,useState } from 'react'
-import AddWareHouse from './AddWareHouse'
-import BasicTable from './BasicTable'
-import { NavBarBoodstrap } from './Navbar/navbarBS'
-import axios from '../api/axios';
-import './ItemsPage.css';
-const WAREHOUSE_LIST = '/api/warehouses';
+import BasicTable from '../BasicTable'
+import { NavBarBoodstrap } from '../Navbar/navbarBS'
+import axios from '../../api/axios';
+import '../ItemsPage.css';
+const USER_LIST = '/api/users';
 
-function WarehousePage() {
-  const [products, setProducts] = useState([]);
+function WarehousesStatusPage() {
+  const [Users, setUsers] = useState([]);
   let token = sessionStorage.getItem('token');
 
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await axios.get(WAREHOUSE_LIST,
+        const res = await axios.get(USER_LIST,
           {
             headers: {  'Authorization': 'Bearer ' +  token
           }
         }
         );
-        setProducts(res.data);
+        setUsers(res.data);
       } catch (err) {
         if (!err?.response) {
           alert('No Server Response');
@@ -38,29 +37,29 @@ function WarehousePage() {
   const productColumn2 = [
 
     {
-      header: 'Nazwa Magazynu',
-      accessorKey: 'warehouseName',
+      header: 'Imię',
+      accessorKey: 'name',
     },
     {
-      header: 'Lokalizacja',
-      accessorKey: 'location',
-    }
+      header: 'Nazwisko',
+      accessorKey: 'lastName',
+    },
+    {
+      header: 'Email',
+      accessorKey: 'email',
+    }  
   ]
 
   return (
     <>
     <div class="wrapper">
          <NavBarBoodstrap />    
-         <section id="buttonAddProduct">
-          <AddWareHouse />
-
-         </section>
          <section id="idTabelaProduktow">
-            <BasicTable data={products} columns={productColumn2} URL={WAREHOUSE_LIST} IdType={'warehouseId'} />
+            <BasicTable data={Users} columns={productColumn2} URL={USER_LIST} IdType={'id'} />
             </section>
         </div>
     </>
   )
 }
 
-export default WarehousePage
+export default WarehousesStatusPage

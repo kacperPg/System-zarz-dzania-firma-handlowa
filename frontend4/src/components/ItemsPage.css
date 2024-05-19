@@ -2,12 +2,12 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  width: 90%;
+  width: 95%;
   padding: 1rem;
   margin:auto;
   color-scheme: light dark;
   color: rgba(35, 35, 35, 0.87);
-  background-color: #D1BB9E;
+  background-color: #def3e4;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,18 +20,23 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  padding: 0.5rem;
-  width: 90%;
+  padding: 1rem;
+  width: 95%;
   margin:auto;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #D1BB9E;
+  background-color: #def3e4;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+#productLabel {
+  color: rgba(52, 49, 49, 0.87);
+  padding-left: 0.5rem;
 }
 
 a {
@@ -71,14 +76,14 @@ button:focus-visible {
 table, th, td {
   padding: 0.6rem;
   margin:auto;
-  border: 1px solid white;
+  border: 2px solid #b0b5b2;
   border-collapse: collapse;
 }
 
 tr:nth-child(even) {background-color: #a2937f2c;}
 
 th{
-  background-color: #baa992;
+  background-color: #a6afb4;
 }
 
 table {
@@ -135,4 +140,26 @@ input{
 }
 #formSearch {
   margin-bottom : 1rem;
+}
+
+#filterButton{
+  margin-left: 1rem;
+  border-radius: 0.5rem;
+} 
+#Info{
+  color: black;
+  align-items:center ;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  padding: 1rem;
+  width: 95%;
+  margin:auto;
+  color-scheme: light dark;
+  background-color: #def3e4;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }

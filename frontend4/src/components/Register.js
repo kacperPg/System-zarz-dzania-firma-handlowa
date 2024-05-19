@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import axios from '../api/axios';
 import { Link } from "react-router-dom";
 import './Form.css';
-const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+const USER_REGEX = /^[A-z][A-z0-9-_]{1,23}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = '/register';
@@ -71,7 +71,7 @@ const Register = () => {
         }
         try {
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ user: name,lastName:lastName,email: email, password: password }),
+                JSON.stringify({ name: name,lastName:lastName,email: email, password: password }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true

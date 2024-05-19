@@ -16,7 +16,7 @@ export const NavBarBoodstrap=() =>{
                         <Nav.Link as={Link} to="/home" exact>
                             Raporty
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/home">
+                        <Nav.Link as={Link} to="/OrdersPage">
                             Zamówienia
                         </Nav.Link>
                         <NavDropdown title="Produkty">
@@ -39,7 +39,7 @@ export const NavBarBoodstrap=() =>{
                             </NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Zarządzaj Użytkownikami">
-                            <NavDropdown.Item as={Link} to="/home">
+                            <NavDropdown.Item as={Link} to="/UserPage">
                                 Użytkownicy
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/home">

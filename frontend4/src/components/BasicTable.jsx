@@ -8,17 +8,19 @@ import {
   } from '@tanstack/react-table'
   import { useState } from 'react';
   import axios from '../api/axios';
-  import EditProduct from './EditProduct';
-
-  let token = sessionStorage.getItem('token');
+  import EditProduct from './ItemsPage/EditProduct';
+  import EditWareHouse from './WarehousePage/EditWareHouse';
+  import EditWarehousesStatus from './WarehouseStatePage/EditWarehousesStatus';
+  import EditUser from './UserPage/EditUser';
 
   export default function BasicTable({ data, columns, URL, IdType }) {
       const [sorting, setSorting] = useState([]);
       const [filtering, setFiltering] = useState('');
-      const [editProductId, setEditProductId] = useState(null); // State to hold the ID of the product being edited
-  
+      const [editItemId, setEditItemId] = useState(null); 
+      let token = sessionStorage.getItem('token');
+
       const handleEdit = (Id) => {
-        setEditProductId(Id); // Set the ID of the product being edited
+        setEditItemId(Id); // Set the ID of the product being edited
       }
   
       const handleDelete = (Id) => {
@@ -95,8 +97,8 @@ import {
                                   </td>
                               ))}
                               <td>
-                              <button onClick={() => handleEdit(row.original[IdType])}>Edit</button>
-                              </td>
+                            {IdType !== 'typeId'  &&<button onClick={() => handleEdit(row.original[IdType])}>Edit</button>  }
+                             </td>
                               <td>
                                   <button onClick={() => handleDelete(row.original[IdType])}>Delete</button>
                               </td>
@@ -111,8 +113,10 @@ import {
                   <button onClick={() => table.setPageIndex(table.getPageCount() - 1)} id="buttonItem">Ostatnia Strona</button>
               </div>
               {/* Render EditProduct modal if editProductId is not null */}
-              {IdType === 'productId' && editProductId && <EditProduct Id={editProductId} handleClose={() => setEditProductId(null)} />}
-
+              {IdType === 'productId' && editItemId && <EditProduct Id={editItemId} handleClose={() => setEditItemId(null)} />}
+              {IdType === 'warehouseId' && editItemId && <EditWareHouse Id={editItemId} handleClose={() => setEditItemId(null)} />}
+              {IdType === 'warehouseStatusId' && editItemId && <EditWarehousesStatus Id={editItemId} handleClose={() => setEditItemId(null)} />}
+              {IdType === 'id' && editItemId && <EditUser Id={editItemId} handleClose={() => setEditItemId(null)} />}
           </div>
       );
   }
