@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -32,4 +34,13 @@ public class Order {
 
     @Column(name = "status")
     private String status;
+
+    @Column(name = "payment_date")
+    private Date paymentDate;
+
+    @Column(name = "total_price")
+    private Double totalPrice;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderItems> orderItems;
 }

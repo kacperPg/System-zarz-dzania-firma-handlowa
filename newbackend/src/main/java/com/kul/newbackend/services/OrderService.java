@@ -1,14 +1,19 @@
 package com.kul.newbackend.services;
 
 import com.kul.newbackend.dto.OrderDto;
+import com.kul.newbackend.dto.OrderItemsDto;
 import com.kul.newbackend.dto.ProductDto;
 import com.kul.newbackend.entities.Order;
+import com.kul.newbackend.entities.OrderItems;
 import com.kul.newbackend.entities.Product;
+import com.kul.newbackend.mappers.OrderItemsMapper;
 import com.kul.newbackend.mappers.OrderMapper;
+import com.kul.newbackend.repositories.OrderItemsRepository;
 import com.kul.newbackend.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,11 +22,23 @@ import java.util.NoSuchElementException;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final OrderItemsRepository orderItemsRepository;
+    private final OrderItemsMapper orderItemsMapper;
 
     public OrderDto addOrder(OrderDto orderDto) {
         Order order = orderMapper.orderDtoToEntity(orderDto);
-        Order saveOrder = orderRepository.save(order);
-        return orderMapper.orderEntityToDto(saveOrder);
+        Order savedOrder = orderRepository.save(order);
+
+        List<OrderItemsDto> orderItemsDtos = orderDto.getOrderItems();
+        for (OrderItemsDto itemDto : orderItemsDtos) {
+            OrderItems orderItems = orderItemsMapper.orderItemsDtoToEntity(itemDto);
+            orderItems.setOrderId(savedOrder.getOrderId());
+            orderItemsRepository.save(orderItems);
+        }
+
+        OrderDto savedOrderDto = orderMapper.orderEntityToDto(savedOrder);
+        savedOrderDto.setOrderItems(orderItemsDtos);
+        return savedOrderDto;
     }
 
     public List<OrderDto> getAllOrders() {
