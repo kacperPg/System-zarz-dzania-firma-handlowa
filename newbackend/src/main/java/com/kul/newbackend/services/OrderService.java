@@ -1,5 +1,6 @@
 package com.kul.newbackend.services;
 
+import com.kul.newbackend.config.CustomException;
 import com.kul.newbackend.dto.OrderDto;
 import com.kul.newbackend.dto.OrderItemsDto;
 import com.kul.newbackend.dto.ProductDto;
@@ -26,6 +27,11 @@ public class OrderService {
     private final OrderItemsMapper orderItemsMapper;
 
     public OrderDto addOrder(OrderDto orderDto) {
+        // Validacja lub inne operacje, które mogą rzucać wyjątki
+        if (orderDto.getOrderItems() == null || orderDto.getOrderItems().isEmpty()) {
+            throw new CustomException("Order must contain at least one item");
+        }
+
         Order order = orderMapper.orderDtoToEntity(orderDto);
         Order savedOrder = orderRepository.save(order);
 
