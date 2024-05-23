@@ -30,16 +30,20 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
 
         List<OrderItemsDto> orderItemsDtos = orderDto.getOrderItems();
+        List<OrderItemsDto> savedOrderItemsDtos = new ArrayList<>();
+
         for (OrderItemsDto itemDto : orderItemsDtos) {
             OrderItems orderItems = orderItemsMapper.orderItemsDtoToEntity(itemDto);
             orderItems.setOrderId(savedOrder.getOrderId());
-            orderItemsRepository.save(orderItems);
+            OrderItems savedOrderItems = orderItemsRepository.save(orderItems);
+            savedOrderItemsDtos.add(orderItemsMapper.orderItemsEntityToDto(savedOrderItems));
         }
 
         OrderDto savedOrderDto = orderMapper.orderEntityToDto(savedOrder);
-        savedOrderDto.setOrderItems(orderItemsDtos);
+        savedOrderDto.setOrderItems(savedOrderItemsDtos);
         return savedOrderDto;
     }
+
 
     public List<OrderDto> getAllOrders() {
         List<Order> orderEntities = orderRepository.findAll();
