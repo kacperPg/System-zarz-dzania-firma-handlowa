@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface WarehouseStatusRepository extends JpaRepository<WarehouseStatus,Long> {
     List<WarehouseStatus> findByProductName(String productName);
-
+    WarehouseStatus findFirstByProductName(String productName);
     List<WarehouseStatus> findByWarehouseName(String warehouseName);
 }

@@ -23,6 +23,12 @@ public class OrderItems {
     @Column(name = "product_id")
     private Long productId;
 
+    @Column(name = "warehouse_name")
+    private String warehouseName;
+
+    @Column(name = "warehouse_status_id")
+    private Long warehouseStatusId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id",insertable = false,updatable = false)
     private Order order;

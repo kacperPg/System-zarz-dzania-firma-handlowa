@@ -22,4 +22,5 @@ public class OrderDto {
     private Date paymentDate;
     private Double totalPrice;
     private List<OrderItemsDto> orderItems;
+    private ClientDto client;
 }

@@ -23,7 +23,7 @@ public class Order {
     @Column(name = "order_id")
     private Long orderId;
 
-    @Column(name = "client_id")
+    @Column(name = "client_id", insertable=false, updatable=false)
     private Long clientId;
 
     @Column(name = "total_amount")
@@ -43,4 +43,8 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItems> orderItems;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 }
