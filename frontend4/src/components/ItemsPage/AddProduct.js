@@ -61,7 +61,7 @@ function AddProduct() {
              alert('Failed');
         }
     }
-}
+} 
 const options = products.map(type => (
   <option key={type.typeName} value={type.typeName}>{type.typeName}</option>
 ));

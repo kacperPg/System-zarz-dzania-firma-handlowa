@@ -9,6 +9,7 @@ import WarehousesStatusPage from './components/WarehouseStatePage/WarehousesStat
 import UserPage from './components/UserPage/UserPage';
 import OrdersPage from './components/OrdersPage/OrdersPage';
 import OrderPage from './components/OrdersPage/OrderPage';
+import AddOrder from './components/OrdersPage/AddOrder';
 import ClientPage from './components/ClientPage/ClientPage';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
@@ -34,6 +35,7 @@ function App() {
         <Route path="OrdersPage" element={<OrdersPage />} />
         <Route path="Order/:id" element={<OrderPage />} />
         <Route path="ClientPage" element={<ClientPage />} />
+        <Route path="AddOrder" element={<AddOrder />} />
       </Route>
     </Routes>
   );

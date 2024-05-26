@@ -16,7 +16,6 @@ import java.util.NoSuchElementException;
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-    private final ProductTypeRepository productTypeRepository;
 
     public ProductDto addProduct(ProductDto productDto) {
         Product product = productMapper.productDtoToEntity(productDto);

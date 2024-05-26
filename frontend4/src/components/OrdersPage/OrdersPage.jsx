@@ -3,12 +3,14 @@ import BasicTableOrders from '../BasicTableOrders';
 import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
+import { useNavigate } from 'react-router-dom'; 
 
 const ORDERS_SUMMARIES = '/api/orders/summaries';
-const ORDERS = '/api/orders/summaries';
+const ORDERS = '/api/orders';
 
 function OrdersPage() {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate(); 
 
   let token = sessionStorage.getItem('token');
 
@@ -32,6 +34,10 @@ function OrdersPage() {
     getOrders();
   }, [token]);
 
+  const handleAddOrderClick = () => {
+    navigate('/AddOrder');  // Navigate to the Add Order page
+  };
+
   const productColumns = [
     { header: 'ID zamówienia', accessorKey: 'orderId' },
     { header: 'Klient', accessorKey: 'clientName' },
@@ -40,10 +46,16 @@ function OrdersPage() {
     { header: 'Status', accessorKey: 'status' }
   ];
 
+  
   return (
     <>
       <div className="wrapper">
         <NavBarBoodstrap />
+        <section id="buttonAddProduct">
+        <button onClick={handleAddOrderClick} id="buttonItem">
+            Dodaj nowe zamówienie
+          </button>
+        </section>
         <section id="idTabelaProduktow">
           <BasicTableOrders data={orders} columns={productColumns} IdType="orderId" Navigate={true} displayButtons={true}/>
         </section>

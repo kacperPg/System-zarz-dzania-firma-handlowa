@@ -1,9 +1,7 @@
 package com.kul.newbackend.services;
 
 import com.kul.newbackend.dto.ClientDto;
-import com.kul.newbackend.dto.ProductTypeDto;
 import com.kul.newbackend.entities.Client;
-import com.kul.newbackend.entities.ProductType;
 import com.kul.newbackend.mappers.ClientMapper;
 import com.kul.newbackend.repositories.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +18,11 @@ public class ClientService {
 
     public ClientDto addClient(ClientDto clientDto){
         Client client = clientMapper.clientDtoToEntity(clientDto);
-        Client saveClient = clientRepository.save(client);
-        return clientMapper.clientEntityToDto(saveClient);
+        Client savedClient = clientRepository.save(client);
+        return clientMapper.clientEntityToDto(savedClient);
     }
 
-    public List<ClientDto> getAllClients(){
+    public List<ClientDto> getAllClients() {
         List<Client> clients = clientRepository.findAll();
         return clientMapper.clientListToDtoList(clients);
     }
@@ -35,22 +33,22 @@ public class ClientService {
         return clientMapper.clientEntityToDto(client);
     }
 
-    public ClientDto updateClient(Long clientId, ClientDto clientDto){
+    public ClientDto updateClient(Long clientId, ClientDto clientDto) {
         Client client = clientRepository.findById(clientId)
-                .orElseThrow(()-> new NoSuchElementException("Client not found"));
-        Client updatedClient = clientMapper.clientDtoToEntity(clientDto);
+                .orElseThrow(() -> new NoSuchElementException("Client not found"));
 
-        client.setClientName(updatedClient.getClientName());
-        client.setClientEmail(updatedClient.getClientEmail());
-        client.setAddress(updatedClient.getAddress());
-        client.setNipNumber(updatedClient.getNipNumber());
-        client.setPhoneNumber(updatedClient.getPhoneNumber());
+        // Update existing entity's fields
+        client.setClientName(clientDto.getClientName());
+        client.setClientEmail(clientDto.getClientEmail());
+        client.setAddress(clientDto.getAddress());
+        client.setNipNumber(clientDto.getNipNumber());
+        client.setPhoneNumber(clientDto.getPhoneNumber());
 
-        Client savedClient = clientRepository.save(updatedClient);
+        Client savedClient = clientRepository.save(client);
         return clientMapper.clientEntityToDto(savedClient);
     }
 
-    public void deleteClient(Long clientId){
+    public void deleteClient(Long clientId) {
         clientRepository.deleteById(clientId);
     }
 }

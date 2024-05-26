@@ -25,7 +25,6 @@ function OrderPage() {
         });
         setOrder(res.data);
         setOrdersItems(res.data.orderItems);
-        setOrdersItems(res.data.orderItems);
         setClient(res.data.client);
       } catch (err) {
         if (!err?.response) {
@@ -45,12 +44,11 @@ function OrderPage() {
   const orderColumns = [
     { header: 'ID zamówienia', accessorKey: 'orderId' },
     { header: 'Klient ID', accessorKey: 'client.clientId' },
-    { header: 'Nazwa Klienta', accessorKey: 'client.clientName' },
-    { header: 'Email Klienta', accessorKey: 'client.clientEmail' },
     { header: 'Ilość Produktów', accessorKey: 'totalAmount' },
-    { header: 'Order Date', accessorKey: 'orderDate' },
+    { header: 'Data złożena zamówienia', accessorKey: 'orderDate' },
     { header: 'Status', accessorKey: 'status' },
-    { header: 'Total Price', accessorKey: 'totalPrice' }
+    { header: 'Data zapłaty za zamówienie', accessorKey: 'paymentDate' },
+    { header: 'Łączna cena', accessorKey: 'totalPrice' }
   ];
   const clientColumns = [
     { header: 'Klient ID', accessorKey: 'clientId' },
@@ -60,7 +58,7 @@ function OrderPage() {
     { header: 'Email Klienta', accessorKey: 'clientEmail' },
   ];
   const orderItemsColumns = [
-    { header: 'ID Produktu', accessorKey: 'productId' },
+    { header: 'Produkt', accessorKey: 'productName' },
     { header: 'Ilość', accessorKey: 'quantity' },
     { header: 'Cena $', accessorKey: 'price' },
     { header: 'Nazwa Magazynu', accessorKey: 'warehouseName' }
@@ -69,24 +67,24 @@ function OrderPage() {
   return (
     <div className="wrapper">
       <NavBarBoodstrap />
+      <section id="idTabelaProduktow">
       <section id="Info">
         Zamówienie
       </section>
-      <section id="idTabelaProduktow">
         {order && (
           <BasicTableOrders data={[order]} columns={orderColumns} Navigate={false} displayButtons={false} />
         )}
       </section>
-      <section id="Info">
+        <section id="idTabelaProduktow">
+        <section id="Info">
         Klient
       </section>
-      <section id="idTabelaProduktow">
           <BasicTableOrders data={[client]} columns={clientColumns} Navigate={false} displayButtons={false}/>
       </section>
+      <section id="idTabelaProduktow">
       <section id="Info">
         Zamówione Przedmioty
       </section>
-      <section id="idTabelaProduktow">
         <BasicTableOrders data={ordersItems} columns={orderItemsColumns} Navigate={false} displayButtons={true}/>
       </section>
     </div>
