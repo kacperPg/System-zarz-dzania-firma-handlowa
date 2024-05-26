@@ -7,13 +7,13 @@ import '../ItemsPage.css';
 import { useAuth } from '../AuthProvider';
 
 const ORDERS = '/api/orders';
-const ORDERS_ITEMS = '/api/orderItems/orderId';
 
 function OrderPage() {
-  const { id } = useParams();  
+  const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [ordersItems, setOrdersItems] = useState([]);
-  const { auth } = useAuth(); 
+  const [client, setClient] = useState([]);
+  const { auth } = useAuth();
 
   let token = sessionStorage.getItem('token');
 
@@ -24,14 +24,16 @@ function OrderPage() {
           headers: { 'Authorization': `Bearer ${auth.accessToken}` },
         });
         setOrder(res.data);
-        setOrdersItems(res.data.orderItems)
+        setOrdersItems(res.data.orderItems);
+        setOrdersItems(res.data.orderItems);
+        setClient(res.data.client);
       } catch (err) {
         if (!err?.response) {
           alert('No Server Response');
         } else if (err.response?.status === 401) {
-          alert('Error');
+          alert('Unauthorized');
         } else {
-          alert('Failed');
+          alert('Failed to fetch order data');
         }
       }
     };
@@ -40,58 +42,52 @@ function OrderPage() {
     }
   }, [id, token]);
 
-  useEffect(() => {
-    const getOrdersItems = async () => {
-      try {
-        const res = await axios.get(`${ORDERS_ITEMS}/${id}`, {
-          headers: { 'Authorization': 'Bearer ' + token },
-        });
-        setOrdersItems(res.data);
-      } catch (err) {
-        if (!err?.response) {
-          alert('No Server Response');
-        } else if (err.response?.status === 401) {
-          alert('Error');
-        } else {
-          alert('Failed');
-        }
-      }
-    };
-    if (id) {
-      getOrdersItems();
-    }
-  }, [id, token]);
-
   const orderColumns = [
     { header: 'ID zamówienia', accessorKey: 'orderId' },
-    { header: 'Klient', accessorKey: 'clientId' },
+    { header: 'Klient ID', accessorKey: 'client.clientId' },
+    { header: 'Nazwa Klienta', accessorKey: 'client.clientName' },
+    { header: 'Email Klienta', accessorKey: 'client.clientEmail' },
     { header: 'Ilość Produktów', accessorKey: 'totalAmount' },
     { header: 'Order Date', accessorKey: 'orderDate' },
-    { header: 'Status', accessorKey: 'status' }
+    { header: 'Status', accessorKey: 'status' },
+    { header: 'Total Price', accessorKey: 'totalPrice' }
   ];
-
+  const clientColumns = [
+    { header: 'Klient ID', accessorKey: 'clientId' },
+    { header: 'Nazwa Klienta', accessorKey: 'clientName' },
+    { header: 'NIP', accessorKey: 'nipNumber' },
+    { header: 'Adres', accessorKey: 'address' },
+    { header: 'Email Klienta', accessorKey: 'clientEmail' },
+  ];
   const orderItemsColumns = [
-    { header: 'productId', accessorKey: 'productId' },
+    { header: 'ID Produktu', accessorKey: 'productId' },
     { header: 'Ilość', accessorKey: 'quantity' },
-    { header: 'Cena $', accessorKey: 'price' }
+    { header: 'Cena $', accessorKey: 'price' },
+    { header: 'Nazwa Magazynu', accessorKey: 'warehouseName' }
   ];
 
   return (
     <div className="wrapper">
       <NavBarBoodstrap />
       <section id="Info">
-      Zamówienie
+        Zamówienie
       </section>
       <section id="idTabelaProduktow">
         {order && (
-          <BasicTableOrders data={[order]} columns={orderColumns} Navigate={false}/>
+          <BasicTableOrders data={[order]} columns={orderColumns} Navigate={false} displayButtons={false} />
         )}
       </section>
       <section id="Info">
-    Zamówione Przedmioty
-    </section>
+        Klient
+      </section>
       <section id="idTabelaProduktow">
-        <BasicTableOrders data={ordersItems} columns={orderItemsColumns} Navigate={false}/>
+          <BasicTableOrders data={[client]} columns={clientColumns} Navigate={false} displayButtons={false}/>
+      </section>
+      <section id="Info">
+        Zamówione Przedmioty
+      </section>
+      <section id="idTabelaProduktow">
+        <BasicTableOrders data={ordersItems} columns={orderItemsColumns} Navigate={false} displayButtons={true}/>
       </section>
     </div>
   );

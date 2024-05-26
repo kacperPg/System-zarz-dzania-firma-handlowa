@@ -12,6 +12,7 @@ import {
   import EditWareHouse from './WarehousePage/EditWareHouse';
   import EditWarehousesStatus from './WarehouseStatePage/EditWarehousesStatus';
   import EditUser from './UserPage/EditUser';
+  import EditClient from './ClientPage/EditClient';
 
   export default function BasicTable({ data, columns, URL, IdType }) {
       const [sorting, setSorting] = useState([]);
@@ -117,6 +118,7 @@ import {
               {IdType === 'warehouseId' && editItemId && <EditWareHouse Id={editItemId} handleClose={() => setEditItemId(null)} />}
               {IdType === 'warehouseStatusId' && editItemId && <EditWarehousesStatus Id={editItemId} handleClose={() => setEditItemId(null)} />}
               {IdType === 'id' && editItemId && <EditUser Id={editItemId} handleClose={() => setEditItemId(null)} />}
+              {IdType === 'clientId' && editItemId && <EditClient Id={editItemId} handleClose={() => setEditItemId(null)} />}
           </div>
       );
   }

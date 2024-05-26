@@ -22,7 +22,6 @@ public class OrderItems {
     private Double price;
     @Column(name = "product_id")
     private Long productId;
-
     @Column(name = "warehouse_name")
     private String warehouseName;
 

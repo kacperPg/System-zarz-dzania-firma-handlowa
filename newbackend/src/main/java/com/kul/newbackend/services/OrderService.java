@@ -3,6 +3,7 @@ package com.kul.newbackend.services;
 import com.kul.newbackend.config.CustomException;
 import com.kul.newbackend.dto.OrderDto;
 import com.kul.newbackend.dto.OrderItemsDto;
+import com.kul.newbackend.dto.OrderSummaryDto;
 import com.kul.newbackend.entities.*;
 import com.kul.newbackend.mappers.ClientMapper;
 import com.kul.newbackend.mappers.OrderItemsMapper;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -89,6 +91,24 @@ public class OrderService {
         List<Order> orderEntities = orderRepository.findAll();
         return orderMapper.orderListToDtoList(orderEntities);
     }
+
+    public List<OrderSummaryDto> getAllOrderSummaries() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(this::convertToOrderSummaryDto).collect(Collectors.toList());
+    }
+
+    private OrderSummaryDto convertToOrderSummaryDto(Order order) {
+        String clientName = order.getClient().getClientName(); // Assuming 'getName()' method exists in Client entity
+        return new OrderSummaryDto(
+                order.getOrderId(),
+                clientName,
+                order.getOrderDate(),
+                order.getTotalAmount(),
+                order.getTotalPrice(),
+                order.getStatus()
+        );
+    }
+
 
     public OrderDto getOrderById(Long orderId) {
         Order order = orderRepository.findById(orderId)

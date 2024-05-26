@@ -2,6 +2,7 @@ package com.kul.newbackend.services;
 
 import com.kul.newbackend.dto.OrderDto;
 import com.kul.newbackend.dto.OrderItemsDto;
+import com.kul.newbackend.dto.ProductDto;
 import com.kul.newbackend.entities.Order;
 import com.kul.newbackend.entities.OrderItems;
 import com.kul.newbackend.mappers.OrderItemsMapper;
@@ -17,7 +18,6 @@ import java.util.NoSuchElementException;
 public class OrderItemsService {
     private final OrderItemsRepository orderItemsRepository;
     private final OrderItemsMapper orderItemsMapper;
-
     public OrderItemsDto addOrderItems(OrderItemsDto orderItemsDto) {
         OrderItems orderItems = orderItemsMapper.orderItemsDtoToEntity(orderItemsDto);
         OrderItems saveOrderItems = orderItemsRepository.save(orderItems);

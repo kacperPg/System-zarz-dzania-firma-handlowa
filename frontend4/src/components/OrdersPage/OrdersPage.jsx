@@ -4,7 +4,8 @@ import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
 
-const ORDERS = '/api/orders';
+const ORDERS_SUMMARIES = '/api/orders/summaries';
+const ORDERS = '/api/orders/summaries';
 
 function OrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -14,7 +15,7 @@ function OrdersPage() {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const res = await axios.get(ORDERS, {
+        const res = await axios.get(ORDERS_SUMMARIES, {
           headers: { 'Authorization': 'Bearer ' + token },
         });
         setOrders(res.data);
@@ -33,7 +34,7 @@ function OrdersPage() {
 
   const productColumns = [
     { header: 'ID zamówienia', accessorKey: 'orderId' },
-    { header: 'Klient', accessorKey: 'clientId' },
+    { header: 'Klient', accessorKey: 'clientName' },
     { header: 'Ilość Produktów', accessorKey: 'totalAmount' },
     { header: 'Order Date', accessorKey: 'orderDate' },
     { header: 'Status', accessorKey: 'status' }
@@ -44,7 +45,7 @@ function OrdersPage() {
       <div className="wrapper">
         <NavBarBoodstrap />
         <section id="idTabelaProduktow">
-          <BasicTableOrders data={orders} columns={productColumns} IdType="orderId" Navigate={true}/>
+          <BasicTableOrders data={orders} columns={productColumns} IdType="orderId" Navigate={true} displayButtons={true}/>
         </section>
       </div>
     </>

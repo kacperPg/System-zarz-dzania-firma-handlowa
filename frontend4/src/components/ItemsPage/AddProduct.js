@@ -89,7 +89,7 @@ const options = products.map(type => (
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Rodzaj Id</Form.Label>
+              <Form.Label>Rodzaj</Form.Label>
               <Form.Select       
               autoFocus
                  onChange={(e) => setTypeId(e.target.value)}

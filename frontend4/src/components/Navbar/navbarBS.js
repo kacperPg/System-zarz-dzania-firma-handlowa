@@ -41,7 +41,7 @@ export const NavBarBoodstrap=() =>{
                                     <NavDropdown.Item as={Link} to="/Types">
                                         Rodzaje
                                     </NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/home">
+                                    <NavDropdown.Item as={Link} to="/ClientPage">
                                         Klienci
                                     </NavDropdown.Item>
                                 </NavDropdown>
