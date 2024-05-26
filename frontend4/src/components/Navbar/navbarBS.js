@@ -42,7 +42,7 @@ export const NavBarBoodstrap=() =>{
                                         Rodzaje
                                     </NavDropdown.Item>
                                     <NavDropdown.Item as={Link} to="/home">
-                                        Producenci
+                                        Klienci
                                     </NavDropdown.Item>
                                 </NavDropdown>
                                 <NavDropdown title="Zarządzaj Magazynami">
