@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -21,7 +23,7 @@ public class Order {
     @Column(name = "order_id")
     private Long orderId;
 
-    @Column(name = "client_id")
+    @Column(name = "client_id", insertable=false, updatable=false)
     private Long clientId;
 
     @Column(name = "total_amount")
@@ -32,4 +34,17 @@ public class Order {
 
     @Column(name = "status")
     private String status;
+
+    @Column(name = "payment_date")
+    private Date paymentDate;
+
+    @Column(name = "total_price")
+    private Double totalPrice;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderItems> orderItems;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 }

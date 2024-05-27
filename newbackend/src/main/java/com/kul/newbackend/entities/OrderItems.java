@@ -1,10 +1,7 @@
 package com.kul.newbackend.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,4 +22,13 @@ public class OrderItems {
     private Double price;
     @Column(name = "product_id")
     private Long productId;
+    @Column(name = "warehouse_name")
+    private String warehouseName;
+
+    @Column(name = "warehouse_status_id")
+    private Long warehouseStatusId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id",insertable = false,updatable = false)
+    private Order order;
 }
