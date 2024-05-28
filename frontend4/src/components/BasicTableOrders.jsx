@@ -8,13 +8,11 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useNavigate } from 'react-router-dom';
-import axios from '../api/axios';
 import './ItemsPage.css';
 
-export default function BasicTableOrders({ data, columns, IdType,Navigate }) {
+export default function BasicTableOrders({ data, columns, IdType, Navigate, displayButtons, onDeleteRow, onEditRow, displayDelete }) {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState('');
-  let token = sessionStorage.getItem('token');
   const navigate = useNavigate();
 
   const table = useReactTable({
@@ -33,20 +31,24 @@ export default function BasicTableOrders({ data, columns, IdType,Navigate }) {
   });
 
   const handleRowClick = (rowId) => {
-    if(Navigate===true){
-    navigate(`/Order/${rowId}`);
+    if (Navigate === true && IdType === "orderId") {
+      navigate(`/Order/${rowId}`);
     }
   };
 
   return (
     <div className='w3-container'>
-      <label htmlFor="formSearch">Wyszukaj</label>
-      <input
-        id="formSearch"
-        type='text'
-        value={filtering}
-        onChange={e => setFiltering(e.target.value)}
-      />
+      {Navigate ? (
+        <>
+          <label htmlFor="formSearch">Wyszukaj</label>
+          <input
+            id="formSearch"
+            type='text'
+            value={filtering}
+            onChange={e => setFiltering(e.target.value)}
+          />
+        </>
+      ) : null}
       <table className='w3-table-all'>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
@@ -67,6 +69,7 @@ export default function BasicTableOrders({ data, columns, IdType,Navigate }) {
                   )}
                 </th>
               ))}
+              {displayDelete === 'true' && (<><th>Edit</th><th>Delete</th></>)}
             </tr>
           ))}
         </thead>
@@ -79,15 +82,39 @@ export default function BasicTableOrders({ data, columns, IdType,Navigate }) {
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
+              {displayDelete === 'true' && (
+                <>
+                  <td>
+                    <button onClick={(e) => {
+                      e.stopPropagation(); // Prevent triggering row click
+                      onEditRow(row.original);
+                    }}>
+                      Edit
+                    </button>
+                  </td>
+                  <td>
+                    <button onClick={(e) => {
+                      e.stopPropagation(); // Prevent triggering row click
+                      onDeleteRow(row.original[IdType]);
+                    }}>
+                      Delete
+                    </button>
+                  </td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>
       </table>
       <div>
-        <button id="buttonItem" onClick={() => table.setPageIndex(0)}>Pierwsza Strona</button>
-        <button id="buttonItem" disabled={!table.getCanPreviousPage()} onClick={() => table.previousPage()}>Poprzednia strona</button>
-        <button id="buttonItem" disabled={!table.getCanNextPage()} onClick={() => table.nextPage()}>Następna strona</button>
-        <button onClick={() => table.setPageIndex(table.getPageCount() - 1)} id="buttonItem">Ostatnia Strona</button>
+        {displayButtons ? (
+          <>
+            <button id="buttonItem" onClick={() => table.setPageIndex(0)}>Pierwsza Strona</button>
+            <button id="buttonItem" disabled={!table.getCanPreviousPage()} onClick={() => table.previousPage()}>Poprzednia strona</button>
+            <button id="buttonItem" disabled={!table.getCanNextPage()} onClick={() => table.nextPage()}>Następna strona</button>
+            <button onClick={() => table.setPageIndex(table.getPageCount() - 1)} id="buttonItem">Ostatnia Strona</button>
+          </>
+        ) : null}
       </div>
     </div>
   );

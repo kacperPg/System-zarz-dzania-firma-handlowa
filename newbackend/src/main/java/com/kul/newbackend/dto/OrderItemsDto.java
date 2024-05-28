@@ -15,4 +15,7 @@ public class OrderItemsDto {
     private int quantity;
     private Double price;
     private Long productId;
+    private String productName;
+    private String warehouseName;
+    private Long warehouseStatusId;
 }

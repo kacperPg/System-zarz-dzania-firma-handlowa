@@ -9,11 +9,13 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ClientMapper.class})
 public interface OrderMapper {
     @Mapping(target = "orderId", ignore = true)
+    @Mapping(source = "clientId",target = "client.clientId")
     Order orderDtoToEntity(OrderDto orderDto);
 
+    @Mapping(source = "clientId",target = "client.clientId")
     OrderDto orderEntityToDto(Order order);
     List<OrderDto> orderListToDtoList(List<Order> orderList);
 }
