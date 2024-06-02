@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import './ItemsPage.css';
 
 export default function BasicTableOrders({ data, columns, IdType, Navigate, displayButtons, onDeleteRow, onEditRow, displayDelete }) {
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState([{ id: IdType, desc: false }]);
   const [filtering, setFiltering] = useState('');
   const navigate = useNavigate();
 

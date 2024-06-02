@@ -28,7 +28,7 @@ export const NavBarBoodstrap=() =>{
                     <Nav className="ml-auto">
                         {auth?.accessToken ? (
                             <>
-                                <Nav.Link as={Link} to="/home" exact>
+                                <Nav.Link as={Link} to="/RaportPage" exact>
                                     Raporty
                                 </Nav.Link>
                                 <Nav.Link as={Link} to="/OrdersPage">

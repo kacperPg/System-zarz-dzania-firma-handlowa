@@ -13,15 +13,15 @@ import {
   import EditWarehousesStatus from './WarehouseStatePage/EditWarehousesStatus';
   import EditUser from './UserPage/EditUser';
   import EditClient from './ClientPage/EditClient';
-
+  
   export default function BasicTable({ data, columns, URL, IdType }) {
-      const [sorting, setSorting] = useState([]);
+      const [sorting, setSorting] = useState([{ id: IdType, desc: false }]);
       const [filtering, setFiltering] = useState('');
       const [editItemId, setEditItemId] = useState(null); 
       let token = sessionStorage.getItem('token');
-
+  
       const handleEdit = (Id) => {
-        setEditItemId(Id); // Set the ID of the product being edited
+        setEditItemId(Id); 
       }
   
       const handleDelete = (Id) => {
@@ -35,11 +35,11 @@ import {
               })
               .then(response => {
                   if (response.status === 204) {
-                      // Delete was successful, refresh the window
+    
                       console.log(Id, "deleted successfully");
                       window.location.reload();
                   } else {
-                      console.error("Failed to delete :", Id);
+                      console.error("Failed to delete:", Id);
                   }
               })
               .catch(error => {
@@ -122,3 +122,4 @@ import {
           </div>
       );
   }
+  

@@ -165,3 +165,10 @@ input{
 input {
   color: #0f0f10;
 }
+
+.pdf-viewer {
+  flex: 1;
+  width: 100%;
+  border: none;
+  height: 80vh;
+}
