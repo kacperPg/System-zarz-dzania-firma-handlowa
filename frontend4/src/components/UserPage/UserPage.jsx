@@ -37,6 +37,11 @@ function WarehousesStatusPage() {
   const productColumn2 = [
 
     {
+      header: 'ID',
+      accessorKey: 'id',
+      sortingFn: 'basic',
+    },
+    {
       header: 'Imię',
       accessorKey: 'name',
     },
