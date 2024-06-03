@@ -1,8 +1,10 @@
 package com.kul.newbackend.services;
 
 import com.kul.newbackend.dto.WarehouseStatusDto;
+import com.kul.newbackend.entities.Warehouse;
 import com.kul.newbackend.entities.WarehouseStatus;
 import com.kul.newbackend.mappers.WarehouseStatusMapper;
+import com.kul.newbackend.repositories.WarehouseRepository;
 import com.kul.newbackend.repositories.WarehouseStatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class WarehouseStatusService {
     private final WarehouseStatusRepository warehouseStatusRepository;
     private final WarehouseStatusMapper warehouseStatusMapper;
+    private final WarehouseRepository warehouseRepository;
 
     public WarehouseStatusDto addWarehouseStatus(WarehouseStatusDto warehouseStatusDto) {
         WarehouseStatus warehouseStatus = warehouseStatusMapper.warehouseStatusDtoToEntity(warehouseStatusDto);
@@ -59,7 +62,8 @@ public class WarehouseStatusService {
     }
 
     public List<WarehouseStatusDto> getWarehousesStatusByWarehouseName(String warehouseName) {
-        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByWarehouseName(warehouseName);
+        Warehouse warehouse = warehouseRepository.findByWarehouseName(warehouseName);
+        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByWarehouseId(warehouse.getWarehouseId());
         return warehouseStatusList.stream()
                 .map(warehouseStatusMapper::warehouseStatusEntityToDto)
                 .collect(Collectors.toList());

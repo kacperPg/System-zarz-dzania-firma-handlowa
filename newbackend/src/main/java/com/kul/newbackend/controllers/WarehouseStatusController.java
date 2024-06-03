@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/warehousesStatus")
 public class WarehouseStatusController {
+    private final WarehouseController warehouseController;
     private final WarehouseStatusService warehouseStatusService;
 
     @PostMapping
@@ -25,6 +26,8 @@ public class WarehouseStatusController {
     @GetMapping
     public ResponseEntity<List<WarehouseStatusDto>> getAllWarehouses() {
         List<WarehouseStatusDto> warehousesStatus = warehouseStatusService.getAllWarehousesStatus();
+        for (WarehouseStatusDto warehouseStatusDto : warehousesStatus) {
+        }
         return new ResponseEntity<>(warehousesStatus, HttpStatus.OK);
     }
 
