@@ -1,7 +1,6 @@
 package com.kul.newbackend.services;
 
 import com.kul.newbackend.dto.WarehouseStatusDto;
-import com.kul.newbackend.entities.Warehouse;
 import com.kul.newbackend.entities.WarehouseStatus;
 import com.kul.newbackend.mappers.WarehouseStatusMapper;
 import com.kul.newbackend.repositories.WarehouseRepository;
@@ -61,11 +60,11 @@ public class WarehouseStatusService {
                 .collect(Collectors.toList());
     }
 
-    public List<WarehouseStatusDto> getWarehousesStatusByWarehouseName(String warehouseName) {
-        Warehouse warehouse = warehouseRepository.findByWarehouseName(warehouseName);
-        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByWarehouseId(warehouse.getWarehouseId());
-        return warehouseStatusList.stream()
-                .map(warehouseStatusMapper::warehouseStatusEntityToDto)
-                .collect(Collectors.toList());
-    }
+//    public List<WarehouseStatusDto> getWarehousesStatusByWarehouseName(String warehouseName) {
+//        Warehouse warehouse = warehouseRepository.findByWarehouseName(warehouseName);
+//        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByWarehouseId(warehouse.getWarehouseId());
+//        return warehouseStatusList.stream()
+//                .map(warehouseStatusMapper::warehouseStatusEntityToDto)
+//                .collect(Collectors.toList());
+//    }
 }
