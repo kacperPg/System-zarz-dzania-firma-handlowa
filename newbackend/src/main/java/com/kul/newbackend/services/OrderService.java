@@ -98,7 +98,7 @@ public class OrderService {
     }
 
     private OrderSummaryDto convertToOrderSummaryDto(Order order) {
-        String clientName = order.getClient().getClientName(); // Assuming 'getName()' method exists in Client entity
+        String clientName = order.getClient().getClientName();
         return new OrderSummaryDto(
                 order.getOrderId(),
                 clientName,

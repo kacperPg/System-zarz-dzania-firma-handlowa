@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 
@@ -36,7 +35,7 @@ public class Order {
     private String status;
 
     @Column(name = "payment_date")
-    private Date paymentDate;
+    private LocalDate paymentDate;
 
     @Column(name = "total_price")
     private Double totalPrice;

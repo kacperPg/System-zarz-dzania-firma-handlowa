@@ -1,9 +1,6 @@
 package com.kul.newbackend.services;
 
-import com.kul.newbackend.dto.OrderDto;
 import com.kul.newbackend.dto.OrderItemsDto;
-import com.kul.newbackend.dto.ProductDto;
-import com.kul.newbackend.entities.Order;
 import com.kul.newbackend.entities.OrderItems;
 import com.kul.newbackend.mappers.OrderItemsMapper;
 import com.kul.newbackend.repositories.OrderItemsRepository;
