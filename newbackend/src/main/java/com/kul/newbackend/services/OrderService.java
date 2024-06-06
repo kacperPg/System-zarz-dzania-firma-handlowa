@@ -76,7 +76,6 @@ public class OrderService {
             orderItems.setPrice(itemTotalPrice);
             order.setTotalAmount(totalAmount);
             order.setTotalPrice(totalPrice);
-            orderItems.setWarehouseName(warehouseName);
             OrderItems savedOrderItems = orderItemsRepository.save(orderItems);
             savedOrderItemsDtos.add(orderItemsMapper.orderItemsEntityToDto(savedOrderItems));
         }

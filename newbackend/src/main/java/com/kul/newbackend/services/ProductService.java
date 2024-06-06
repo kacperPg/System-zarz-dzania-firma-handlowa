@@ -4,7 +4,6 @@ import com.kul.newbackend.dto.ProductDto;
 import com.kul.newbackend.entities.Product;
 import com.kul.newbackend.mappers.ProductMapper;
 import com.kul.newbackend.repositories.ProductRepository;
-import com.kul.newbackend.repositories.ProductTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,14 +40,14 @@ public class ProductService {
 
         existingProduct.setProductName(updatedProduct.getProductName());
         existingProduct.setPrice(updatedProduct.getPrice());
-        existingProduct.setTypeName(updatedProduct.getTypeName());
+        existingProduct.setTypeId(updatedProduct.getTypeId());
 
         Product savedProduct = productRepository.save(existingProduct);
         return productMapper.productEntityToDto(savedProduct);
     }
 
-    public List<ProductDto> getProductsByType(String typeName){
-        List<Product> products = productRepository.findByTypeName(typeName);
+    public List<ProductDto> getProductsByTypeId(Long typeId){
+        List<Product> products = productRepository.findByTypeId(typeId);
         return productMapper.productListToDtoList(products);
     }
 

@@ -3,16 +3,14 @@ package com.kul.newbackend.controllers;
 import com.kul.newbackend.dto.ProductDto;
 
 
-import com.kul.newbackend.entities.PriceRange;
 import com.kul.newbackend.services.ProductService;
+import com.kul.newbackend.services.ProductTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,6 +18,7 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductTypeService productTypeService;
 
     @PostMapping
     public ResponseEntity<ProductDto> addProduct(@RequestBody ProductDto productDto) {
@@ -30,6 +29,9 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<ProductDto>> getAllProducts() {
         List<ProductDto> products = productService.getAllProducts();
+        for (ProductDto productDto:products) {
+            productDto.setTypeName(productTypeService.getProductTypeById(productDto.getTypeId()).getTypeName());
+        }
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
@@ -60,9 +62,9 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/byType/{typeName}")
-    public ResponseEntity<List<ProductDto>> getProductsByType(@PathVariable String typeName){
-        List<ProductDto> products = productService.getProductsByType(typeName);
+    @GetMapping("/byType/{typeId}")
+    public ResponseEntity<List<ProductDto>> getProductsByType(@PathVariable Long typeId){
+        List<ProductDto> products = productService.getProductsByTypeId(typeId);
         return new ResponseEntity<>(products,HttpStatus.OK);
     }
 }

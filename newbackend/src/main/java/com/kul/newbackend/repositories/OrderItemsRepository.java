@@ -1,7 +1,6 @@
 package com.kul.newbackend.repositories;
 
 import com.kul.newbackend.entities.OrderItems;
-import com.kul.newbackend.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -22,6 +22,6 @@ public class Product {
     private String productName;
     @Column(name = "price")
     private double price;
-    @Column(name = "type_name")
-    private String typeName;
+    @Column(name = "type_id")
+    private Long typeId;
 }

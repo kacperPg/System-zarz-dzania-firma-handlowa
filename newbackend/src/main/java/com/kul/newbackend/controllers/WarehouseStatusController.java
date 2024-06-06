@@ -2,6 +2,7 @@ package com.kul.newbackend.controllers;
 
 
 import com.kul.newbackend.dto.WarehouseStatusDto;
+import com.kul.newbackend.services.ProductService;
 import com.kul.newbackend.services.WarehouseService;
 import com.kul.newbackend.services.WarehouseStatusService;
 import lombok.RequiredArgsConstructor;

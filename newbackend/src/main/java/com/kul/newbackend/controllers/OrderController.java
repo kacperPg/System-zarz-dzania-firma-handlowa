@@ -76,7 +76,7 @@ public class OrderController {
         order.setClient(client);
         order.setOrderItems(orderItemsDtoList);
         for (OrderItemsDto orderItem:orderItemsDtoList) {
-            ProductDto productDto=productService.getProductById(orderItem.getProductId());
+            ProductDto productDto =productService.getProductById(orderItem.getProductId());
             orderItem.setProductName(productDto.getProductName());
         }
         return new ResponseEntity<>(order, HttpStatus.OK);

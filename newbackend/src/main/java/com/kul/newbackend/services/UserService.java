@@ -1,9 +1,7 @@
 package com.kul.newbackend.services;
 
 import com.kul.newbackend.dto.*;
-import com.kul.newbackend.entities.Product;
 import com.kul.newbackend.entities.User;
-import com.kul.newbackend.entities.Warehouse;
 import com.kul.newbackend.exceptions.AppException;
 import com.kul.newbackend.mappers.UserMapper;
 import com.kul.newbackend.repositories.UserRepository;
