@@ -9,6 +9,7 @@ import com.kul.newbackend.dto.RoleDto;
 import com.kul.newbackend.dto.UserDto;
 import com.kul.newbackend.entities.Permission;
 import com.kul.newbackend.entities.Role;
+import com.kul.newbackend.services.RoleService;
 import com.kul.newbackend.services.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -57,11 +58,10 @@ public class UserAuthProvider {
                 .withExpiresAt(validity)
                 .sign(Algorithm.HMAC256(secretKey));
 
-        user.setToken(token); // Set the token in the UserDto object
+        user.setToken(token);
 
         return token;
     }
-
 
     public Authentication validateToken(String token) {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secretKey)).build();

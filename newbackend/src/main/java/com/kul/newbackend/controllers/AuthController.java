@@ -4,6 +4,7 @@ import com.kul.newbackend.config.UserAuthProvider;
 import com.kul.newbackend.dto.CredentialsDto;
 import com.kul.newbackend.dto.SignUpDto;
 import com.kul.newbackend.dto.UserDto;
+import com.kul.newbackend.services.RoleService;
 import com.kul.newbackend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,12 @@ public class AuthController {
 
     private final UserService userService;
     private final UserAuthProvider userAuthProvider;
+    private final RoleService roleService;
 
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody CredentialsDto credentialsDto){
         UserDto user = userService.login(credentialsDto);
+        user.setRole(roleService.getRoleById(user.getRoleId()));
         user.setToken(userAuthProvider.createToken(user));
         return ResponseEntity.ok(user);
     }

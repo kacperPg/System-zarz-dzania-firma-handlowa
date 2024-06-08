@@ -31,7 +31,6 @@ public class User {
     @Column(name = "password",nullable = false)
     private String password;
 
-    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
-    private Role role;
+    private Long roleId;
 }
