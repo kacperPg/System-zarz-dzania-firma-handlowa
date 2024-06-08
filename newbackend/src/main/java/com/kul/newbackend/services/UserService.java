@@ -1,11 +1,13 @@
 package com.kul.newbackend.services;
 
 import com.kul.newbackend.dto.*;
+import com.kul.newbackend.entities.Role;
 import com.kul.newbackend.entities.User;
 import com.kul.newbackend.exceptions.AppException;
 import com.kul.newbackend.mappers.UserMapper;
 import com.kul.newbackend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,10 +24,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     public UserDto findByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
+        Role role = roleService.findByEmail(email);
+        user.setRole(role);
         return userMapper.toUserDto(user);
     }
 
@@ -40,6 +45,8 @@ public class UserService {
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
 
         if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.getPassword()), user.getPassword())) {
+            Role role = roleService.findByEmail(user.getEmail());
+            user.setRole(role);
             return userMapper.toUserDto(user);
         }
 
@@ -80,6 +87,10 @@ public class UserService {
         }
         if (userDto.getEmail() != null) {
             existingUser.setEmail(userDto.getEmail());
+        }
+        if (userDto.getRole() != null){
+            Role role = roleService.findById(userDto.getRole().getRoleId());
+            existingUser.setRole(role);
         }
 
         User savedUser = userRepository.save(existingUser);

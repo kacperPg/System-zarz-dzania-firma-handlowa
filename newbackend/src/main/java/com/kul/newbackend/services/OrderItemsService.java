@@ -4,8 +4,6 @@ import com.kul.newbackend.dto.OrderItemsDto;
 import com.kul.newbackend.entities.OrderItems;
 import com.kul.newbackend.mappers.OrderItemsMapper;
 import com.kul.newbackend.repositories.OrderItemsRepository;
-import com.kul.newbackend.repositories.ProductRepository;
-import com.kul.newbackend.repositories.WarehouseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

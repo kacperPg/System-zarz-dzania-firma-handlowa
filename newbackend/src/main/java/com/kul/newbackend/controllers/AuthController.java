@@ -24,16 +24,14 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody CredentialsDto credentialsDto){
         UserDto user = userService.login(credentialsDto);
-
-        user.setToken(userAuthProvider.createToken(user.getEmail()));
-
+        user.setToken(userAuthProvider.createToken(user));
         return ResponseEntity.ok(user);
     }
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody SignUpDto signUpDto){
         UserDto user = userService.register(signUpDto);
-        user.setToken(userAuthProvider.createToken(user.getEmail()));
+        user.setToken(userAuthProvider.createToken(user));
 
         return ResponseEntity.created(URI.create("/users/" + user.getId()))
                 .body(user);

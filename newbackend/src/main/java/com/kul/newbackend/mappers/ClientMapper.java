@@ -1,9 +1,7 @@
 package com.kul.newbackend.mappers;
 
 import com.kul.newbackend.dto.ClientDto;
-import com.kul.newbackend.dto.OrderItemsDto;
 import com.kul.newbackend.entities.Client;
-import com.kul.newbackend.entities.OrderItems;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
