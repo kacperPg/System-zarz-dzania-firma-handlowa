@@ -8,10 +8,10 @@ const PRODUCT_LIST = '/api/products';
 const WAREHOUSE_LIST = '/api/warehouses';
 
 function EditWarehousesStatus({ Id, handleClose }) {
-  const [warehouseName, setwarehouseName] = useState('');
+  const [warehouseId, setwarehouseName] = useState('');
   const [availableQuantity, setavailableQuantity] = useState('');
   const [soldQuantity, setsoldQuantity] = useState('');
-  const [productName, setproductName] = useState('');
+  const [productId, setproductName] = useState('');
   let token = sessionStorage.getItem('token');
   const [products, setProducts] = useState([]);
   const [warehouse, setwarehouse] = useState([]);
@@ -23,10 +23,10 @@ function EditWarehousesStatus({ Id, handleClose }) {
           headers: { Authorization: 'Bearer ' + token }
         });
         const productData = res.data;
-        setwarehouseName(productData.warehouseName);
+        setwarehouseName(productData.warehouseId);
         setavailableQuantity(productData.availableQuantity);
         setsoldQuantity(productData.soldQuantity);
-        setproductName(productData.productName);
+        setproductName(productData.productId);
       } catch (err) {
         console.error('Error fetching product:', err);
         if (!err?.response) {
@@ -92,7 +92,7 @@ useEffect(() => {
   
     try {
         const response = await axios.put(`${WAREHOUSESTATUS_LIST}/${Id}`,
-            JSON.stringify({ warehouseName,availableQuantity,soldQuantity ,productName}),
+            JSON.stringify({  warehouseId,availableQuantity,soldQuantity , productId}),
             {
               headers: {  'Content-Type': 'application/json',
                'Authorization': 'Bearer ' +  token}
@@ -110,11 +110,11 @@ useEffect(() => {
     }
 }
 const produkctList = products.map(type => (
-  <option key={type.productName} value={type.productName}>{type.productName}</option>
+  <option key={type.productId} value={type.productId}>{type.productName}</option>
 ));
 
 const warehousetList = warehouse.map(type => (
-  <option key={type.warehouseName} value={type.warehouseName}>{type.warehouseName}</option>
+  <option key={type.warehouseId} value={type.warehouseId}>{type.warehouseName}</option>
 ));
 
   return (
@@ -129,7 +129,7 @@ const warehousetList = warehouse.map(type => (
               <Form.Select       
               autoFocus
                  onChange={(e) => setwarehouseName(e.target.value)}
-                 value={warehouseName}>
+                 value={warehouseId}>
                   <option value={''}>wybierz magazyn</option> {/* Default option */}
                 {warehousetList}
               </Form.Select>
@@ -159,7 +159,7 @@ const warehousetList = warehouse.map(type => (
               <Form.Select       
               autoFocus
                  onChange={(e) => setproductName(e.target.value)}
-                 value={productName}>
+                 value={productId}>
               <option value={''}>wybierz produkt</option> {/* Default option */}
                 {produkctList}
               </Form.Select>

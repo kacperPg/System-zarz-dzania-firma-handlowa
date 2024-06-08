@@ -12,10 +12,10 @@ function AddWarehousesStatus() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [warehouseName, setwarehouseId] = useState('');
+  const [warehouseId, setwarehouseId] = useState('');
   const [availableQuantity, setavailableQuantity] = useState('');
   const [soldQuantity, setsoldQuantity] = useState('');
-  const [productName, setproductId] = useState('');
+  const [productId, setproductId] = useState('');
   let token = sessionStorage.getItem('token');
   const navigate  = useNavigate();
   const [products, setProducts] = useState([]);
@@ -72,7 +72,7 @@ useEffect(() => {
   
     try {
         const response = await axios.post(WAREHOUSESTATUS_LIST,
-            JSON.stringify({ warehouseName,availableQuantity,soldQuantity ,productName}),
+            JSON.stringify({  warehouseId,availableQuantity,soldQuantity , productId}),
             {
               headers: {  'Content-Type': 'application/json',
                'Authorization': 'Bearer ' +  token}
@@ -90,11 +90,11 @@ useEffect(() => {
     }
 }
 const produkctList = products.map(type => (
-  <option key={type.productName} value={type.productName}>{type.productName}</option>
+  <option key={type.productId} value={type.productId}>{type.productName}</option>
 ));
 
 const warehousetList = warehouse.map(type => (
-  <option key={type.warehouseName} value={type.warehouseName}>{type.warehouseName}</option>
+  <option key={type.warehouseId} value={type.warehouseId}>{type.warehouseName}</option>
 ));
 
   return (
@@ -114,7 +114,7 @@ const warehousetList = warehouse.map(type => (
               <Form.Select       
               autoFocus
                  onChange={(e) => setwarehouseId(e.target.value)}
-                 value={warehouseName}>
+                 value={warehouseId}>
                   <option value={''}>wybierz magazyn</option> {/* Default option */}
                 {warehousetList}
               </Form.Select>
@@ -144,7 +144,7 @@ const warehousetList = warehouse.map(type => (
               <Form.Select       
               autoFocus
                  onChange={(e) => setproductId(e.target.value)}
-                 value={productName}>
+                 value={productId}>
               <option value={''}>wybierz produkt</option> {/* Default option */}
                 {produkctList}
               </Form.Select>

@@ -6,9 +6,10 @@ import '../ItemsPage.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const AddOrderPage = () => {
+function EditOrderPage() {
+  const { orderId } = useParams();
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [editItem, setEditItem] = useState(null);
@@ -35,16 +36,24 @@ const AddOrderPage = () => {
   const [warehouseId, setWarehouseId] = useState('');
   const [warehouses, setWarehouses] = useState([]);
 
+  const token = auth.accessToken; // Corrected token access
+
+  useEffect(() => {
+    if (orderId) {
+      fetchOrderDetails();
+    }
+  }, [orderId, token]);
+
   useEffect(() => {
     fetchClients();
     fetchProducts();
     fetchWarehouses();
-  }, []);
+  }, [token]);
 
   const fetchClients = async () => {
     try {
       const response = await axios.get('/api/clients', {
-        headers: { 'Authorization': `Bearer ${auth.accessToken}` },
+        headers: { 'Authorization': `Bearer ${token}` },
       });
       setClients(response.data);
     } catch (error) {
@@ -55,7 +64,7 @@ const AddOrderPage = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get('/api/products', {
-        headers: { 'Authorization': `Bearer ${auth.accessToken}` },
+        headers: { 'Authorization': `Bearer ${token}` },
       });
       setProducts(response.data);
     } catch (error) {
@@ -66,11 +75,28 @@ const AddOrderPage = () => {
   const fetchWarehouses = async () => {
     try {
       const response = await axios.get('/api/warehouses', {
-        headers: { 'Authorization': `Bearer ${auth.accessToken}` },
+        headers: { 'Authorization': `Bearer ${token}` },
       });
       setWarehouses(response.data);
     } catch (error) {
       console.error('Error fetching warehouses:', error);
+    }
+  };
+
+  const fetchOrderDetails = async () => {
+    try {
+      const response = await axios.get(`/api/orders/${orderId}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      const formattedOrder = {
+        ...response.data,
+        orderDate: response.data.orderDate.join('-'),
+        paymentDate: response.data.paymentDate.join('-')
+      };
+
+      setOrder(response.data);
+    } catch (error) {
+      console.error('Error fetching order details:', error);
     }
   };
 
@@ -90,7 +116,7 @@ const AddOrderPage = () => {
       }))
     };
     try {
-      const response = await axios.post('/api/orders', orderToSubmit, {
+      const response = await axios.put(`/api/orders/${orderId}`, orderToSubmit, {
         headers: { 'Authorization': `Bearer ${auth.accessToken}` },
       });
       console.log('Order added:', response.data);
@@ -188,22 +214,22 @@ const AddOrderPage = () => {
 
   return (
     <div className="wrapper">
-      <NavBarBoodstrap />
-      <section id="buttonAddProduct">
-        <form>
+    <NavBarBoodstrap />
+    <section id="buttonAddProduct">
+      <form>
+        <div>
+          <label className="label">Klient:</label>
+          <select name="clientId" value={order.clientId} onChange={handleInputChange}>
+            <option value="">Wybierz Klienta</option>
+            {clients.map((client) => (
+              <option key={client.clientId} value={client.clientId}>
+                {client.clientName}
+              </option>
+            ))}
+          </select>
+        </div>
           <div>
-            <label className="label">Klient:</label>
-            <select name="clientId" value={order.clientId} onChange={handleInputChange}>
-              <option value="">Wybierz Klienta</option>
-              {clients.map((client) => (
-                <option key={client.clientId} value={client.clientId}>
-                  {client.clientName}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="label">Data złożenia zamówienia:</label>
+            <label className="label">Data złożenia zamówienia: {order.orderDate} </label>
             <input
               type="date"
               name="orderDate"
@@ -223,7 +249,7 @@ const AddOrderPage = () => {
             </select>
           </div>
           <div>
-            <label className="label">Data zapłaty za zamówienie:</label>
+            <label className="label">Data zapłaty za zamówienie: {order.paymentDate}</label>
             <input
               type="date"
               name="paymentDate"
@@ -321,7 +347,7 @@ const AddOrderPage = () => {
             </section>
           </div>
           <button type="submit" onClick={handleSubmit} id="buttonItem">
-          Stwórz zamówienie
+            Zaktualizuj zamówienie
           </button>
         </form>
       </section>
@@ -377,4 +403,4 @@ const AddOrderPage = () => {
   );
 };
 
-export default AddOrderPage;
+export default EditOrderPage ;

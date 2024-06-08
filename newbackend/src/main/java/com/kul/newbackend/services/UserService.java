@@ -64,7 +64,7 @@ public class UserService {
         return userMapper.toUserDto(savedUser);
     }
 
-    public List<UserDto> findAll(){
+    public List<UserDto> findAll() {
         List<User> users = userRepository.findAll();
         return userMapper.usersToListDto(users);
     }

@@ -5,6 +5,7 @@ import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
 import { useAuth } from '../AuthProvider';
+import { useNavigate } from 'react-router-dom'; 
 
 const ORDERS = '/api/orders';
 
@@ -14,16 +15,48 @@ function OrderPage() {
   const [ordersItems, setOrdersItems] = useState([]);
   const [client, setClient] = useState([]);
   const { auth } = useAuth();
+  const navigate = useNavigate(); 
 
   let token = sessionStorage.getItem('token');
 
+  const handleEdditClick = (rowId) => {
+      navigate(`/EditOrder/${rowId}`);
+  };
+  const handleDelete = (Id) => {
+    const confirmDelete = window.confirm("Jesteś pewien że chcesz usunąć zamówienie ?");
+
+    if (confirmDelete) {
+        axios.delete(`${ORDERS}/${Id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (response.status === 204) {
+
+                console.log(Id, "deleted successfully");
+                navigate(`/OrdersPage`);
+            } else {
+                console.error("Failed to delete:", Id);
+            }
+        })
+        .catch(error => {
+            console.error("Error deleting:", error);
+        });
+    }
+}
   useEffect(() => {
     const getOrder = async () => {
       try {
         const res = await axios.get(`${ORDERS}/${id}`, {
           headers: { 'Authorization': `Bearer ${auth.accessToken}` },
         });
-        setOrder(res.data);
+        const formattedOrder = {
+          ...res.data,
+          orderDate: res.data.orderDate.join('-'),
+          paymentDate: res.data.paymentDate.join('-')
+        }; 
+        setOrder(formattedOrder);
         setOrdersItems(res.data.orderItems);
         setClient(res.data.client);
       } catch (err) {
@@ -87,6 +120,15 @@ function OrderPage() {
       </section>
         <BasicTableOrders data={ordersItems} columns={orderItemsColumns} Navigate={false} displayButtons={true}/>
       </section>
+      <section id="buttonAddProduct">
+        <button onClick={() => handleEdditClick(id)} id="buttonItem">
+            Edytuj zamówienia
+          </button>
+
+          <button onClick={() => handleDelete(id)} id="buttonItem">
+            Usuń zamówienia
+          </button>
+        </section>
     </div>
   );
 }

@@ -13,7 +13,8 @@ import {
   import EditWarehousesStatus from './WarehouseStatePage/EditWarehousesStatus';
   import EditUser from './UserPage/EditUser';
   import EditClient from './ClientPage/EditClient';
-  
+  import EditType from './TypePage/EditType';
+
   export default function BasicTable({ data, columns, URL, IdType }) {
       const [sorting, setSorting] = useState([{ id: IdType, desc: false }]);
       const [filtering, setFiltering] = useState('');
@@ -98,7 +99,7 @@ import {
                                   </td>
                               ))}
                               <td>
-                            {IdType !== 'typeId'  &&<button onClick={() => handleEdit(row.original[IdType])}>Edit</button>  }
+                                      <button onClick={() => handleEdit(row.original[IdType])}>Edit</button>  
                              </td>
                               <td>
                                   <button onClick={() => handleDelete(row.original[IdType])}>Delete</button>
@@ -119,6 +120,7 @@ import {
               {IdType === 'warehouseStatusId' && editItemId && <EditWarehousesStatus Id={editItemId} handleClose={() => setEditItemId(null)} />}
               {IdType === 'id' && editItemId && <EditUser Id={editItemId} handleClose={() => setEditItemId(null)} />}
               {IdType === 'clientId' && editItemId && <EditClient Id={editItemId} handleClose={() => setEditItemId(null)} />}
+              {IdType === 'typeId' && editItemId && <EditType Id={editItemId} handleClose={() => setEditItemId(null)} />}
           </div>
       );
   }

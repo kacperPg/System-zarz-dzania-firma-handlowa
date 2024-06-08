@@ -10,7 +10,7 @@ const TYPE_LIST = '/api/productTypes';
 function EditProduct({ Id, handleClose }) {
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
-  const [typeName, setTypeId] = useState('');
+  const [typeId, setTypeId] = useState('');
   const [types, setTypes] = useState([]);
   const token = sessionStorage.getItem('token');
 
@@ -23,7 +23,7 @@ function EditProduct({ Id, handleClose }) {
         const productData = res.data;
         setProductName(productData.productName);
         setPrice(productData.price);
-        setTypeId(productData.typeName);
+        setTypeId(productData.typeId);
       } catch (err) {
         console.error('Error fetching product:', err);
         if (!err?.response) {
@@ -44,7 +44,7 @@ function EditProduct({ Id, handleClose }) {
     try {
       const response = await axios.put(
         `${PRODUCT_LIST}/${Id}`,
-        JSON.stringify({ productName, price, typeName }),
+        JSON.stringify({ productName, price, typeId }),
         {
           headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token }
         }
@@ -85,7 +85,7 @@ function EditProduct({ Id, handleClose }) {
   }, [token]);
 
   const options = types.map((type) => (
-    <option key={type.typeName} value={type.typeName}>
+    <option key={type.typeId} value={type.typeId}>
       {type.typeName}
     </option>
   ));
@@ -109,7 +109,7 @@ function EditProduct({ Id, handleClose }) {
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Rodzaj Id</Form.Label>
-            <Form.Select autoFocus onChange={(e) => setTypeId(e.target.value)} value={typeName}>
+            <Form.Select autoFocus onChange={(e) => setTypeId(e.target.value)} value={typeId}>
               <option value={''}>Select Type</option> {/* Default option */}
               {options}
             </Form.Select>

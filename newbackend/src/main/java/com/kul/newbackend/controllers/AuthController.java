@@ -24,7 +24,7 @@ public class AuthController {
     private final RoleService roleService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserDto> login(@RequestBody CredentialsDto credentialsDto){
+    public ResponseEntity<UserDto> login(@RequestBody CredentialsDto credentialsDto) {
         UserDto user = userService.login(credentialsDto);
         user.setRole(roleService.getRoleById(user.getRoleId()));
         user.setToken(userAuthProvider.createToken(user));
@@ -32,7 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody SignUpDto signUpDto){
+    public ResponseEntity<UserDto> register(@RequestBody SignUpDto signUpDto) {
         UserDto user = userService.register(signUpDto);
         user.setToken(userAuthProvider.createToken(user));
 

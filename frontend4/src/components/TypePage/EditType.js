@@ -3,22 +3,24 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
-const WAREHOUSE_LIST = '/api/warehouses';
+import { Link,useNavigate   } from "react-router-dom";
+const TYPE_LIST = '/api/productTypes';
 
-function EditWareHouse({ Id, handleClose }) {
-  const [warehouseName, setwarehouseName] = useState('');
-  const [location, setlocation] = useState('');
+function EditType({ Id, handleClose }) {
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const [typeName, settypeName] = useState('');
   let token = sessionStorage.getItem('token');
+  const navigate  = useNavigate();
 
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const res = await axios.get(`${WAREHOUSE_LIST}/${Id}`, {
+        const res = await axios.get(`${TYPE_LIST}/${Id}`, {
           headers: { Authorization: 'Bearer ' + token }
         });
-        const WarehouseData = res.data;
-        setlocation(WarehouseData.location);
-        setwarehouseName(WarehouseData.warehouseName)
+        const productData = res.data;
+        settypeName(productData.typeName);
       } catch (err) {
         console.error('Error fetching product:', err);
         if (!err?.response) {
@@ -38,14 +40,15 @@ function EditWareHouse({ Id, handleClose }) {
     e.preventDefault();
 
     try {
-        const response = await axios.put(
-          `${WAREHOUSE_LIST}/${Id}`,
-            JSON.stringify({ warehouseName,location}),
+      const response = await axios.put(
+        `${TYPE_LIST}/${Id}`,
+        JSON.stringify({ typeName}),
             {
               headers: {  'Content-Type': 'application/json',
                'Authorization': 'Bearer ' +  token}
             }
         );
+        handleClose(); // Close the modal after successful submit
         window.location.reload();
     } catch (err) {
         if (!err?.response) {
@@ -58,30 +61,21 @@ function EditWareHouse({ Id, handleClose }) {
     }
 }
   return (
-        <Modal show={true} onHide={handleClose}>
+
+      <Modal show={true} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Magazyn</Modal.Title>
+          <Modal.Title>Dodaj Rodzaj</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" disabled={true} controlId="exampleForm.ControlInput1">
-              <Form.Label>Nazwa Magazynu</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Nazwa Magaznu"
-                autoFocus
-                onChange={(e) => setwarehouseName(e.target.value)}
-                value={warehouseName}
-              />
-            </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Lokalizacja</Form.Label>
+              <Form.Label>Nazwa Rodzaju</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Lokalizacja Magaznu"
+                placeholder="Kod Produktu"
                 autoFocus
-                onChange={(e) => setlocation(e.target.value)}
-                value={location}
+                onChange={(e) => settypeName(e.target.value)}
+                value={typeName}
               />
             </Form.Group>
           </Form>
@@ -91,11 +85,11 @@ function EditWareHouse({ Id, handleClose }) {
           Zamknij
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Edit Magazyn
+            Dodaj Rodzaj
           </Button>
         </Modal.Footer>
       </Modal>
   );
 }
 
-export default EditWareHouse;
+export default EditType;

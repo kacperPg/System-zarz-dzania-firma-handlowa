@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
 const USER_LIST = '/api/users';
+const ROLES_LIST = '/api/roles';
 const USER_REGEX = /^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ][A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9-_]{1,23}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const PWD_REGEX = /^(?=.*[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -22,9 +23,12 @@ function EditUser({ Id, handleClose }) {
   const [validEmail, setValidEmail] = useState(false);
 
 
+  const [roleId, setRole] = useState('');
+
   const [password, setPwd] = useState('');
   const [validPwd, setValidPwd] = useState(false);
 
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     setValidName(USER_REGEX.test(name));
@@ -49,6 +53,7 @@ useEffect(() => {
         const userData = res.data;
         setLastName(userData.lastName);
         setName(userData.name);
+        setRole(userData.roleId)
       } catch (err) {
         console.error('Error fetching product:', err);
         if (!err?.response) {
@@ -63,9 +68,31 @@ useEffect(() => {
     getProduct();
   }, [Id, token]);
 
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(ROLES_LIST, {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        const roles = res.data;
+        setRoles(roles);
+      } catch (err) {
+        console.error('Error fetching product:', err);
+        if (!err?.response) {
+          alert('No Server Response');
+        } else if (err.response?.status === 401) {
+          alert('Error');
+        } else {
+          alert('Failed');
+        }
+      }
+    };
+    getProduct();
+  }, [token]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userData = { name, lastName };
+    const userData = { name, lastName, roleId };
     if (password) {
       userData.password = password;
     }
@@ -88,6 +115,13 @@ useEffect(() => {
         }
     }
 }
+
+const options = roles.map((type) => (
+  <option key={type.roleId} value={type.roleId}>
+    {type.roleName}
+  </option>
+));
+
   return (
     <Modal show={true} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -119,6 +153,13 @@ useEffect(() => {
               />
               1-24 liter.
                    </Form.Group>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>Rola</Form.Label>
+            <Form.Select autoFocus onChange={(e) => setRole(e.target.value)} value={roleId}>
+              <option value={''}>Select Type</option> {/* Default option */}
+              {options}
+            </Form.Select>
+          </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Hasło </Form.Label>
               <Form.Control

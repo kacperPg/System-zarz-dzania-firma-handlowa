@@ -57,7 +57,7 @@ export const NavBarBoodstrap=() =>{
                                     <NavDropdown.Item as={Link} to="/UserPage">
                                         Użytkownicy
                                     </NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/home">
+                                    <NavDropdown.Item as={Link} to="/RolesPage">
                                         Profile
                                     </NavDropdown.Item>
                                 </NavDropdown>

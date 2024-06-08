@@ -33,6 +33,10 @@ function ClientPage() {
 
   const ClientColums = [
     {
+      header: 'Id',
+      accessorKey: 'clientId',
+    },
+    {
       header: 'Nazwa Klienta',
       accessorKey: 'clientName',
     },

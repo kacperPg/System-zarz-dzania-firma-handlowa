@@ -70,10 +70,15 @@ function ItemsPage() {
   };
 
   const options = productTypes.map(type => (
-    <option key={type.typeName} value={type.typeName}>{type.typeName}</option>
+    <option key={type.typeId} value={type.typeId}>{type.typeName}</option>
   ));
 
   const productColumns = [
+    {
+      header: 'Id',
+      accessorKey: 'productId',
+    },
+
     {
       header: 'Nazwa Produktu',
       accessorKey: 'productName',
