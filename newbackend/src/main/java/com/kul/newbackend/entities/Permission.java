@@ -6,22 +6,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-@Table(name = "products")
-
 @Entity
-public class Product {
+@Table(name = "permissions")
+public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    private Long productId;
-    @Column(name = "product_name",unique = true)
-    private String productName;
-    @Column(name = "price")
-    private double price;
-    @Column(name = "type_id")
-    private Long typeId;
+    @Column(name = "permission_id")
+    private Long permissionId;
+
+    @Column(name = "permission_name")
+    private String permissionName;
+
+    @Column(name = "description")
+    private String description;
 }

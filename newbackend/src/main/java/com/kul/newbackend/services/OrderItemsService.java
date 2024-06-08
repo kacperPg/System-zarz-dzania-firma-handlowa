@@ -15,6 +15,8 @@ import java.util.NoSuchElementException;
 public class OrderItemsService {
     private final OrderItemsRepository orderItemsRepository;
     private final OrderItemsMapper orderItemsMapper;
+    private final WarehouseService warehouseService;
+    private final ProductService productService;
     public OrderItemsDto addOrderItems(OrderItemsDto orderItemsDto) {
         OrderItems orderItems = orderItemsMapper.orderItemsDtoToEntity(orderItemsDto);
         OrderItems saveOrderItems = orderItemsRepository.save(orderItems);
@@ -23,7 +25,12 @@ public class OrderItemsService {
 
     public List<OrderItemsDto> getAllOrderItems() {
         List<OrderItems> orderItemsEntities = orderItemsRepository.findAll();
-        return orderItemsMapper.orderItemsListToDtoList(orderItemsEntities);
+        List<OrderItemsDto> orderItemsDtos = orderItemsMapper.orderItemsListToDtoList(orderItemsEntities);
+        for (OrderItemsDto orderItemsDto:orderItemsDtos) {
+            orderItemsDto.setProductName(productService.getProductById(orderItemsDto.getProductId()).getProductName());
+            orderItemsDto.setWarehouseName(warehouseService.getWarehouseById(orderItemsDto.getWarehouseId()).getWarehouseName());
+        }
+        return orderItemsDtos;
     }
 
     public OrderItemsDto getOrderItemById(Long orderItemId) {

@@ -1,9 +1,7 @@
 package com.kul.newbackend.services;
 
 import com.kul.newbackend.dto.*;
-import com.kul.newbackend.entities.Product;
 import com.kul.newbackend.entities.User;
-import com.kul.newbackend.entities.Warehouse;
 import com.kul.newbackend.exceptions.AppException;
 import com.kul.newbackend.mappers.UserMapper;
 import com.kul.newbackend.repositories.UserRepository;
@@ -24,6 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     public UserDto findByEmail(String email) {
         User user = userRepository.findByEmail(email)

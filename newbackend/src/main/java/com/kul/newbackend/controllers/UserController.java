@@ -1,6 +1,7 @@
 package com.kul.newbackend.controllers;
 
 import com.kul.newbackend.dto.UserDto;
+import com.kul.newbackend.entities.Role;
 import com.kul.newbackend.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

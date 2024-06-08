@@ -1,7 +1,6 @@
 package com.kul.newbackend.controllers;
 
 import com.kul.newbackend.dto.ClientDto;
-import com.kul.newbackend.dto.ProductTypeDto;
 import com.kul.newbackend.services.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

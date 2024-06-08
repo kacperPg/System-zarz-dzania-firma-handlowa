@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class WarehouseStatusDto {
     private Long warehouseStatusId;
-    private String warehouseName;
+    private Long warehouseId;
     private int availableQuantity;
     private int soldQuantity;
     private String productName;
-
+    private String warehouseName;
 }

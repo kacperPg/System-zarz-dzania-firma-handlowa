@@ -9,11 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class ProductDto {
-    private Long productId;
-    private String productName;
-    private double price;
-    private Long typeId;
-    private String typeName;
-
+public class PermissionDto {
+    private Long permissionId;
+    private String permissionName;
+    private String description;
 }

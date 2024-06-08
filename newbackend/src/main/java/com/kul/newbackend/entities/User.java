@@ -31,7 +31,6 @@ public class User {
     @Column(name = "password",nullable = false)
     private String password;
 
-//    @Column(name = "role_id")
-//    private int roleId;
-
+    @JoinColumn(name = "role_id")
+    private Long roleId;
 }

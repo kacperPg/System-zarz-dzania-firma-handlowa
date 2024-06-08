@@ -17,5 +17,5 @@ public class OrderItemsDto {
     private Long productId;
     private String productName;
     private String warehouseName;
-    private Long warehouseStatusId;
+    private Long warehouseId;
 }
