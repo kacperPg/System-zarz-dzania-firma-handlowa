@@ -72,6 +72,9 @@ public class WarehouseStatusController {
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        for (WarehouseStatusDto warehouseStatusDto : warehousesStatus) {
+            warehouseStatusDto.setWarehouseName(warehouseService.getWarehouseById(warehouseStatusDto.getWarehouseId()).getWarehouseName());
+        }
         return new ResponseEntity<>(warehousesStatus, HttpStatus.OK);
     }
 }

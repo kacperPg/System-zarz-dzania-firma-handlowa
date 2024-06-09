@@ -66,10 +66,11 @@ function WarehousesStatusPage() {
   };
 
   const productColumns = [
+    { header: 'Id', accessorKey: 'warehouseStatusId' },
     { header: 'Nazwa Magazynu', accessorKey: 'warehouseName' },
     { header: 'Dostępna ilość', accessorKey: 'availableQuantity' },
     { header: 'Sprzedana ilość', accessorKey: 'soldQuantity' },
-    { header: 'Produkt', accessorKey: 'productName' },
+    { header: 'Produkt', accessorKey: 'productId' },
   ];
 
   return (
