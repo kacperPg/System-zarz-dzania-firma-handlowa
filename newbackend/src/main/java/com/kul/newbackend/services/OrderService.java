@@ -122,41 +122,45 @@ public class OrderService {
     public OrderDto updateOrder(Long orderId, OrderDto updatedOrderDto) {
         Order existingOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NoSuchElementException("Order not found"));
-        Order updatedOrder = orderMapper.orderDtoToEntity(updatedOrderDto); // Convert DTO to entity
 
+        // Convert DTO to entity
+        Order updatedOrder = orderMapper.orderDtoToEntity(updatedOrderDto);
+
+        // Update order fields
         existingOrder.setClientId(updatedOrder.getClientId());
         existingOrder.setTotalAmount(updatedOrder.getTotalAmount());
         existingOrder.setOrderDate(updatedOrder.getOrderDate());
         existingOrder.setStatus(updatedOrder.getStatus());
-        List<OrderItems> orderItems = updatedOrder.getOrderItems();
-        for (OrderItems itemDto : orderItems) {
+        existingOrder.setPaymentDate(updatedOrder.getPaymentDate());
+
+        // Remove existing order items
+        List<OrderItems> existingOrderItems = existingOrder.getOrderItems();
+        for (OrderItems item : existingOrderItems) {
+            orderItemsRepository.deleteById(item.getOrderItemId());
+        }
+
+        // Add updated order items
+        double totalPrice = 0.0;
+        int totalAmount = 0;
+        List<OrderItems> newOrderItems = updatedOrder.getOrderItems();
+
+        for (OrderItems itemDto : newOrderItems) {
             itemDto.setOrderId(orderId);
+            Product product = productRepository.findById(itemDto.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+            double itemTotalPrice = product.getPrice() * itemDto.getQuantity();
+            itemDto.setPrice(itemTotalPrice);
+            totalPrice += itemTotalPrice;
+            totalAmount += itemDto.getQuantity();
+            orderItemsRepository.save(itemDto);  // Save new order item
         }
-        if (!updatedOrder.getOrderItems().isEmpty()) {
-            double totalPrice = 0.0;
-            int totalAmount = 0;
 
-            List<OrderItems> newOrderItems = updatedOrder.getOrderItems();
+        // Update order total price and total amount
+        existingOrder.setTotalPrice(totalPrice);
+        existingOrder.setTotalAmount(totalAmount);
+        existingOrder.setOrderItems(newOrderItems);
 
-            for (OrderItems itemDto : newOrderItems) {
-                itemDto.setOrderId(orderId);
-                Product product = productRepository.findById(itemDto.getProductId())
-                        .orElseThrow(() -> new RuntimeException("Product not found"));
-                double itemTotalPrice = product.getPrice() * itemDto.getQuantity();
-                itemDto.setPrice(itemTotalPrice);
-                totalPrice += itemTotalPrice;
-                totalAmount += itemDto.getQuantity();
-            }
-
-            for (OrderItems item : existingOrder.getOrderItems()) {
-                    orderItemsRepository.deleteById(item.getOrderItemId());
-            }
-
-
-            existingOrder.setTotalPrice(totalPrice);
-            existingOrder.setTotalAmount(totalAmount);
-            existingOrder.setOrderItems(newOrderItems);
-        }
+        // Save the updated order
         Order savedOrder = orderRepository.save(existingOrder);
         return orderMapper.orderEntityToDto(savedOrder);
     }
