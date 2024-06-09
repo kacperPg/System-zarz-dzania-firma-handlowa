@@ -1,9 +1,11 @@
 package com.kul.newbackend.services;
 
 import com.kul.newbackend.dto.*;
+import com.kul.newbackend.entities.Role;
 import com.kul.newbackend.entities.User;
 import com.kul.newbackend.exceptions.AppException;
 import com.kul.newbackend.mappers.UserMapper;
+import com.kul.newbackend.repositories.RoleRepository;
 import com.kul.newbackend.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final RoleRepository roleRepository;
 
     public UserDto findByEmail(String email) {
         User user = userRepository.findByEmail(email)
@@ -81,6 +84,11 @@ public class UserService {
         }
         if (userDto.getEmail() != null) {
             existingUser.setEmail(userDto.getEmail());
+        }
+        if(userDto.getRoleId()!= null){
+            Role newRole = roleRepository.findById(userDto.getRoleId())
+                    .orElseThrow(()-> new NoSuchElementException("Role not found"));
+            existingUser.setRoleId(newRole.getRoleId());
         }
 
         User savedUser = userRepository.save(existingUser);

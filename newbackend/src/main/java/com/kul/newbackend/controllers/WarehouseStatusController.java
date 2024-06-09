@@ -57,18 +57,21 @@ public class WarehouseStatusController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-//    @GetMapping("/search")
-//    public ResponseEntity<List<WarehouseStatusDto>> getByProductNameOrWarehouseName(
-//            @RequestParam(required = false) String productName,
-//            @RequestParam(required = false) String warehouseName){
-//        if (productName != null && !productName.isEmpty()) {
-//            List<WarehouseStatusDto> warehousesStatus = warehouseStatusService.getWarehousesStatusByProductName(productName);
-//            return new ResponseEntity<>(warehousesStatus, HttpStatus.OK);
-//        } else if (warehouseName != null && !warehouseName.isEmpty()) {
-//            List<WarehouseStatusDto> warehousesStatus = warehouseStatusService.getWarehousesStatusByWarehouseName(warehouseName);
-//            return new ResponseEntity<>(warehousesStatus, HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @GetMapping("/search")
+    public ResponseEntity<List<WarehouseStatusDto>> getByProductNameOrWarehouseName(
+            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) String warehouseName) {
+        List<WarehouseStatusDto> warehousesStatus;
+
+        if (productName != null && !productName.isEmpty() && warehouseName != null && !warehouseName.isEmpty()) {
+            warehousesStatus = warehouseStatusService.getWarehousesStatusByProductNameAndWarehouseName(productName, warehouseName);
+        } else if (productName != null && !productName.isEmpty()) {
+            warehousesStatus = warehouseStatusService.getWarehousesStatusByProductName(productName);
+        } else if (warehouseName != null && !warehouseName.isEmpty()) {
+            warehousesStatus = warehouseStatusService.getWarehousesStatusByWarehouseName(warehouseName);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(warehousesStatus, HttpStatus.OK);
+    }
 }

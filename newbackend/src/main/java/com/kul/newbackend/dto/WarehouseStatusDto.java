@@ -14,6 +14,7 @@ public class WarehouseStatusDto {
     private Long warehouseId;
     private int availableQuantity;
     private int soldQuantity;
+    private Long productId;
     private String productName;
     private String warehouseName;
 }

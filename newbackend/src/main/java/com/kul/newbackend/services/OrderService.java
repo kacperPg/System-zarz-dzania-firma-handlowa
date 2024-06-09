@@ -49,9 +49,12 @@ public class OrderService {
         for (OrderItemsDto itemDto : orderItemsDtos) {
             Product product = productRepository.findById(itemDto.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found"));
-            String warehouseName = itemDto.getWarehouseName();
-            WarehouseStatus warehouseStatus = warehouseStatusRepository.findFirstByProductName(product.getProductName());
+            Long warehouseId = itemDto.getWarehouseId();
+            WarehouseStatus warehouseStatus = warehouseStatusRepository.findFirstByProductIdAndWarehouseId(product.getProductId(), warehouseId);
 
+            if (warehouseStatus == null) {
+                throw new CustomException("Warehouse status not found for the given product and warehouse");
+            }
             int orderQuantity = itemDto.getQuantity();
             int availableQuantity = warehouseStatus.getAvailableQuantity();
 
@@ -72,6 +75,7 @@ public class OrderService {
 
             OrderItems orderItems = orderItemsMapper.orderItemsDtoToEntity(itemDto);
             orderItems.setOrderId(savedOrder.getOrderId());
+            orderItems.setWarehouseId(warehouseStatus.getWarehouseId());
 
             orderItems.setPrice(itemTotalPrice);
             order.setTotalAmount(totalAmount);
