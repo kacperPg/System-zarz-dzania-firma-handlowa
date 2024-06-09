@@ -1,8 +1,11 @@
 package com.kul.newbackend.services;
 
 import com.kul.newbackend.dto.WarehouseStatusDto;
+import com.kul.newbackend.entities.Product;
+import com.kul.newbackend.entities.Warehouse;
 import com.kul.newbackend.entities.WarehouseStatus;
 import com.kul.newbackend.mappers.WarehouseStatusMapper;
+import com.kul.newbackend.repositories.ProductRepository;
 import com.kul.newbackend.repositories.WarehouseRepository;
 import com.kul.newbackend.repositories.WarehouseStatusRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ public class WarehouseStatusService {
     private final WarehouseStatusRepository warehouseStatusRepository;
     private final WarehouseStatusMapper warehouseStatusMapper;
     private final WarehouseRepository warehouseRepository;
+    private final ProductRepository productRepository;
 
     public WarehouseStatusDto addWarehouseStatus(WarehouseStatusDto warehouseStatusDto) {
         WarehouseStatus warehouseStatus = warehouseStatusMapper.warehouseStatusDtoToEntity(warehouseStatusDto);
@@ -54,17 +58,27 @@ public class WarehouseStatusService {
     }
 
     public List<WarehouseStatusDto> getWarehousesStatusByProductName(String productName) {
-        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByProductName(productName);
+        Product product = productRepository.findByProductName(productName);
+        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByProductId(product.getProductId());
         return warehouseStatusList.stream()
                 .map(warehouseStatusMapper::warehouseStatusEntityToDto)
                 .collect(Collectors.toList());
     }
 
-//    public List<WarehouseStatusDto> getWarehousesStatusByWarehouseName(String warehouseName) {
-//        Warehouse warehouse = warehouseRepository.findByWarehouseName(warehouseName);
-//        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByWarehouseId(warehouse.getWarehouseId());
-//        return warehouseStatusList.stream()
-//                .map(warehouseStatusMapper::warehouseStatusEntityToDto)
-//                .collect(Collectors.toList());
-//    }
+    public List<WarehouseStatusDto> getWarehousesStatusByWarehouseName(String warehouseName) {
+        Warehouse warehouse = warehouseRepository.findByWarehouseName(warehouseName);
+        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByWarehouseId(warehouse.getWarehouseId());
+        return warehouseStatusList.stream()
+                .map(warehouseStatusMapper::warehouseStatusEntityToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<WarehouseStatusDto> getWarehousesStatusByProductNameAndWarehouseName(String productName, String warehouseName) {
+        Product product = productRepository.findByProductName(productName);
+        Warehouse warehouse = warehouseRepository.findByWarehouseName(warehouseName);
+        List<WarehouseStatus> warehouseStatusList = warehouseStatusRepository.findByProductIdAndWarehouseId(product.getProductId(), warehouse.getWarehouseId());
+        return warehouseStatusList.stream()
+                .map(warehouseStatusMapper::warehouseStatusEntityToDto)
+                .collect(Collectors.toList());
+    }
 }
