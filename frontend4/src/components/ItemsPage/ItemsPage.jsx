@@ -4,6 +4,7 @@ import BasicTable from '../BasicTable';
 import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
+import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
 
 const PRODUCT_LIST = '/api/products';
 const TYPE_LIST = '/api/productTypes';
@@ -70,10 +71,15 @@ function ItemsPage() {
   };
 
   const options = productTypes.map(type => (
-    <option key={type.typeName} value={type.typeName}>{type.typeName}</option>
+    <option key={type.typeId} value={type.typeId}>{type.typeName}</option>
   ));
 
   const productColumns = [
+    {
+      header: 'Id',
+      accessorKey: 'productId',
+    },
+
     {
       header: 'Nazwa Produktu',
       accessorKey: 'productName',
@@ -93,7 +99,9 @@ function ItemsPage() {
       <div className="wrapper">
         <NavBarBoodstrap />
         <section id="buttonAddProduct">
+        <PrivateRoute requiredPermissions={['PERM_ADD_ITEMS']}>
           <AddProduct />
+        </PrivateRoute>
           <label id="productLabel">Filter by Type: </label>
           <select id="productType" value={selectedType} onChange={handleTypeChange}>
             <option value="">All</option>
@@ -101,7 +109,7 @@ function ItemsPage() {
           </select>
         </section>
         <section id="idTabelaProduktow">
-          <BasicTable data={products} columns={productColumns} URL={PRODUCT_LIST} IdType="productId" />
+          <BasicTable data={products} columns={productColumns} URL={PRODUCT_LIST} IdType="productId" canDelete="PERM_DELETE_PRODUCTS" />
         </section>
       </div>
     </>

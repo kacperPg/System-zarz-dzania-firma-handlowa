@@ -74,10 +74,10 @@ public class RaportPdfGenerator {
         p1.add(new Paragraph(reportFileName, COURIER));
         p1.setAlignment(Element.ALIGN_CENTER);
         leaveEmptyLine(p1, 1);
-        if(dates==null){
+        if (dates == null) {
             p1.add(new Paragraph("Report wygenerowany: " + localDateString, COURIER_SMALL));
 
-        }else{
+        } else {
             p1.add(new Paragraph("Report wygenerowany: " + localDateString + "\nDla zakresu dat od " + dates.getBeforeDate().toString() + " do " + dates.getAfterDate().toString(), COURIER_SMALL));
 
         }
@@ -93,7 +93,7 @@ public class RaportPdfGenerator {
 
         PdfPTable table = new PdfPTable(noOfColumns);
 
-        for(int i=0; i<noOfColumns; i++) {
+        for (int i = 0; i < noOfColumns; i++) {
             PdfPCell cell = new PdfPCell(new Phrase(columnNames.get(i)));
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             cell.setBackgroundColor(BaseColor.CYAN);
@@ -132,12 +132,12 @@ public class RaportPdfGenerator {
                     .orElse("Unknown Client");
 
             List<OrderDto> clientOrders;
-            if(dates == null){
+            if (dates == null) {
                 clientOrders = orders.stream()
                         .filter(order -> Objects.equals(order.getClient().getClientId(), client))
                         .filter(s -> "SHIPPED".equals(s.getStatus()) || "DELIVERED".equals(s.getStatus()))
                         .collect(Collectors.toList());
-            }else{
+            } else {
                 clientOrders = orders.stream()
                         .filter(order -> Objects.equals(order.getClient().getClientId(), client))
                         .filter(s -> "SHIPPED".equals(s.getStatus()) || "DELIVERED".equals(s.getStatus()))
@@ -145,8 +145,6 @@ public class RaportPdfGenerator {
                         .filter(s -> s.getOrderDate().isAfter(dates.getAfterDate()))
                         .collect(Collectors.toList());
             }
-
-
 
 
             int totalAmountOfProducts = clientOrders.stream()
@@ -174,7 +172,7 @@ public class RaportPdfGenerator {
         leaveEmptyLine(p2, 3);
         p2.setAlignment(Element.ALIGN_MIDDLE);
         p2.add(new Paragraph(
-                "----------------------------" +reportFileName+"------------------------",
+                "----------------------------" + reportFileName + "------------------------",
                 COURIER_SMALL_FOOTER));
 
         document.add(p2);

@@ -1,15 +1,13 @@
-import { useRef, useState, useEffect, useContext } from 'react';
-import { Link,useNavigate   } from "react-router-dom";
-import './Form.css';
+import { useRef, useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import useAuth from './useAuth';
-
+import './Form.css';
 
 const LOGIN_URL = '/login';
 
 const Login = () => {
     const { setAuth } = useAuth();
-
     const userRef = useRef();
     const errRef = useRef();
 
@@ -17,16 +15,15 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
-    const [isLoggedin, setIsLoggedin] = useState(false);
-    const navigate  = useNavigate();
+    const navigate = useNavigate();
 
     useEffect(() => {
         userRef.current.focus();
-    }, [])
+    }, []);
 
     useEffect(() => {
         setErrMsg('');
-    }, [email, password])
+    }, [email, password]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,12 +36,10 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            console.log(JSON.stringify(response?.data));
             const accessToken = response?.data?.token;
+            const roles = response?.data?.role?.permissions || [];
+            setAuth({ email, roles, accessToken, isLoggedin: true });
             sessionStorage.setItem('token', accessToken);
-            const roles = response?.data?.roles;
-            setIsLoggedin(true);
-            setAuth({ email, password, roles, accessToken,isLoggedin });            
             setEmail('');
             setPassword('');
             setSuccess(true);
@@ -63,44 +58,43 @@ const Login = () => {
         }
     }
 
-
     return (
-        <div class="container">
-            <section id="filler"/>
-        <section id="idForm">
-            <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-            <h1>Zaloguj się</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email:</label>
-                <input
-                    type="text"
-                    id="email"
-                    ref={userRef}
-                    autoComplete="off"
-                    onChange={(e) => setEmail(e.target.value)}
-                    value={email}
-                    required
-                />
+        <div className="container">
+            <section id="filler" />
+            <section id="idForm">
+                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                <h1>Zaloguj się</h1>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="text"
+                        id="email"
+                        ref={userRef}
+                        autoComplete="off"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                        required
+                    />
 
-                <label htmlFor="password">Hasło:</label>
-                <input
-                    type="password"
-                    id="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                    required
-                />
-                <button class="buttonSubmit">Zaloguj się</button>
-            </form>
-            <p>
-               Nie masz konta?<br />
-                <span className="line">
-                    <Link to="/register">Zarejestruj się</Link>
-                </span>
-            </p>
-        </section>
+                    <label htmlFor="password">Hasło:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        required
+                    />
+                    <button className="buttonSubmit">Zaloguj się</button>
+                </form>
+                <p>
+                    Nie masz konta?<br />
+                    <span className="line">
+                        <Link to="/register">Zarejestruj się</Link>
+                    </span>
+                </p>
+            </section>
         </div>
-    )
+    );
 }
 
-export default Login
+export default Login;

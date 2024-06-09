@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -6,49 +6,70 @@ import axios from '../../api/axios';
 
 const CLIENT_LIST = '/api/clients';
 
-function AddClient() {
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [show, setShow] = useState(false);
+
+function EditClient({ Id, handleClose }) {
   const [clientName, setClientName] = useState('');
   const [nipNumber, setNIP] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
   const [clientEmail, setClientEmail] = useState('');
+  const token = sessionStorage.getItem('token');
 
-  let token = sessionStorage.getItem('token');
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(`${CLIENT_LIST}/${Id}`, {
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        const productData = res.data;
+        setClientName(productData.clientName);
+        setNIP(productData.nipNumber);
+        setPhoneNumber(productData.phoneNumber);
+        setAddress(productData.address);
+        setClientEmail(productData.clientEmail);
+      } catch (err) {
+        console.error('Error fetching product:', err);
+        if (!err?.response) {
+          alert('No Server Response');
+        } else if (err.response?.status === 401) {
+          alert('Error');
+        } else {
+          alert('Failed');
+        }
+      }
+    };
+    getProduct();
+  }, [Id, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await axios.post(CLIENT_LIST,
-            JSON.stringify({ clientName: clientName, nipNumber: nipNumber,phoneNumber, address, clientEmail}),
-            {
-              headers: {  'Content-Type': 'application/json',
-               'Authorization': 'Bearer ' +  token}
-            }
-        );
-        window.location.reload();
-    } catch (err) {
-        if (!err?.response) {
-          alert('No Server Response');
-        }  else if (err.response?.status === 401) {
-          alert('Unauthorized');
-        } else {
-             alert('Failed');
+      const response = await axios.put(
+        `${CLIENT_LIST}/${Id}`,
+        JSON.stringify({ clientName: clientName, nipNumber: nipNumber,phoneNumber, address, clientEmail}),
+        {
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token }
         }
+      );
+      handleClose(); // Close the modal after successful submit
+      navigate('/UserPage');
+    } catch (err) {
+      console.error('Error editing product:', err);
+      if (!err?.response) {
+        alert('No Server Response');
+      } else if (err.response?.status === 401) {
+        alert('Unauthorized');
+      } else {
+        alert('Failed');
+      }
     }
-}
+  };
+
 
   return (
-    <>
-       <button onClick={handleShow} id="buttonItem">
-           Dodaj Klienta
-          </button>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+    <Modal show={true} onHide={handleClose}>
+     <Modal.Header closeButton>
           <Modal.Title>Dodaj Klienta</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -76,7 +97,7 @@ function AddClient() {
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Numer Telefonu</Form.Label>
               <Form.Control
-                 type="number"
+                  type="text"
                  placeholder=""
                  autoFocus
                  onChange={(e) => setPhoneNumber(e.target.value)}
@@ -115,8 +136,7 @@ function AddClient() {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
   );
 }
 
-export default AddClient;
+export default EditClient;

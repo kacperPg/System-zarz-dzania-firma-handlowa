@@ -60,7 +60,7 @@ function WarehousesStatusPage() {
     <div class="wrapper">
          <NavBarBoodstrap />    
          <section id="idTabelaProduktow">
-            <BasicTable data={Users} columns={productColumn2} URL={USER_LIST} IdType={'id'} />
+            <BasicTable data={Users} columns={productColumn2} URL={USER_LIST} IdType={'id'} canDelete="PERM_DELETE_USERS"/>
             </section>
         </div>
     </>

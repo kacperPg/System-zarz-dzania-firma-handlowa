@@ -3,14 +3,18 @@ import BasicTableOrders from '../BasicTableOrders';
 import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
 
 const ORDERS_SUMMARIES = '/api/orders/summaries';
-const ORDERS = '/api/orders';
+const CLIENTS_API = '/api/clients';
 
 function OrdersPage() {
   const [orders, setOrders] = useState([]);
-  const navigate = useNavigate(); 
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [clients, setClients] = useState([]);
+  const [selectedClient, setSelectedClient] = useState('');
+  const navigate = useNavigate();
 
   let token = sessionStorage.getItem('token');
 
@@ -21,6 +25,7 @@ function OrdersPage() {
           headers: { 'Authorization': 'Bearer ' + token },
         });
         setOrders(res.data);
+        setFilteredOrders(res.data);
       } catch (err) {
         if (!err?.response) {
           alert('No Server Response');
@@ -30,12 +35,42 @@ function OrdersPage() {
           alert('Failed');
         }
       }
-    };    
+    };
+
+    const getClients = async () => {
+      try {
+        const res = await axios.get(CLIENTS_API, {
+          headers: { 'Authorization': 'Bearer ' + token },
+        });
+        setClients(res.data);
+      } catch (err) {
+        if (!err?.response) {
+          alert('No Server Response');
+        } else if (err.response?.status === 401) {
+          alert('Error');
+        } else {
+          alert('Failed');
+        }
+      }
+    };
+
     getOrders();
+    getClients();
   }, [token]);
 
   const handleAddOrderClick = () => {
-    navigate('/AddOrder');  // Navigate to the Add Order page
+    navigate('/AddOrder'); 
+  };
+
+  const handleClientChange = (e) => {
+    setSelectedClient(e.target.value);
+  };
+
+  const handleFilterClick = () => {
+    const filtered = orders.filter(order =>
+      order.clientName.toLowerCase().includes(selectedClient.toLowerCase())
+    );
+    setFilteredOrders(filtered);
   };
 
   const productColumns = [
@@ -46,18 +81,31 @@ function OrdersPage() {
     { header: 'Status', accessorKey: 'status' }
   ];
 
-  
   return (
     <>
       <div className="wrapper">
         <NavBarBoodstrap />
         <section id="buttonAddProduct">
-        <button onClick={handleAddOrderClick} id="buttonItem">
+        <PrivateRoute requiredPermissions={['PERM_ADD_ORDER']}>
+          <button onClick={handleAddOrderClick} id="buttonItem">
             Dodaj nowe zamówienie
+          </button> 
+          </PrivateRoute>
+          <select value={selectedClient} onChange={handleClientChange}>
+            <option value="">Wybierz klienta</option>
+            {clients.map(client => (
+              <option key={client.clientName} value={client.clientName}>
+                {client.clientName}
+              </option>
+            ))}
+          </select>
+          <button onClick={handleFilterClick} id="buttonItem">
+            Filter
           </button>
         </section>
+      
         <section id="idTabelaProduktow">
-          <BasicTableOrders data={orders} columns={productColumns} IdType="orderId" Navigate={true} displayButtons={true}/>
+          <BasicTableOrders data={filteredOrders} columns={productColumns} IdType="orderId" Navigate={true} displayButtons={true} />
         </section>
       </div>
     </>

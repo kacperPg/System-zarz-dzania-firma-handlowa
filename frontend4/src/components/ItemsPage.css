@@ -172,3 +172,47 @@ input {
   border: none;
   height: 80vh;
 }
+
+.roleCard {
+  background-color: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.roleCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.roleCard h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #343a40;
+  text-align: center;
+}
+
+.roleCard ul {
+  list-style: none;
+  padding: 0;
+}
+
+.roleCard ul li {
+  background-color: #e9ecef;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.roleCard ul li:last-child {
+  margin-bottom: 0;
+}
+
+.roleCard p {
+  color: #6c757d;
+  text-align: center;
+}

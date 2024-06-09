@@ -6,9 +6,10 @@ import '../ItemsPage.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const AddOrderPage = () => {
+function EditOrderPage() {
+  const { orderId } = useParams();
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
   const [editItem, setEditItem] = useState(null);
@@ -33,20 +34,29 @@ const AddOrderPage = () => {
   const [productId, setProductId] = useState('');
   const [quantity, setQuantity] = useState('');
   const [warehouseId, setWarehouseId] = useState('');
+  const [orderItemId, setOrderItemId] = useState('');
+  const [warehouses, setWarehouses] = useState([]);
   const [productName, setProductName] = useState('');
   const [warehouseName, setWarehouseName] = useState('');
-  const [warehouses, setWarehouses] = useState([]);
+
+  const token = auth.accessToken; // Corrected token access
+
+  useEffect(() => {
+    if (orderId) {
+      fetchOrderDetails();
+    }
+  }, [orderId, token]);
 
   useEffect(() => {
     fetchClients();
     fetchProducts();
     fetchWarehouses();
-  }, []);
+  }, [token]);
 
   const fetchClients = async () => {
     try {
       const response = await axios.get('/api/clients', {
-        headers: { 'Authorization': `Bearer ${auth.accessToken}` },
+        headers: { 'Authorization': `Bearer ${token}` },
       });
       setClients(response.data);
     } catch (error) {
@@ -57,7 +67,7 @@ const AddOrderPage = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get('/api/products', {
-        headers: { 'Authorization': `Bearer ${auth.accessToken}` },
+        headers: { 'Authorization': `Bearer ${token}` },
       });
       setProducts(response.data);
     } catch (error) {
@@ -68,11 +78,28 @@ const AddOrderPage = () => {
   const fetchWarehouses = async () => {
     try {
       const response = await axios.get('/api/warehouses', {
-        headers: { 'Authorization': `Bearer ${auth.accessToken}` },
+        headers: { 'Authorization': `Bearer ${token}` },
       });
       setWarehouses(response.data);
     } catch (error) {
       console.error('Error fetching warehouses:', error);
+    }
+  };
+
+  const fetchOrderDetails = async () => {
+    try {
+      const response = await axios.get(`/api/orders/${orderId}`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      const formattedOrder = {
+        ...response.data,
+        orderDate: new Date(response.data.orderDate.join('-')).toISOString().split('T')[0],
+        paymentDate: new Date(response.data.paymentDate.join('-')).toISOString().split('T')[0]
+      };
+
+      setOrder(formattedOrder);
+    } catch (error) {
+      console.error('Error fetching order details:', error);
     }
   };
 
@@ -85,14 +112,15 @@ const AddOrderPage = () => {
     e.preventDefault();
     const orderToSubmit = {
       ...order,
-      orderItems: order.orderItems.map(({ productId, quantity, warehouseId }) => ({
+      orderItems: order.orderItems.map(({orderItemId, productId, quantity, warehouseId }) => ({
+        orderItemId,
         productId,
         quantity,
         warehouseId,
       }))
     };
     try {
-      const response = await axios.post('/api/orders', orderToSubmit, {
+      const response = await axios.put(`/api/orders/${orderId}`, orderToSubmit, {
         headers: { 'Authorization': `Bearer ${auth.accessToken}` },
       });
       console.log('Order added:', response.data);
@@ -152,6 +180,7 @@ const AddOrderPage = () => {
       item === editItem
         ? {
             ...item,
+            orderItemId,
             productId,
             quantity,
             warehouseId,
@@ -194,22 +223,22 @@ const AddOrderPage = () => {
 
   return (
     <div className="wrapper">
-      <NavBarBoodstrap />
-      <section id="buttonAddProduct">
-        <form>
+    <NavBarBoodstrap />
+    <section id="buttonAddProduct">
+      <form>
+        <div>
+          <label className="label">Klient:</label>
+          <select name="clientId" value={order.clientId} onChange={handleInputChange}>
+            <option value="">Wybierz Klienta</option>
+            {clients.map((client) => (
+              <option key={client.clientId} value={client.clientId}>
+                {client.clientName}
+              </option>
+            ))}
+          </select>
+        </div>
           <div>
-            <label className="label">Klient:</label>
-            <select name="clientId" value={order.clientId} onChange={handleInputChange}>
-              <option value="">Wybierz Klienta</option>
-              {clients.map((client) => (
-                <option key={client.clientId} value={client.clientId}>
-                  {client.clientName}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="label">Data złożenia zamówienia:</label>
+            <label className="label">Data złożenia zamówienia:  </label>
             <input
               type="date"
               name="orderDate"
@@ -229,7 +258,7 @@ const AddOrderPage = () => {
             </select>
           </div>
           <div>
-            <label className="label">Data zapłaty za zamówienie:</label>
+            <label className="label">Data zapłaty za zamówienie: </label>
             <input
               type="date"
               name="paymentDate"
@@ -255,7 +284,7 @@ const AddOrderPage = () => {
                         onChange={(e) => {
                           setProductId(e.target.value);
                           setProductName(e.target.options[e.target.selectedIndex].text);
-                        }}
+                        }}                        
                         value={productId}>
                         <option value={''}>Select Type</option>
                         {optionsProducts}
@@ -317,9 +346,7 @@ const AddOrderPage = () => {
                   <td>{item.quantity}</td>
                       <td>{item.warehouseName}</td>
                       <td>
-                        <button type="button" onClick={() => handleEditRow(item)}>
-                          Edytuj
-                        </button>
+                
                         </td>
                         <td>
                         <button type="button" onClick={() => handleDeleteRow(item.productId)}>
@@ -333,7 +360,7 @@ const AddOrderPage = () => {
             </section>
           </div>
           <button type="submit" onClick={handleSubmit} id="buttonItem">
-          Stwórz zamówienie
+            Zaktualizuj zamówienie
           </button>
         </form>
       </section>
@@ -348,7 +375,10 @@ const AddOrderPage = () => {
               <Form.Label>Rodzaj</Form.Label>
               <Form.Select
                 autoFocus
-                onChange={(e) => setProductId(e.target.value)}
+                onChange={(e) => {
+                  setProductId(e.target.value);
+                  setProductName(e.target.options[e.target.selectedIndex].text);
+                }}        
                 value={productId}>
                 <option value={''}>Select Type</option>
                 {optionsProducts}
@@ -368,7 +398,10 @@ const AddOrderPage = () => {
               <Form.Label>Magazyn</Form.Label>
               <Form.Select
                 autoFocus
-                onChange={(e) => setWarehouseId(e.target.value)}
+                onChange={(e) => {
+                  setWarehouseId(e.target.value);
+                  setWarehouseName(e.target.options[e.target.selectedIndex].text);
+                }}
                 value={warehouseId}>
                 <option value={''}>Select Type</option>
                 {optionsWarehouse}
@@ -389,4 +422,4 @@ const AddOrderPage = () => {
   );
 };
 
-export default AddOrderPage;
+export default EditOrderPage ;

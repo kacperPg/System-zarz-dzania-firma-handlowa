@@ -23,7 +23,7 @@ public class WarehouseStatus {
     private int availableQuantity;
     @Column(name = "soldQuantity")
     private int soldQuantity;
-    @Column(name = "product_name")
-    private String productName;
+    @Column(name = "product_Id")
+    private Long productId;
 
 }

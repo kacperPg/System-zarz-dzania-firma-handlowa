@@ -12,7 +12,7 @@ function AddProduct() {
   const handleShow = () => setShow(true);
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
-  const [typeName, setTypeId] = useState('');
+  const [typeId, setTypeId] = useState('');
   let token = sessionStorage.getItem('token');
   const [products, setProducts] = useState([]);
 
@@ -45,7 +45,7 @@ function AddProduct() {
 
     try {
         const response = await axios.post(PRODUCT_LIST,
-            JSON.stringify({ productName, price,typeName }),
+            JSON.stringify({ productName, price, typeId }),
             {
               headers: {  'Content-Type': 'application/json',
                'Authorization': 'Bearer ' +  token}
@@ -63,7 +63,7 @@ function AddProduct() {
     }
 } 
 const options = products.map(type => (
-  <option key={type.typeName} value={type.typeName}>{type.typeName}</option>
+  <option key={type.typeId} value={type.typeId}>{type.typeName}</option>
 ));
 
   return (
@@ -93,7 +93,7 @@ const options = products.map(type => (
               <Form.Select       
               autoFocus
                  onChange={(e) => setTypeId(e.target.value)}
-                 value={typeName}>
+                 value={typeId}>
             <option value={''}>Select Type</option> {/* Default option */}
                 {options}
               </Form.Select>

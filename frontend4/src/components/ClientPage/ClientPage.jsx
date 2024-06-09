@@ -4,6 +4,7 @@ import BasicTable from '../BasicTable';
 import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
+import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
 
 const CLIENT_LIST = '/api/clients';
 
@@ -33,6 +34,10 @@ function ClientPage() {
 
   const ClientColums = [
     {
+      header: 'Id',
+      accessorKey: 'clientId',
+    },
+    {
       header: 'Nazwa Klienta',
       accessorKey: 'clientName',
     },
@@ -59,10 +64,12 @@ function ClientPage() {
       <div className="wrapper">
         <NavBarBoodstrap />
         <section id="buttonAddProduct">
+        <PrivateRoute requiredPermissions={['PERM_ADD_CLIENTS']}>
           <AddClient />
+        </PrivateRoute>
         </section>
         <section id="idTabelaProduktow">
-          <BasicTable data={clients} columns={ClientColums} URL={CLIENT_LIST} IdType="clientId" />
+          <BasicTable data={clients} columns={ClientColums} URL={CLIENT_LIST} IdType="clientId" canDelete="PERM_DELETE_CLIENTS" />
         </section>
       </div>
     </>

@@ -49,9 +49,12 @@ public class OrderService {
         for (OrderItemsDto itemDto : orderItemsDtos) {
             Product product = productRepository.findById(itemDto.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found"));
-            String warehouseName = itemDto.getWarehouseName();
-            WarehouseStatus warehouseStatus = warehouseStatusRepository.findFirstByProductName(product.getProductName());
+            Long warehouseId = itemDto.getWarehouseId();
+            WarehouseStatus warehouseStatus = warehouseStatusRepository.findFirstByProductIdAndWarehouseId(product.getProductId(), warehouseId);
 
+            if (warehouseStatus == null) {
+                throw new CustomException("Warehouse status not found for the given product and warehouse");
+            }
             int orderQuantity = itemDto.getQuantity();
             int availableQuantity = warehouseStatus.getAvailableQuantity();
 
@@ -72,6 +75,7 @@ public class OrderService {
 
             OrderItems orderItems = orderItemsMapper.orderItemsDtoToEntity(itemDto);
             orderItems.setOrderId(savedOrder.getOrderId());
+            orderItems.setWarehouseId(warehouseStatus.getWarehouseId());
 
             orderItems.setPrice(itemTotalPrice);
             order.setTotalAmount(totalAmount);
@@ -118,14 +122,45 @@ public class OrderService {
     public OrderDto updateOrder(Long orderId, OrderDto updatedOrderDto) {
         Order existingOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NoSuchElementException("Order not found"));
-        Order updatedOrder = orderMapper.orderDtoToEntity(updatedOrderDto); // Convert DTO to entity
 
+        // Convert DTO to entity
+        Order updatedOrder = orderMapper.orderDtoToEntity(updatedOrderDto);
+
+        // Update order fields
         existingOrder.setClientId(updatedOrder.getClientId());
         existingOrder.setTotalAmount(updatedOrder.getTotalAmount());
         existingOrder.setOrderDate(updatedOrder.getOrderDate());
         existingOrder.setStatus(updatedOrder.getStatus());
+        existingOrder.setPaymentDate(updatedOrder.getPaymentDate());
 
+        // Remove existing order items
+        List<OrderItems> existingOrderItems = existingOrder.getOrderItems();
+        for (OrderItems item : existingOrderItems) {
+            orderItemsRepository.deleteById(item.getOrderItemId());
+        }
 
+        // Add updated order items
+        double totalPrice = 0.0;
+        int totalAmount = 0;
+        List<OrderItems> newOrderItems = updatedOrder.getOrderItems();
+
+        for (OrderItems itemDto : newOrderItems) {
+            itemDto.setOrderId(orderId);
+            Product product = productRepository.findById(itemDto.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+            double itemTotalPrice = product.getPrice() * itemDto.getQuantity();
+            itemDto.setPrice(itemTotalPrice);
+            totalPrice += itemTotalPrice;
+            totalAmount += itemDto.getQuantity();
+            orderItemsRepository.save(itemDto);  // Save new order item
+        }
+
+        // Update order total price and total amount
+        existingOrder.setTotalPrice(totalPrice);
+        existingOrder.setTotalAmount(totalAmount);
+        existingOrder.setOrderItems(newOrderItems);
+
+        // Save the updated order
         Order savedOrder = orderRepository.save(existingOrder);
         return orderMapper.orderEntityToDto(savedOrder);
     }
