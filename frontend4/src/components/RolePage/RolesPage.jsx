@@ -4,6 +4,7 @@ import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import { useAuth } from '../AuthProvider';
 import '../ItemsPage.css';
 import { useNavigate } from 'react-router-dom';
+import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
 
 const ROLES_API = '/api/roles';
 
@@ -49,9 +50,11 @@ function RolesPage() {
     <div className="wrapper">
       <NavBarBoodstrap />
       <section id="buttonAddProduct">
-        <button id="buttonItem" onClick={handleNewRole}>
+      <PrivateRoute requiredPermissions={['PERM_ADD_CLIENTS']}>
+      <button id="buttonItem" onClick={handleNewRole}>
           Dodaj nową rolę
         </button>
+        </PrivateRoute>
       </section>
       <section id="idTabelaProduktow">
         {roles.map((role) => (

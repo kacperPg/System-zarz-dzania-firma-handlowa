@@ -6,6 +6,7 @@ import axios from '../../api/axios';
 import '../ItemsPage.css';
 import { useAuth } from '../AuthProvider';
 import { useNavigate } from 'react-router-dom'; 
+import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
 
 const ORDERS = '/api/orders';
 
@@ -121,13 +122,16 @@ function OrderPage() {
         <BasicTableOrders data={ordersItems} columns={orderItemsColumns} Navigate={false} displayButtons={true}/>
       </section>
       <section id="buttonAddProduct">
-        <button onClick={() => handleEdditClick(id)} id="buttonItem">
-            Edytuj zamówienia
-          </button>
-
-          <button onClick={() => handleDelete(id)} id="buttonItem">
-            Usuń zamówienia
-          </button>
+      <PrivateRoute requiredPermissions={['PERM_EDIT_ORDER']}>
+    <button onClick={() => handleEdditClick(id)} id="buttonItem">
+      Edytuj zamówienia
+    </button>
+  </PrivateRoute>
+  <PrivateRoute requiredPermissions={['PERM_DELETE_ORDER']}>
+    <button onClick={() => handleDelete(id)} id="buttonItem">
+      Usuń zamówienia
+    </button>
+  </PrivateRoute>
         </section>
     </div>
   );

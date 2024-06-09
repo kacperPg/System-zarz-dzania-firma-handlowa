@@ -4,6 +4,7 @@ import BasicTable from '../BasicTable';
 import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
+import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
 
 const WAREHOUSESTATUS_LIST = '/api/warehousesStatus';
 const PRODUCT_LIST = '/api/products';
@@ -70,7 +71,7 @@ function WarehousesStatusPage() {
     { header: 'Nazwa Magazynu', accessorKey: 'warehouseName' },
     { header: 'Dostępna ilość', accessorKey: 'availableQuantity' },
     { header: 'Sprzedana ilość', accessorKey: 'soldQuantity' },
-    { header: 'Produkt', accessorKey: 'productId' },
+    { header: 'Produkt', accessorKey: 'productName' },
   ];
 
   return (
@@ -78,7 +79,9 @@ function WarehousesStatusPage() {
       <div className="wrapper">
         <NavBarBoodstrap />
         <section id="buttonAddProduct">
+        <PrivateRoute requiredPermissions={['PERM_ADD_STATUS']}>
           <AddWarehousesStatus />
+        </PrivateRoute>
 
           <label id="productLabel">Filter by Product: </label>
           <select
@@ -109,7 +112,7 @@ function WarehousesStatusPage() {
           <button id="filterButton" onClick={handleFilterChange}>Filter</button>
         </section>
         <section id="idTabelaProduktow">
-          <BasicTable data={warehouseStatus} columns={productColumns} URL={WAREHOUSESTATUS_LIST} IdType="warehouseStatusId" />
+          <BasicTable data={warehouseStatus} columns={productColumns} URL={WAREHOUSESTATUS_LIST} IdType="warehouseStatusId"  canDelete="PERM_DELETE_STATUS"/>
         </section>
       </div>
     </>

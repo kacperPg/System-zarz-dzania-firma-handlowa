@@ -53,7 +53,7 @@ function EditClient({ Id, handleClose }) {
         }
       );
       handleClose(); // Close the modal after successful submit
-      window.location.reload();
+      navigate('/UserPage');
     } catch (err) {
       console.error('Error editing product:', err);
       if (!err?.response) {

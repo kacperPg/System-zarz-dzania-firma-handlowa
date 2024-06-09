@@ -34,7 +34,10 @@ function EditOrderPage() {
   const [productId, setProductId] = useState('');
   const [quantity, setQuantity] = useState('');
   const [warehouseId, setWarehouseId] = useState('');
+  const [orderItemId, setOrderItemId] = useState('');
   const [warehouses, setWarehouses] = useState([]);
+  const [productName, setProductName] = useState('');
+  const [warehouseName, setWarehouseName] = useState('');
 
   const token = auth.accessToken; // Corrected token access
 
@@ -90,11 +93,11 @@ function EditOrderPage() {
       });
       const formattedOrder = {
         ...response.data,
-        orderDate: response.data.orderDate.join('-'),
-        paymentDate: response.data.paymentDate.join('-')
+        orderDate: new Date(response.data.orderDate.join('-')).toISOString().split('T')[0],
+        paymentDate: new Date(response.data.paymentDate.join('-')).toISOString().split('T')[0]
       };
 
-      setOrder(response.data);
+      setOrder(formattedOrder);
     } catch (error) {
       console.error('Error fetching order details:', error);
     }
@@ -109,7 +112,8 @@ function EditOrderPage() {
     e.preventDefault();
     const orderToSubmit = {
       ...order,
-      orderItems: order.orderItems.map(({ productId, quantity, warehouseId }) => ({
+      orderItems: order.orderItems.map(({orderItemId, productId, quantity, warehouseId }) => ({
+        orderItemId,
         productId,
         quantity,
         warehouseId,
@@ -151,6 +155,8 @@ function EditOrderPage() {
       productId,
       quantity,
       warehouseId,
+      productName,
+      warehouseName,
     };
 
     setOrder({ ...order, orderItems: [...order.orderItems, newItem] });
@@ -174,9 +180,12 @@ function EditOrderPage() {
       item === editItem
         ? {
             ...item,
+            orderItemId,
             productId,
             quantity,
             warehouseId,
+            productName,
+            warehouseName,
           }
         : item
     );
@@ -229,7 +238,7 @@ function EditOrderPage() {
           </select>
         </div>
           <div>
-            <label className="label">Data złożenia zamówienia: {order.orderDate} </label>
+            <label className="label">Data złożenia zamówienia:  </label>
             <input
               type="date"
               name="orderDate"
@@ -249,7 +258,7 @@ function EditOrderPage() {
             </select>
           </div>
           <div>
-            <label className="label">Data zapłaty za zamówienie: {order.paymentDate}</label>
+            <label className="label">Data zapłaty za zamówienie: </label>
             <input
               type="date"
               name="paymentDate"
@@ -272,7 +281,10 @@ function EditOrderPage() {
                       <Form.Label>Rodzaj</Form.Label>
                       <Form.Select
                         autoFocus
-                        onChange={(e) => setProductId(e.target.value)}
+                        onChange={(e) => {
+                          setProductId(e.target.value);
+                          setProductName(e.target.options[e.target.selectedIndex].text);
+                        }}                        
                         value={productId}>
                         <option value={''}>Select Type</option>
                         {optionsProducts}
@@ -292,7 +304,10 @@ function EditOrderPage() {
                       <Form.Label>Magazyn</Form.Label>
                       <Form.Select
                         autoFocus
-                        onChange={(e) => setWarehouseId(e.target.value)}
+                        onChange={(e) => {
+                          setWarehouseId(e.target.value);
+                          setWarehouseName(e.target.options[e.target.selectedIndex].text);
+                        }}
                         value={warehouseId}>
                         <option value={''}>Select Type</option>
                         {optionsWarehouse}
@@ -327,13 +342,11 @@ function EditOrderPage() {
                 <tbody>
                   {order.orderItems.map((item, index) => (
                     <tr key={index}>
-                 <td>{item.productId}</td> {/* Display product name here */}
+                 <td>{item.productName}</td> {/* Display product name here */}
                   <td>{item.quantity}</td>
-                      <td>{item.warehouseId}</td>
+                      <td>{item.warehouseName}</td>
                       <td>
-                        <button type="button" onClick={() => handleEditRow(item)}>
-                          Edytuj
-                        </button>
+                
                         </td>
                         <td>
                         <button type="button" onClick={() => handleDeleteRow(item.productId)}>
@@ -362,7 +375,10 @@ function EditOrderPage() {
               <Form.Label>Rodzaj</Form.Label>
               <Form.Select
                 autoFocus
-                onChange={(e) => setProductId(e.target.value)}
+                onChange={(e) => {
+                  setProductId(e.target.value);
+                  setProductName(e.target.options[e.target.selectedIndex].text);
+                }}        
                 value={productId}>
                 <option value={''}>Select Type</option>
                 {optionsProducts}
@@ -382,7 +398,10 @@ function EditOrderPage() {
               <Form.Label>Magazyn</Form.Label>
               <Form.Select
                 autoFocus
-                onChange={(e) => setWarehouseId(e.target.value)}
+                onChange={(e) => {
+                  setWarehouseId(e.target.value);
+                  setWarehouseName(e.target.options[e.target.selectedIndex].text);
+                }}
                 value={warehouseId}>
                 <option value={''}>Select Type</option>
                 {optionsWarehouse}

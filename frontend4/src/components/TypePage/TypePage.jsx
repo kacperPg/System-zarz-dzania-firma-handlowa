@@ -4,6 +4,8 @@ import BasicTable from '../BasicTable'
 import { NavBarBoodstrap } from '../Navbar/navbarBS'
 import axios from '../../api/axios';
 import '../ItemsPage.css';
+import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
+
 const TYPE_LIST = '/api/productTypes';
 
 function TypePage() {
@@ -51,10 +53,12 @@ function TypePage() {
     <div class="wrapper">
          <NavBarBoodstrap />    
          <section id="buttonAddProduct">
+         <PrivateRoute requiredPermissions={['PERM_ADD_TYPES']}>
           <AddType />
+        </PrivateRoute>
          </section>
          <section id="idTabelaProduktow">
-            <BasicTable data={products} columns={productColumn2} URL={TYPE_LIST} IdType={'typeId'} />
+            <BasicTable data={products} columns={productColumn2} URL={TYPE_LIST} IdType={'typeId'} canDelete="PERM_DELETE_TYPES" />
             </section>
         </div>
     </>

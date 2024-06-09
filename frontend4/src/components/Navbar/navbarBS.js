@@ -1,12 +1,14 @@
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import {useNavigate, Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../AuthProvider";
 import { useContext } from "react";
+import "./navbarBS.css";
+import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
 
-import "./navbarBS.css"
-export const NavBarBoodstrap=() =>{
+
+export const NavBarBoodstrap = () => {
     const { auth, setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -15,7 +17,6 @@ export const NavBarBoodstrap=() =>{
         localStorage.removeItem('auth');
         navigate('/home');
     }
-
 
     return (
         <>
@@ -28,38 +29,60 @@ export const NavBarBoodstrap=() =>{
                     <Nav className="ml-auto">
                         {auth?.accessToken ? (
                             <>
+                                    <NavDropdown title="Raporty">
+                                    <PrivateRoute requiredPermissions={['PERM_VIEW_ORDER']}>
                                 <Nav.Link as={Link} to="/RaportPage" exact>
                                     Raporty
                                 </Nav.Link>
-                                <Nav.Link as={Link} to="/OrdersPage">
-                                    Zamówienia
-                                </Nav.Link>
+                                 </PrivateRoute>
+                                </NavDropdown>
+                                <NavDropdown title="Zamówienia">
+                                <PrivateRoute requiredPermissions={['PERM_VIEW_ORDER']}>
+                                    <Nav.Link as={Link} to="/OrdersPage">
+                                        Zamówienia
+                                    </Nav.Link>
+                                    </PrivateRoute>
+                                    </NavDropdown>
                                 <NavDropdown title="Produkty">
-                                    <NavDropdown.Item as={Link} to="/Products">
-                                        Produkty
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/Types">
-                                        Rodzaje
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/ClientPage">
-                                        Klienci
-                                    </NavDropdown.Item>
+                                    <PrivateRoute requiredPermissions={['PERM_VIEW_PRODUCTS']}>
+                                        <NavDropdown.Item as={Link} to="/Products">
+                                            Produkty
+                                        </NavDropdown.Item>
+                                    </PrivateRoute>
+                                    <PrivateRoute requiredPermissions={['PERM_VIEW_TYPES']}>
+                                        <NavDropdown.Item as={Link} to="/Types">
+                                            Rodzaje
+                                        </NavDropdown.Item>
+                                    </PrivateRoute>
+                                    <PrivateRoute requiredPermissions={['PERM_VIEW_CLIENTS']}>
+                                        <NavDropdown.Item as={Link} to="/ClientPage">
+                                            Klienci
+                                        </NavDropdown.Item>
+                                    </PrivateRoute>
                                 </NavDropdown>
                                 <NavDropdown title="Zarządzaj Magazynami">
-                                    <NavDropdown.Item as={Link} to="/WarehousesStatusPage">
-                                        Stan Magazynu
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/WarehousePage">
-                                        Magazyny
-                                    </NavDropdown.Item>
+                                    <PrivateRoute requiredPermissions={['PERM_VIEW_STATUS']}>
+                                        <NavDropdown.Item as={Link} to="/WarehousesStatusPage">
+                                            Stan Magazynu
+                                        </NavDropdown.Item>
+                                    </PrivateRoute>
+                                    <PrivateRoute requiredPermissions={['PERM_VIEW_WAREHOUSES']}>
+                                        <NavDropdown.Item as={Link} to="/WarehousePage">
+                                            Magazyny
+                                        </NavDropdown.Item>
+                                    </PrivateRoute>
                                 </NavDropdown>
                                 <NavDropdown title="Zarządzaj Użytkownikami">
-                                    <NavDropdown.Item as={Link} to="/UserPage">
-                                        Użytkownicy
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/RolesPage">
-                                        Profile
-                                    </NavDropdown.Item>
+                                    <PrivateRoute requiredPermissions={['PERM_VIEW_USERS']}>
+                                        <NavDropdown.Item as={Link} to="/UserPage">
+                                            Użytkownicy
+                                        </NavDropdown.Item>
+                                    </PrivateRoute>
+                                    <PrivateRoute requiredPermissions={['PERM_VIEW_USERS']}>
+                                        <NavDropdown.Item as={Link} to="/RolesPage">
+                                            Profile
+                                        </NavDropdown.Item>
+                                    </PrivateRoute>
                                 </NavDropdown>
                                 <Nav.Link onClick={logout}>
                                     Logout
@@ -80,4 +103,4 @@ export const NavBarBoodstrap=() =>{
             </Navbar>
         </>
     );
-}
+};

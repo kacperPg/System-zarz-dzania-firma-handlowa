@@ -33,6 +33,8 @@ const AddOrderPage = () => {
   const [productId, setProductId] = useState('');
   const [quantity, setQuantity] = useState('');
   const [warehouseId, setWarehouseId] = useState('');
+  const [productName, setProductName] = useState('');
+  const [warehouseName, setWarehouseName] = useState('');
   const [warehouses, setWarehouses] = useState([]);
 
   useEffect(() => {
@@ -125,6 +127,8 @@ const AddOrderPage = () => {
       productId,
       quantity,
       warehouseId,
+      productName,
+      warehouseName,
     };
 
     setOrder({ ...order, orderItems: [...order.orderItems, newItem] });
@@ -151,6 +155,8 @@ const AddOrderPage = () => {
             productId,
             quantity,
             warehouseId,
+            productName,
+            warehouseName,
           }
         : item
     );
@@ -246,7 +252,10 @@ const AddOrderPage = () => {
                       <Form.Label>Rodzaj</Form.Label>
                       <Form.Select
                         autoFocus
-                        onChange={(e) => setProductId(e.target.value)}
+                        onChange={(e) => {
+                          setProductId(e.target.value);
+                          setProductName(e.target.options[e.target.selectedIndex].text);
+                        }}
                         value={productId}>
                         <option value={''}>Select Type</option>
                         {optionsProducts}
@@ -266,7 +275,10 @@ const AddOrderPage = () => {
                       <Form.Label>Magazyn</Form.Label>
                       <Form.Select
                         autoFocus
-                        onChange={(e) => setWarehouseId(e.target.value)}
+                        onChange={(e) => {
+                          setWarehouseId(e.target.value);
+                          setWarehouseName(e.target.options[e.target.selectedIndex].text);
+                        }}
                         value={warehouseId}>
                         <option value={''}>Select Type</option>
                         {optionsWarehouse}
@@ -301,9 +313,9 @@ const AddOrderPage = () => {
                 <tbody>
                   {order.orderItems.map((item, index) => (
                     <tr key={index}>
-                 <td>{item.productId}</td> {/* Display product name here */}
+                 <td>{item.productName}</td> {/* Display product name here */}
                   <td>{item.quantity}</td>
-                      <td>{item.warehouseId}</td>
+                      <td>{item.warehouseName}</td>
                       <td>
                         <button type="button" onClick={() => handleEditRow(item)}>
                           Edytuj

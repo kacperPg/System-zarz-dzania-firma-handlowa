@@ -4,6 +4,7 @@ import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
 import { useNavigate } from 'react-router-dom';
+import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
 
 const ORDERS_SUMMARIES = '/api/orders/summaries';
 const CLIENTS_API = '/api/clients';
@@ -85,9 +86,11 @@ function OrdersPage() {
       <div className="wrapper">
         <NavBarBoodstrap />
         <section id="buttonAddProduct">
+        <PrivateRoute requiredPermissions={['PERM_ADD_ORDER']}>
           <button onClick={handleAddOrderClick} id="buttonItem">
             Dodaj nowe zamówienie
           </button> 
+          </PrivateRoute>
           <select value={selectedClient} onChange={handleClientChange}>
             <option value="">Wybierz klienta</option>
             {clients.map(client => (

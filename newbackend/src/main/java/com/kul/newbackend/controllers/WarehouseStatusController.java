@@ -2,6 +2,7 @@ package com.kul.newbackend.controllers;
 
 
 import com.kul.newbackend.dto.WarehouseStatusDto;
+import com.kul.newbackend.services.ProductService;
 import com.kul.newbackend.services.WarehouseService;
 import com.kul.newbackend.services.WarehouseStatusService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import java.util.List;
 @RequestMapping("/api/warehousesStatus")
 public class WarehouseStatusController {
     private final WarehouseService warehouseService;
+    private final ProductService productService;
+
     private final WarehouseStatusService warehouseStatusService;
 
     @PreAuthorize("hasAuthority('PERM_ADD_STATUS')")
@@ -31,6 +34,9 @@ public class WarehouseStatusController {
         List<WarehouseStatusDto> warehousesStatus = warehouseStatusService.getAllWarehousesStatus();
         for (WarehouseStatusDto warehouseStatusDto : warehousesStatus) {
             warehouseStatusDto.setWarehouseName(warehouseService.getWarehouseById(warehouseStatusDto.getWarehouseId()).getWarehouseName());
+        }
+        for (WarehouseStatusDto warehouseStatusDto : warehousesStatus) {
+            warehouseStatusDto.setProductName(productService.getProductById(warehouseStatusDto.getProductId()).getProductName());
         }
         return new ResponseEntity<>(warehousesStatus, HttpStatus.OK);
     }
