@@ -16,7 +16,9 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -35,7 +37,7 @@ public class RaportPdfGenerator {
     @Value("${table_noOfColumns}")
     private int noOfColumns;
 
-    @Value("${table.columnNames}")
+    @Value("${table.columnNamesKlient}")
     private List<String> columnNames;
 
     @Autowired
@@ -111,6 +113,7 @@ public class RaportPdfGenerator {
         List<ClientDto> clientsDB = clientService.getAllClients();
 
 
+
         List<Long> clients = orders.stream()
                 .map(s -> {
                     if (s.getClient() == null) {
@@ -163,7 +166,7 @@ public class RaportPdfGenerator {
 
             table.addCell(raport.getClientName());
             table.addCell(String.valueOf(raport.getTotalAmountOfProducts()));
-            table.addCell(String.valueOf(raport.getTotalAmountPrices()));
+            table.addCell(String.format("%.2f", raport.getTotalAmountPrices()));
         }
     }
 
