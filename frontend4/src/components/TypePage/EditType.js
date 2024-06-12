@@ -64,7 +64,7 @@ function EditType({ Id, handleClose }) {
 
       <Modal show={true} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Dodaj Rodzaj</Modal.Title>
+          <Modal.Title>Edytuj Rodzaj</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -85,7 +85,7 @@ function EditType({ Id, handleClose }) {
           Zamknij
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Dodaj Rodzaj
+          Edytuj Rodzaj
           </Button>
         </Modal.Footer>
       </Modal>

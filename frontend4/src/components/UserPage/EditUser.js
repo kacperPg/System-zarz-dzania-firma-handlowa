@@ -125,7 +125,7 @@ const options = roles.map((type) => (
   return (
     <Modal show={true} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Dodaj stan magazynu</Modal.Title>
+          <Modal.Title>Edytuj Użytkownika</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -181,7 +181,7 @@ const options = roles.map((type) => (
           Zamknij
           </Button>
           <Button variant="primary" onClick={handleSubmit} disabled={!validName || !validLastName ||!validPwd}>
-            Edytuj Usera
+            Edytuj Użytkownika
           </Button>
         </Modal.Footer>
       </Modal>

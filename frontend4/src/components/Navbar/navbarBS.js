@@ -28,21 +28,20 @@ export const NavBarBoodstrap = () => {
                 <Navbar.Collapse id="basic-navbar-nav ms-auto">
                     <Nav className="ml-auto">
                         {auth?.accessToken ? (
-                            <>
+                            <>                           <PrivateRoute requiredPermissions={['PERM_VIEW_ORDER']}>
                                     <NavDropdown title="Raporty">
-                                    <PrivateRoute requiredPermissions={['PERM_VIEW_ORDER']}>
                                 <Nav.Link as={Link} to="/RaportPage" exact>
                                     Raporty
                                 </Nav.Link>
-                                 </PrivateRoute>
                                 </NavDropdown>
-                                <NavDropdown title="Zamówienia">
+                                </PrivateRoute>
                                 <PrivateRoute requiredPermissions={['PERM_VIEW_ORDER']}>
+                                <NavDropdown title="Zamówienia">
                                     <Nav.Link as={Link} to="/OrdersPage">
                                         Zamówienia
                                     </Nav.Link>
-                                    </PrivateRoute>
                                     </NavDropdown>
+                                    </PrivateRoute>
                                 <NavDropdown title="Produkty">
                                     <PrivateRoute requiredPermissions={['PERM_VIEW_PRODUCTS']}>
                                         <NavDropdown.Item as={Link} to="/Products">

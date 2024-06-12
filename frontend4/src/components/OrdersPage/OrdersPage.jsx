@@ -99,8 +99,8 @@ function OrdersPage() {
               </option>
             ))}
           </select>
-          <button onClick={handleFilterClick} id="buttonItem">
-            Filter
+          <button onClick={handleFilterClick} id="filterButton">
+            Filtruj
           </button>
         </section>
       

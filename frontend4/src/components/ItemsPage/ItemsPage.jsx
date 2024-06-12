@@ -85,11 +85,11 @@ function ItemsPage() {
       accessorKey: 'productName',
     },
     {
-      header: 'Cena $',
+      header: 'Cena PLN',
       accessorKey: 'price',
     },
     {
-      header: 'Type Name',
+      header: 'Rodzaj',
       accessorKey: 'typeName',
     },
   ];
@@ -102,9 +102,9 @@ function ItemsPage() {
         <PrivateRoute requiredPermissions={['PERM_ADD_ITEMS']}>
           <AddProduct />
         </PrivateRoute>
-          <label id="productLabel">Filter by Type: </label>
+          <label id="productLabel">Filtruj po Rodzaju: </label>
           <select id="productType" value={selectedType} onChange={handleTypeChange}>
-            <option value="">All</option>
+            <option value="">Wszystkie</option>
             {options}
           </select>
         </section>

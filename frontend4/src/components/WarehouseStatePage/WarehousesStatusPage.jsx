@@ -83,33 +83,33 @@ function WarehousesStatusPage() {
           <AddWarehousesStatus />
         </PrivateRoute>
 
-          <label id="productLabel">Filter by Product: </label>
+          <label id="productLabel">Filtruj po produkcie: </label>
           <select
             id="productFilter"
             value={selectedProduct}
             onChange={(e) => setSelectedProduct(e.target.value)}
           >
-            <option value="">All</option>
+            <option value="">Wszystkie</option>
             {products.map((product) => (
               <option key={product.productName} value={product.productName}>
                 {product.productName}
               </option>
             ))}
           </select>
-          <label id="productLabel">Filter by Warehouse: </label>
+          <label id="productLabel">Filtruj po Magazynie: </label>
           <select
             id="warehouseFilter"
             value={selectedWarehouse}
             onChange={(e) => setSelectedWarehouse(e.target.value)}
           >
-            <option value="">All</option>
+            <option value="">Wszystkie</option>
             {warehouses.map((warehouse) => (
               <option key={warehouse.warehouseName} value={warehouse.warehouseName}>
                 {warehouse.warehouseName}
               </option>
             ))}
           </select>
-          <button id="filterButton" onClick={handleFilterChange}>Filter</button>
+          <button id="filterButton" onClick={handleFilterChange}>Filtruj</button>
         </section>
         <section id="idTabelaProduktow">
           <BasicTable data={warehouseStatus} columns={productColumns} URL={WAREHOUSESTATUS_LIST} IdType="warehouseStatusId"  canDelete="PERM_DELETE_STATUS"/>

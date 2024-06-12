@@ -12,5 +12,4 @@ import java.time.LocalDate;
 public class DateSet {
     private LocalDate afterDate;
     private LocalDate beforeDate;
-
 }

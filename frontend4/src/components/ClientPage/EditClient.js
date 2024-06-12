@@ -70,7 +70,7 @@ function EditClient({ Id, handleClose }) {
   return (
     <Modal show={true} onHide={handleClose}>
      <Modal.Header closeButton>
-          <Modal.Title>Dodaj Klienta</Modal.Title>
+          <Modal.Title>Edytuj Klienta</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -132,7 +132,7 @@ function EditClient({ Id, handleClose }) {
           Zamknij
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Dodaj Klienta
+            Edytuj Klienta
           </Button>
         </Modal.Footer>
       </Modal>

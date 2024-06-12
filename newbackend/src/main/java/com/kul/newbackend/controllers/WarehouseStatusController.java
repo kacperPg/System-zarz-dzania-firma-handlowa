@@ -34,8 +34,6 @@ public class WarehouseStatusController {
         List<WarehouseStatusDto> warehousesStatus = warehouseStatusService.getAllWarehousesStatus();
         for (WarehouseStatusDto warehouseStatusDto : warehousesStatus) {
             warehouseStatusDto.setWarehouseName(warehouseService.getWarehouseById(warehouseStatusDto.getWarehouseId()).getWarehouseName());
-        }
-        for (WarehouseStatusDto warehouseStatusDto : warehousesStatus) {
             warehouseStatusDto.setProductName(productService.getProductById(warehouseStatusDto.getProductId()).getProductName());
         }
         return new ResponseEntity<>(warehousesStatus, HttpStatus.OK);
@@ -80,6 +78,7 @@ public class WarehouseStatusController {
         }
         for (WarehouseStatusDto warehouseStatusDto : warehousesStatus) {
             warehouseStatusDto.setWarehouseName(warehouseService.getWarehouseById(warehouseStatusDto.getWarehouseId()).getWarehouseName());
+            warehouseStatusDto.setProductName(productService.getProductById(warehouseStatusDto.getProductId()).getProductName());
         }
         return new ResponseEntity<>(warehousesStatus, HttpStatus.OK);
     }

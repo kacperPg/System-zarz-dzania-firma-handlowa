@@ -85,9 +85,9 @@ export default function BasicTable({ data, columns, URL, IdType, canDelete }) {
                                     )}
                                 </th>
                             ))}
-                            <th>Edit</th>
+                            <th>Edytuj</th>
                             <PrivateRoute requiredPermissions={[canDelete]}>
-                            <th>Delete</th>
+                            <th>Usuń</th>
                             </PrivateRoute>
                         </tr>
                     ))}
@@ -102,11 +102,11 @@ export default function BasicTable({ data, columns, URL, IdType, canDelete }) {
                                 </td>
                             ))}
                             <td>
-                                <button onClick={() => handleEdit(row.original[IdType])}>Edit</button>
+                                <button id="buttonItem" onClick={() => handleEdit(row.original[IdType])}>Edytuj</button>
                             </td>
                             <PrivateRoute requiredPermissions={[canDelete]}>
                             <td>
-                                               <button onClick={() => handleDelete(row.original[IdType])}>Delete</button>
+                                               <button id="buttonItem" onClick={() => handleDelete(row.original[IdType])}>Usuń</button>
                                                </td>
                                                </PrivateRoute>
                         </tr>

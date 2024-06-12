@@ -250,11 +250,11 @@ function EditOrderPage() {
             <label className="label">Status:</label>
             <select name="status" value={order.status} onChange={handleInputChange}>
               <option value="">Wybierz status</option>
-              <option value="PENDING">PENDING</option>
-              <option value="PROCESSING">PROCESSING</option>
-              <option value="SHIPPED">SHIPPED</option>
-              <option value="DELIVERED">DELIVERED</option>
-              <option value="CANCELLED">CANCELLED</option>
+              <option value="PENDING">OCZEKUJĄCE</option>
+              <option value="PROCESSING">PRZETWARZANE</option>
+              <option value="SHIPPED">WYSYŁANE</option>
+              <option value="DELIVERED">DOSTARCZANE</option>
+              <option value="CANCELLED">ANULOWANE</option>
             </select>
           </div>
           <div>

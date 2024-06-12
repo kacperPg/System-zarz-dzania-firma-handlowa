@@ -156,7 +156,7 @@ const warehousetList = warehouse.map(type => (
           Zamknij
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Dodaj Magazyn
+            Dodaj Stan Magazynu
           </Button>
         </Modal.Footer>
       </Modal>

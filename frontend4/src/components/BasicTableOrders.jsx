@@ -85,7 +85,7 @@ export default function BasicTableOrders({ data, columns, IdType, Navigate, disp
               {displayDelete === 'true' && (
                 <>
                   <td>
-                    <button onClick={(e) => {
+                    <button  id="productLabel"onClick={(e) => {
                       e.stopPropagation(); // Prevent triggering row click
                       onEditRow(row.original);
                     }}>
@@ -93,7 +93,7 @@ export default function BasicTableOrders({ data, columns, IdType, Navigate, disp
                     </button>
                   </td>
                   <td>
-                    <button onClick={(e) => {
+                    <button id="productLabel" onClick={(e) => {
                       e.stopPropagation(); // Prevent triggering row click
                       onDeleteRow(row.original[IdType]);
                     }}>

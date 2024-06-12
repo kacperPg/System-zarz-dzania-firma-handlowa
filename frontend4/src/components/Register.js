@@ -214,7 +214,7 @@ const Register = () => {
                           Musi byc takie samo jak pierwsze hasło
                         </p>
 
-                        <button class="buttonSubmit" disabled={!validName || !validPwd || !validMatch ? true : false}>  Sign Up</button>
+                        <button class="buttonSubmit" disabled={!validName || !validPwd || !validMatch ? true : false}>  Zarejestruj</button>
                     </form>
                     <p>
                         Już posiadasz konto?<br />
