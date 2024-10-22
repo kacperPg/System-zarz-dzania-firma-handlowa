@@ -1,76 +1,118 @@
-#container{
-    margin: auto;
-}
-#filler{
-    padding-bottom: 1rem;
-}
-#idForm {
-    padding: 2000px;
-    margin: auto;
-    width: 100%;
-    max-width: 420px;
-    padding: 1rem;
-    background-color: #b2faff;
-    border-radius: 0.8rem;
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
 }
 
+/* Center container */
+#container {
+    margin: 0 auto;
+    padding: 0 1rem;
+    max-width: 1200px; /* Ensures max width for large screens */
+}
+
+/* Filler section padding */
+#filler {
+    padding-bottom: 1rem;
+}
+
+/* Form styling */
+#idForm {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 420px;
+    padding: 2rem; /* Increased padding for more breathing room */
+    background-color: #b2faff;
+    border-radius: 1rem; /* More rounded corners */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Stronger shadow for modern depth */
+    transition: transform 0.3s ease; /* Smooth transform on hover */
+}
+
+#idForm:hover {
+    transform: translateY(-5px); /* Slight lift effect on hover */
+}
+
+/* Form layout */
 form {
-    top: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    flex-grow: 1;
-    padding-bottom: 1rem;
+    gap: 1.5rem; /* Increased gap for better spacing */
 }
 
+/* Link styling */
 a, a:visited {
     color: #333030;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
+a:hover {
+    color: #000; /* Darker shade on hover */
+}
+
+/* Form input styling */
 input[type="text"],
 input[type="password"],
-button,
 textarea {
-  font-family: 'Nunito', sans-serif;
-  font-size: 22px;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-}
-
-label,
-button {
-  margin-top: 1rem;
-}
-
-.buttonSubmit {
-  padding: 0.5rem;
-  margin-top: 1rem;
-
-}
-
-.instructions {
-    font-size: 0.75rem;
+    font-size: 1.125rem;
+    padding: 0.75rem; /* Increased padding */
+    border: 1px solid #ccc;
     border-radius: 0.5rem;
-    background: #e983838d;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #0095ff;
+    box-shadow: 0 0 5px rgba(0, 149, 255, 0.5); /* Subtle glow effect on focus */
+    outline: none;
+}
+
+/* Button styling */
+button, .buttonSubmit {
+    font-size: 1rem;
+    padding: 0.75rem 1.25rem; /* More padding for a fuller button */
+    border-radius: 0.5rem;
+    background-color: #0095ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smoother transition */
+}
+
+button:hover,
+.buttonSubmit:hover {
+    background-color: #007acc; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+/* Label styling */
+label {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* Instructions message box */
+.instructions {
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    background-color: #e983838d;
     color: #2e2e2e;
-    padding: 0.25rem;
-    position: relative;
-    bottom: -10px;
+    padding: 0.75rem; /* More padding for comfort */
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
 .instructions > svg {
     margin-right: 0.25rem;
 }
 
-.offscreen {
-    position: absolute;
-    left: -9999px;
-}
-
-.hide {
-    display: none;
-}
-
+/* Validation & Error Messages */
 .valid {
     color: limegreen;
     margin-left: 0.25rem;
@@ -85,17 +127,31 @@ button {
     background-color: lightpink;
     color: firebrick;
     font-weight: bold;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid firebrick;
+    border-radius: 0.5rem;
 }
 
-.line {
-    display: inline-block;
+/* Utility classes */
+.offscreen {
+    position: absolute;
+    left: -9999px;
 }
 
+.hide {
+    display: none;
+}
+
+/* Flexbox for responsive layouts */
 .flexGrow {
     flex-grow: 1;
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
+}
+
+/* Inline elements */
+.line {
+    display: inline-block;
 }

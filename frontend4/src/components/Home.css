@@ -1,13 +1,45 @@
-
+/* Reset default margin, padding, and box-sizing */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+/* Wrapper styling */
 #wrapper {
-    Background-color:#000406;
-    padding:10px 20px;
-    display:flex;
-    justify-content:space-between;
-    color:white;
+    background-color: #111827;  /* Darker background for better contrast */
+    padding: 15px 30px;  /* Increased padding for a more spacious layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;  /* Vertically center the content */
+    flex-wrap: wrap;  /* Ensure content wraps on smaller screens */
+    color: #f9fafb;  /* Slight off-white for softer text contrast */
+    border-radius: 8px;  /* Adds a slight curve for a modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);  /* Subtle shadow for depth */
+    transition: background-color 0.3s ease;  /* Smooth background color transition */
+}
+
+/* Wrapper hover effect */
+#wrapper:hover {
+    background-color: #1f2937;  /* Slightly lighter on hover */
+}
+
+/* Adjust for responsiveness */
+@media (max-width: 768px) {
+    #wrapper {
+        flex-direction: column;  /* Stack elements vertically on smaller screens */
+        align-items: flex-start;  /* Align content to the left */
+        padding: 20px;  /* Increase padding for better readability */
+    }
+}
+
+/* Optional: Add a more defined contrast for links or text elements within the wrapper */
+.wrapper-link {
+    color: #60a5fa;  /* Light blue color for contrast */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.wrapper-link:hover {
+    color: #3b82f6;  /* Slightly brighter on hover */
 }
