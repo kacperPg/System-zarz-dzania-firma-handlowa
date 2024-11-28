@@ -1,14 +1,18 @@
 # System-zarzadzania-firma-handlowa
 Administrator:
- admin@qa.qa
- zaq1@WSX
+
+  * admin@qa.qa
+
+  * zaq1@WSX
  
 Użytkownik z ograniczonymi rolami
- testProduct@qa.qa
- zaq1@WSX
+ 
+  * testProduct@qa.qa
+ 
+  * zaq1@WSX
 
 Uruchomienie frontend:
- npm start
+  *  npm start
 
 System zarządzania firmą handlową to aplikacja webowa umożliwiająca zarządzanie produktami, zamówieniami, lokalizacjami oraz użytkownikami.
 Dodatkowo system wspiera generowanie raportów i zarządzanie uprawnieniami użytkowników, co pozwala na kontrolowanie dostępu do wybranych funkcji oraz blokowanie określonych stron.
