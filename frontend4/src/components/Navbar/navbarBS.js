@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../AuthProvider";
 import { useContext } from "react";
 import "./navbarBS.css";
-import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
+import PrivateRoute from '../PrivateRoute'; 
 
 
 export const NavBarBoodstrap = () => {
