@@ -85,7 +85,8 @@ function OrdersPage() {
     <>
       <div className="wrapper">
         <NavBarBoodstrap />
-        <section id="buttonAddProduct">
+        <section id="idTabelaProduktow">
+        <section >
         <PrivateRoute requiredPermissions={['PERM_ADD_ORDER']}>
           <button onClick={handleAddOrderClick} id="buttonItem">
             Dodaj nowe zamówienie
@@ -103,8 +104,7 @@ function OrdersPage() {
             Filtruj
           </button>
         </section>
-      
-        <section id="idTabelaProduktow">
+    
           <BasicTableOrders data={filteredOrders} columns={productColumns} IdType="orderId" Navigate={true} displayButtons={true} />
         </section>
       </div>

@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
+import Cookies from 'js-cookie';  
 const USER_LIST = '/api/users';
 const ROLES_LIST = '/api/roles';
 const USER_REGEX = /^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ][A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9-_]{1,23}$/;
@@ -11,7 +12,7 @@ const PWD_REGEX = /^(?=.*[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ])(?=.*[A-Z]
 
 function EditUser({ Id, handleClose }) {
 
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   const [name, setName] = useState('');
   const [validName, setValidName] = useState(false);

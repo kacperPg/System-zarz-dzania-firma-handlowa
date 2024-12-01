@@ -3,6 +3,7 @@ import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import Cookies from 'js-cookie';  
 
 const GENERATE_REPORT_URL = '/api/raport/generateReport';
 const GENERATE_REPORT_PRODUCTS_URL = '/api/raport/generateReportProd';
@@ -16,7 +17,7 @@ function RaportPage() {
   const [buttonLabel, setButtonLabel] = useState('Stwórz raporty wszystkich zamówień klientów');
   const [afterDate, setAfterDate] = useState('');
   const [beforeDate, setBeforeDate] = useState('');
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   const toggleDropdown = () => setDropdownOpen(prevState => !prevState);
 
@@ -73,7 +74,8 @@ function RaportPage() {
     <>
       <div className="wrapper">
         <NavBarBoodstrap />
-        <section id="buttonAddProduct">
+        <section id="idTabelaProduktow">
+        <section >
           <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
             <DropdownToggle caret>
               {buttonLabel}
@@ -114,7 +116,6 @@ function RaportPage() {
             {loading ? 'Generowanie raportu...' : 'Generuj raport'}
           </button>
         </section>
-        <section id="idTabelaProduktow">
           {reportUrl ? (
             <iframe src={reportUrl} className="pdf-viewer" title="Report PDF"></iframe>
           ) : (

@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
 import { Link,useNavigate   } from "react-router-dom";
+import Cookies from 'js-cookie';  
 const TYPE_LIST = '/api/productTypes';
 
 function AddType() {
@@ -11,7 +12,7 @@ function AddType() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [typeName, settypeName] = useState('');
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
   const navigate  = useNavigate();
 
   const handleSubmit = async (e) => {

@@ -3,12 +3,14 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
+import Cookies from 'js-cookie';  
+
 const WAREHOUSE_LIST = '/api/warehouses';
 
 function EditWareHouse({ Id, handleClose }) {
   const [warehouseName, setwarehouseName] = useState('');
   const [location, setlocation] = useState('');
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   useEffect(() => {
     const getProduct = async () => {

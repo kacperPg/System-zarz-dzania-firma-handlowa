@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
+import Cookies from 'js-cookie';  
 
 const PRODUCT_LIST = '/api/products';
 const TYPE_LIST = '/api/productTypes';
@@ -12,7 +13,7 @@ function EditProduct({ Id, handleClose }) {
   const [price, setPrice] = useState('');
   const [typeId, setTypeId] = useState('');
   const [types, setTypes] = useState([]);
-  const token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   useEffect(() => {
     const getProduct = async () => {

@@ -20,7 +20,7 @@ import NewRolePage from './components/RolePage/NewRolePage';
 import PrivateRoute from './components/PrivateRoute';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css';
+
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 

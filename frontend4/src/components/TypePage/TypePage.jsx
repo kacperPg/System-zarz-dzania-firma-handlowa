@@ -4,13 +4,14 @@ import BasicTable from '../BasicTable'
 import { NavBarBoodstrap } from '../Navbar/navbarBS'
 import axios from '../../api/axios';
 import '../ItemsPage.css';
-import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
+import PrivateRoute from '../PrivateRoute'; 
+import Cookies from 'js-cookie';  
 
 const TYPE_LIST = '/api/productTypes';
 
 function TypePage() {
   const [products, setProducts] = useState([]);
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   useEffect(() => {
     const getProducts = async () => {
@@ -35,7 +36,6 @@ function TypePage() {
     getProducts();
   }, []);
 
-  /** @type import('@tanstack/react-table').ColumnDef<any> */
 
   const productColumn2 = [   
      {
@@ -52,12 +52,12 @@ function TypePage() {
     <>
     <div class="wrapper">
          <NavBarBoodstrap />    
-         <section id="buttonAddProduct">
+         <section id="idTabelaProduktow">
+         <section >
          <PrivateRoute requiredPermissions={['PERM_ADD_TYPES']}>
           <AddType />
         </PrivateRoute>
          </section>
-         <section id="idTabelaProduktow">
             <BasicTable data={products} columns={productColumn2} URL={TYPE_LIST} IdType={'typeId'} canDelete="PERM_DELETE_TYPES" />
             </section>
         </div>

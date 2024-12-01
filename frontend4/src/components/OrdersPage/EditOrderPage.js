@@ -224,7 +224,7 @@ function EditOrderPage() {
   return (
     <div className="wrapper">
     <NavBarBoodstrap />
-    <section id="buttonAddProduct">
+    <section id="idTabelaProduktow">
       <form>
         <div>
           <label className="label">Klient:</label>

@@ -15,7 +15,6 @@ import EditUser from './UserPage/EditUser';
 import EditClient from './ClientPage/EditClient';
 import EditType from './TypePage/EditType';
 import PrivateRoute from './PrivateRoute'; // Import PrivateRoute component
-
 export default function BasicTable({ data, columns, URL, IdType, canDelete }) {
     const [sorting, setSorting] = useState([{ id: IdType, desc: false }]);
     const [filtering, setFiltering] = useState('');
@@ -24,7 +23,7 @@ export default function BasicTable({ data, columns, URL, IdType, canDelete }) {
 
     const handleEdit = (Id) => {
         setEditItemId(Id);
-    }
+    };
 
     const handleDelete = (Id) => {
         const confirmDelete = window.confirm("Jesteś pewien że chcesz usunąć rekord ?");
@@ -37,7 +36,6 @@ export default function BasicTable({ data, columns, URL, IdType, canDelete }) {
             })
                 .then(response => {
                     if (response.status === 204) {
-
                         console.log(Id, "deleted successfully");
                         window.location.reload();
                     } else {
@@ -48,7 +46,7 @@ export default function BasicTable({ data, columns, URL, IdType, canDelete }) {
                     console.error("Error deleting:", error);
                 });
         }
-    }
+    };
 
     const table = useReactTable({
         data,
@@ -63,12 +61,12 @@ export default function BasicTable({ data, columns, URL, IdType, canDelete }) {
         },
         onSortingChange: setSorting,
         onGlobalFilterChange: setFiltering,
-    })
+    });
 
     return (
         <div className='w3-container'>
-            Wyszukaj <input id="formSearch" type='text' value={filtering} onChange={e => setFiltering(e.target.value)} />
-            <table className='w3-table-all'>
+            Wyszukaj <input   type='text' value={filtering} onChange={e => setFiltering(e.target.value)} />
+            <table className='styled-table'>
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
@@ -87,7 +85,7 @@ export default function BasicTable({ data, columns, URL, IdType, canDelete }) {
                             ))}
                             <th>Edytuj</th>
                             <PrivateRoute requiredPermissions={[canDelete]}>
-                            <th>Usuń</th>
+                                <th>Usuń</th>
                             </PrivateRoute>
                         </tr>
                     ))}
@@ -105,10 +103,10 @@ export default function BasicTable({ data, columns, URL, IdType, canDelete }) {
                                 <button id="buttonItem" onClick={() => handleEdit(row.original[IdType])}>Edytuj</button>
                             </td>
                             <PrivateRoute requiredPermissions={[canDelete]}>
-                            <td>
-                                               <button id="buttonItem" onClick={() => handleDelete(row.original[IdType])}>Usuń</button>
-                                               </td>
-                                               </PrivateRoute>
+                                <td>
+                                    <button id="buttonItem" onClick={() => handleDelete(row.original[IdType])}>Usuń</button>
+                                </td>
+                            </PrivateRoute>
                         </tr>
                     ))}
                 </tbody>
@@ -119,7 +117,6 @@ export default function BasicTable({ data, columns, URL, IdType, canDelete }) {
                 <button id="buttonItem" disabled={!table.getCanNextPage()} onClick={() => table.nextPage()}>Następna strona</button>
                 <button onClick={() => table.setPageIndex(table.getPageCount() - 1)} id="buttonItem">Ostatnia Strona</button>
             </div>
-            {/* Render EditProduct modal if editProductId is not null */}
             {IdType === 'productId' && editItemId && <PrivateRoute requiredPermissions={['PERM_EDIT_PRODUCTS']}>
                 <EditProduct Id={editItemId} handleClose={() => setEditItemId(null)} />
             </PrivateRoute>}

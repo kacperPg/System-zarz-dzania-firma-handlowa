@@ -6,7 +6,7 @@ import AuthContext from "../AuthProvider";
 import { useContext } from "react";
 import "./navbarBS.css";
 import PrivateRoute from '../PrivateRoute'; 
-
+import Cookies from 'js-cookie';  
 
 export const NavBarBoodstrap = () => {
     const { auth, setAuth } = useContext(AuthContext);
@@ -14,7 +14,7 @@ export const NavBarBoodstrap = () => {
 
     const logout = async () => {
         setAuth({});
-        localStorage.removeItem('auth');
+        Cookies.remove('token');
         navigate('/home');
     }
 

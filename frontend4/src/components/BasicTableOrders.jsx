@@ -42,14 +42,13 @@ export default function BasicTableOrders({ data, columns, IdType, Navigate, disp
         <>
           <label htmlFor="formSearch">Wyszukaj</label>
           <input
-            id="formSearch"
             type='text'
             value={filtering}
             onChange={e => setFiltering(e.target.value)}
           />
         </>
       ) : null}
-      <table className='w3-table-all'>
+            <table className='styled-table'>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>

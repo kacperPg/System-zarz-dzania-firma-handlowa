@@ -4,14 +4,15 @@ import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import { useAuth } from '../AuthProvider';
 import '../ItemsPage.css';
 import { useNavigate } from 'react-router-dom';
-import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
+import PrivateRoute from '../PrivateRoute'; 
+import Cookies from 'js-cookie';  
 
 const ROLES_API = '/api/roles';
 
 function RolesPage() {
   const { auth } = useAuth();
   const [roles, setRoles] = useState([]);
-  let token = auth.accessToken;
+  const token = Cookies.get('token');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,14 +50,14 @@ function RolesPage() {
   return (
     <div className="wrapper">
       <NavBarBoodstrap />
-      <section id="buttonAddProduct">
+      <section id="idTabelaProduktow">
+      <section>
       <PrivateRoute requiredPermissions={['PERM_ADD_CLIENTS']}>
       <button id="buttonItem" onClick={handleNewRole}>
           Dodaj nową rolę
         </button>
         </PrivateRoute>
       </section>
-      <section id="idTabelaProduktow">
         {roles.map((role) => (
           <div key={role.roleId} className="roleCard">
             <h2>{role.roleName}</h2>

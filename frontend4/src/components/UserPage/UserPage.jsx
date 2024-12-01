@@ -3,11 +3,13 @@ import BasicTable from '../BasicTable'
 import { NavBarBoodstrap } from '../Navbar/navbarBS'
 import axios from '../../api/axios';
 import '../ItemsPage.css';
+import Cookies from 'js-cookie';  
+
 const USER_LIST = '/api/users';
 
 function WarehousesStatusPage() {
   const [Users, setUsers] = useState([]);
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   useEffect(() => {
     const getProducts = async () => {
@@ -32,7 +34,6 @@ function WarehousesStatusPage() {
     getProducts();
   }, []);
 
-  /** @type import('@tanstack/react-table').ColumnDef<any> */
 
   const productColumn2 = [
 
