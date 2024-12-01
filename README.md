@@ -7,7 +7,7 @@ Administrator:
  
 Użytkownik z ograniczonymi rolami
  
-  * testProduct@qa.qa
+  * TestProdukt@qa.qa
  
   * zaq1@WSX
 
