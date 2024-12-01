@@ -5,9 +5,9 @@ Administrator:
 
   * zaq1@WSX
  
-Użytkownik z ograniczonymi rolami
+Użytkownik z ograniczoną rolą ( może tylko wyświetlać dane)
  
-  * TestProdukt@qa.qa
+  * Display@qa.qa
  
   * zaq1@WSX
 
