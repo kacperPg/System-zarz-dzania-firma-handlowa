@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from '../../api/axios';
 import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import { useAuth } from '../AuthProvider';
-import Button from 'react-bootstrap/Button';
+import Cookies from 'js-cookie';  
 import Form from 'react-bootstrap/Form';
 import '../ItemsPage.css';
 import { useNavigate } from 'react-router-dom';
@@ -137,7 +137,7 @@ function NewRolePage() {
   }
   ]);
   const [selectedPermissions, setSelectedPermissions] = useState([]);
-  let token = auth.accessToken;
+  const token = Cookies.get('token');
 
   useEffect(() => {
     const fetchPermissions = async () => {
@@ -188,7 +188,7 @@ function NewRolePage() {
   return (
     <div className="wrapper">
       <NavBarBoodstrap />
-      <section id="buttonAddProduct">
+      <section id="idTabelaProduktow">
         <form onSubmit={handleSubmit}>
           <div>
             <label className="label">Nazwa Roli:</label>

@@ -4,7 +4,8 @@ import BasicTable from '../BasicTable';
 import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
-import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
+import PrivateRoute from '../PrivateRoute'; 
+import Cookies from 'js-cookie';  
 
 const PRODUCT_LIST = '/api/products';
 const TYPE_LIST = '/api/productTypes';
@@ -14,7 +15,7 @@ function ItemsPage() {
   const [products, setProducts] = useState([]);
   const [productTypes, setProductTypes] = useState([]);
   const [selectedType, setSelectedType] = useState('');
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   useEffect(() => {
     const getProducts = async () => {
@@ -98,7 +99,8 @@ function ItemsPage() {
     <>
       <div className="wrapper">
         <NavBarBoodstrap />
-        <section id="buttonAddProduct">
+        <section id="idTabelaProduktow">
+        <section >
         <PrivateRoute requiredPermissions={['PERM_ADD_ITEMS']}>
           <AddProduct />
         </PrivateRoute>
@@ -108,7 +110,6 @@ function ItemsPage() {
             {options}
           </select>
         </section>
-        <section id="idTabelaProduktow">
           <BasicTable data={products} columns={productColumns} URL={PRODUCT_LIST} IdType="productId" canDelete="PERM_DELETE_PRODUCTS" />
         </section>
       </div>

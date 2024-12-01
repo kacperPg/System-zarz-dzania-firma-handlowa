@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
+import Cookies from 'js-cookie';  
 const PRODUCT_LIST = '/api/products';
 const TYPE_LIST = '/api/productTypes';
 
@@ -13,7 +14,7 @@ function AddProduct() {
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [typeId, setTypeId] = useState('');
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
   const [products, setProducts] = useState([]);
 
   useEffect(() => {

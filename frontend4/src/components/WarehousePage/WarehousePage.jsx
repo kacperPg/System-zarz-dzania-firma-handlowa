@@ -4,13 +4,14 @@ import BasicTable from '../BasicTable'
 import { NavBarBoodstrap } from '../Navbar/navbarBS'
 import axios from '../../api/axios';
 import '../ItemsPage.css';
-import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
+import PrivateRoute from '../PrivateRoute';  
+import Cookies from 'js-cookie';  
 
 const WAREHOUSE_LIST = '/api/warehouses';
 
 function WarehousePage() {
   const [products, setProducts] = useState([]);
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   useEffect(() => {
     const getProducts = async () => {
@@ -53,12 +54,12 @@ function WarehousePage() {
     <>
     <div class="wrapper">
          <NavBarBoodstrap />    
-         <section id="buttonAddProduct">
+         <section id="idTabelaProduktow">
+         <section>
         <PrivateRoute requiredPermissions={['PERM_ADD_WAREHOUSES']}>
           <AddWareHouse />
         </PrivateRoute>
          </section>
-         <section id="idTabelaProduktow">
             <BasicTable data={products} columns={productColumn2} URL={WAREHOUSE_LIST} IdType={'warehouseId'} canDelete="PERM_DELETE_WAREHOUSES" />
             </section>
         </div>

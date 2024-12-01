@@ -4,6 +4,9 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
 import { Link,useNavigate   } from "react-router-dom";
+import Cookies from 'js-cookie';  
+
+
 const WAREHOUSESTATUS_LIST = '/api/warehousesStatus';
 const PRODUCT_LIST = '/api/products';
 const WAREHOUSE_LIST = '/api/warehouses';
@@ -16,7 +19,7 @@ function AddWarehousesStatus() {
   const [availableQuantity, setavailableQuantity] = useState('');
   const [soldQuantity, setsoldQuantity] = useState('');
   const [productId, setproductId] = useState('');
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
   const navigate  = useNavigate();
   const [products, setProducts] = useState([]);
   const [warehouse, setwarehouse] = useState([]);

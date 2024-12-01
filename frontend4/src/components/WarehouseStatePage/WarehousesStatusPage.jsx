@@ -4,7 +4,9 @@ import BasicTable from '../BasicTable';
 import { NavBarBoodstrap } from '../Navbar/navbarBS';
 import axios from '../../api/axios';
 import '../ItemsPage.css';
-import PrivateRoute from '../PrivateRoute'; // Import PrivateRoute component
+import PrivateRoute from '../PrivateRoute';  
+import Cookies from 'js-cookie';  
+
 
 const WAREHOUSESTATUS_LIST = '/api/warehousesStatus';
 const PRODUCT_LIST = '/api/products';
@@ -17,8 +19,7 @@ function WarehousesStatusPage() {
   const [warehouses, setWarehouses] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedWarehouse, setSelectedWarehouse] = useState('');
-
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,11 +79,11 @@ function WarehousesStatusPage() {
     <>
       <div className="wrapper">
         <NavBarBoodstrap />
-        <section id="buttonAddProduct">
+        <section id="idTabelaProduktow">
         <PrivateRoute requiredPermissions={['PERM_ADD_STATUS']}>
           <AddWarehousesStatus />
         </PrivateRoute>
-
+        <section >
           <label id="productLabel">Filtruj po produkcie: </label>
           <select
             id="productFilter"
@@ -109,9 +110,8 @@ function WarehousesStatusPage() {
               </option>
             ))}
           </select>
-          <button id="filterButton" onClick={handleFilterChange}>Filtruj</button>
-        </section>
-        <section id="idTabelaProduktow">
+          <button id="buttonItem" onClick={handleFilterChange}>Filtruj</button>
+          </section>
           <BasicTable data={warehouseStatus} columns={productColumns} URL={WAREHOUSESTATUS_LIST} IdType="warehouseStatusId"  canDelete="PERM_DELETE_STATUS"/>
         </section>
       </div>

@@ -1,51 +1,46 @@
-/* Global Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Navbar Header Styling */
 .navbar-header {
   background-color: #F16E10; 
-  padding: 10px 20px;  /* Increased padding for a more spacious feel */
-  margin: 10px 0;  /* Added top and bottom margin */
-  text-align: center;  /* Centered the content */
-  border-radius: 8px;  /* Rounded corners for a modern look */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Added shadow for depth */
-  font-family: 'Arial', sans-serif;  /* Modern font choice */
+  padding: 10px 20px;  
+  margin: 10px 0;  
+  text-align: center; 
+  border-radius: 8px;  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  font-family: 'Arial', sans-serif;  
   color: white;
-  font-size: 1.25rem;  /* Increased font size */
+  font-size: 1.25rem; 
   font-weight: bold;
-  transition: background-color 0.3s ease;  /* Smooth background color transition */
+  transition: background-color 0.3s ease;  
 }
 
 .navbar-header:hover {
-  background-color: #D15E0D;  /* Darker tone on hover */
+  background-color: #D15E0D;  
 }
 
-/* Main Content Styling */
 .Main {
   background-color: black;
   color: white;
-  min-height: 100vh;  /* Ensures full-screen height */
+  min-height: 100vh;  
   padding: 20px;
-  font-family: 'Nunito', sans-serif;  /* Clean, modern font */
+  font-family: 'Nunito', sans-serif;  
   font-size: 1rem;
 }
 
-/* H1 Heading Styling */
 h1 {
-  padding: 15px;  /* More generous padding */
-  margin: 30px 0;  /* Larger margin for better spacing */
-  color: #F16E10;  /* Make the heading stand out with the navbar's color */
-  font-size: 2rem;  /* Larger font size for emphasis */
+  padding: 15px;  
+  margin: 30px 0;  
+  color: #F16E10;  
+  font-size: 2rem;  
   font-family: 'Nunito', sans-serif;
   text-align: center;
-  letter-spacing: 1px;  /* Adds slight letter spacing for elegance */
+  letter-spacing: 1px;  
 }
 
-/* Responsive Adjustments */
 @media (max-width: 768px) {
   .navbar-header {
       padding: 15px;

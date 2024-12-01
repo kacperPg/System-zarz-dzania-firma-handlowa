@@ -120,8 +120,7 @@ function OrderPage() {
         Zamówione Przedmioty
       </section>
         <BasicTableOrders data={ordersItems} columns={orderItemsColumns} Navigate={false} displayButtons={true}/>
-      </section>
-      <section id="buttonAddProduct">
+      <section >
       <PrivateRoute requiredPermissions={['PERM_EDIT_ORDER']}>
     <button onClick={() => handleEdditClick(id)} id="buttonItem">
       Edytuj zamówienia
@@ -132,6 +131,7 @@ function OrderPage() {
       Usuń zamówienia
     </button>
   </PrivateRoute>
+        </section>
         </section>
     </div>
   );

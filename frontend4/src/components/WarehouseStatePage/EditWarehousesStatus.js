@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
+import Cookies from 'js-cookie';  
+
 const WAREHOUSESTATUS_LIST = '/api/warehousesStatus';
 const PRODUCT_LIST = '/api/products';
 const WAREHOUSE_LIST = '/api/warehouses';
@@ -12,7 +14,7 @@ function EditWarehousesStatus({ Id, handleClose }) {
   const [availableQuantity, setavailableQuantity] = useState('');
   const [soldQuantity, setsoldQuantity] = useState('');
   const [productId, setproductName] = useState('');
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
   const [products, setProducts] = useState([]);
   const [warehouse, setwarehouse] = useState([]);
 

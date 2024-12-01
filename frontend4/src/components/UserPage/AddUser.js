@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
 import { Link,useNavigate   } from "react-router-dom";
+import Cookies from 'js-cookie';  
 const USER_LIST = '/api/users';
 const USER_REGEX = /^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ][A-z0-9-_]{1,23}$/;
 const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -18,7 +19,7 @@ function AddUser() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 import useAuth from './useAuth';
+import Cookies from 'js-cookie';  
 import './Form.css';
 
 const LOGIN_URL = '/login';
@@ -39,6 +40,7 @@ const Login = () => {
             const accessToken = response?.data?.token;
             const roles = response?.data?.role?.permissions || [];
             setAuth({ email, roles, accessToken, isLoggedin: true });
+            Cookies.set('token', accessToken, { expires: 1 });
             sessionStorage.setItem('token', accessToken);
             setEmail('');
             setPassword('');

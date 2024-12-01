@@ -1,8 +1,9 @@
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import axios from '../../api/axios';
+import Cookies from 'js-cookie';  
 
 const CLIENT_LIST = '/api/clients';
 
@@ -15,8 +16,7 @@ function AddClient() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
   const [clientEmail, setClientEmail] = useState('');
-
-  let token = sessionStorage.getItem('token');
+  const token = Cookies.get('token');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
